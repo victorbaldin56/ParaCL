@@ -11,14 +11,14 @@ int main(int argc, char** argv) {
       ("help,h", "Print help message")
       ("source", po::value<std::string>(), "source file");
 
-    po::positional_options_description posDesc;
-    posDesc.add("source", -1);
+    po::positional_options_description pos_desc;
+    pos_desc.add("source", -1);
 
-    po::variables_map varMap;
-    po::store(po::parse_command_line(argc, argv, desc), varMap);
-    po::notify(varMap);
+    po::variables_map var_map;
+    po::store(po::parse_command_line(argc, argv, desc), var_map);
+    po::notify(var_map);
 
-    if (varMap.count("help")) {
+    if (var_map.count("help")) {
       std::cout << desc << "\n";
       return 0;
     }
