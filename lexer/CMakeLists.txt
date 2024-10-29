@@ -4,7 +4,7 @@ project(pcl)
 find_package(FLEX REQUIRED)
 
 flex_target(SCANNER
-  lexer.l
+  scanner.l
   ${CMAKE_CURRENT_BINARY_DIR}/yylexer.cc
 )
 

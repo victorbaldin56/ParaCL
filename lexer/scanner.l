@@ -1,11 +1,5 @@
 %option c++
 
-%{
-
-using std::cout;
-
-%}
-
 WS [ \t\n\v]+
 OP [\+\-\*\/\=]
 

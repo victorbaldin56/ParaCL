@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <iostream>
 
 #include <boost/program_options.hpp>
@@ -33,9 +34,13 @@ int main(int argc, char** argv) {
       std::string filename = var_map["source"].as<std::string>();
 
       pcl::Driver driver(filename);
+      if (!driver) {
+        return EXIT_FAILURE;
+      }
     }
   } catch (po::error& ex) {
     std::cerr << ex.what() << "\n";
+    return EXIT_FAILURE;
   }
 
   return 0;

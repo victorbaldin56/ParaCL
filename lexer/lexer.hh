@@ -7,7 +7,7 @@
 
 namespace pcl {
 
-class Lexer : public yyFlexLexer {
+class PLexer : public yyFlexLexer {
  public:
   int yylex() override;
 };
