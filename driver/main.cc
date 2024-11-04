@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
     if (var_map.count("source")) {
       std::string filename = var_map["source"].as<std::string>();
 
-      pcl::Driver driver(filename);
+      yy::PDriver driver(filename);
       if (!driver) {
         return EXIT_FAILURE;
       }

@@ -5,7 +5,7 @@
 #include <FlexLexer.h>
 #endif // yyFlexLexer
 
-namespace pcl {
+namespace yy {
 
 class PLexer : public yyFlexLexer {
  public:
