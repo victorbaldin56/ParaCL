@@ -31,7 +31,7 @@ jobs:
       # Build your program with the given configuration
       run:
         sudo apt-get -y update
-        sudo apt-get -y install libboost-dev
+        sudo apt-get -y install libboost-all-dev
         cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
     # - name: Test
