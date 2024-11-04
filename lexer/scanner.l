@@ -1,4 +1,5 @@
 %option c++
+%option noyywrap
 
 WS [ \t\n\v]+
 OP [\+\-\*\/\=]

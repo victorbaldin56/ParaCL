@@ -10,6 +10,7 @@ namespace pcl {
 class PLexer : public yyFlexLexer {
  public:
   int yylex() override;
+  int yywrap() override;
 };
 
 }
