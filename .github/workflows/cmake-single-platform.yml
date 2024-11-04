@@ -27,7 +27,7 @@ jobs:
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run:
         sudo apt-get -y update &&
-        sudo apt-get -y install libboost-all-dev &&
+        sudo apt-get -y install libboost-all-dev flex &&
         cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
