@@ -9,6 +9,7 @@ flex_target(SCANNER
 )
 
 add_library(lexer STATIC
+  lexer.cc
   ${FLEX_SCANNER_OUTPUTS}
 )
 
