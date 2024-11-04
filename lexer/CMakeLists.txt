@@ -3,15 +3,14 @@ project(pcl)
 
 find_package(FLEX REQUIRED)
 
-flex_target(SCANNER
+flex_target(scanner
   scanner.l
   ${CMAKE_CURRENT_BINARY_DIR}/yylexer.cc
 )
 
 add_library(lexer STATIC
-  lexer.cc
-  ${FLEX_SCANNER_OUTPUTS}
+  ${FLEX_scanner_OUTPUTS}
 )
 
 target_compile_features(lexer INTERFACE cxx_std_17)
-target_include_directories(lexer INTERFACE .)
+target_include_directories(lexer PUBLIC .)
