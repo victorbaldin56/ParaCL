@@ -1,5 +1,11 @@
+%option yyclass="pcl::PLexer"
 %option c++
-%option noyywrap
+
+%{
+
+#include "lexer.hh"
+
+%}
 
 WS [ \t\n\v]+
 OP [\+\-\*\/\=]
@@ -7,4 +13,6 @@ OP [\+\-\*\/\=]
 %%
 
 {WS}            // all whitespace symbols are ignored in ParaCL
-{OP}
+{OP}            { return 0; }
+
+%%
