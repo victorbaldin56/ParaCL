@@ -10,18 +10,18 @@
 
 #include "lexer.hh"
 
-namespace pcl {
+namespace yy {
 
-class Driver final {
+class PDriver final {
   std::string input_file_name_;
 
   std::ifstream input_stream_;
-  pcl::PLexer plex_;
+  yy::PLexer plex_;
 
   bool valid_; // "bad bit"
 
  public:
-  Driver(const std::string& input_file_name)
+  PDriver(const std::string& input_file_name)
     : input_file_name_(input_file_name),
       input_stream_(input_file_name),
       valid_(true) {
@@ -31,11 +31,11 @@ class Driver final {
     }
   }
 
-  // Methods for checking Driver validity.
+  // Methods for checking PDriver validity.
   bool valid() const { return valid_; }
   operator bool() const { return valid(); }
 };
 
-} // namespace pcl
+} // namespace yy
 
 #endif // PARACL_DRIVER_DRIVER_HH_

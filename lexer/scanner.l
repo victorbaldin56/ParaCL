@@ -1,4 +1,4 @@
-%option yyclass="pcl::PLexer"
+%option yyclass="yy::PLexer"
 %option c++
 
 %{
