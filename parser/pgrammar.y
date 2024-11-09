@@ -36,13 +36,18 @@ parser::token_type yylex(parser::semantic_type* yylval,
 }
 
 %token
-  EQUAL     "=="
-  MINUS     "-"
-  PLUS      "+"
-  DIV       "/"
-  ASTERICK  "*"
-  SCOLON    ";"
-  ERR
+  EQUAL             "=="
+  MINUS             "-"
+  PLUS              "+"
+  DIV               "/"
+  ASTERICK          "*"
+  SCOLON            ";"
+  IF                "if"
+  WHILE             "while"
+  INPUT             "?"
+  ASSIGNMENT        "="
+  OPENING_BRACKET   "{"
+  CLOSING_BRACKET   "}"
 
 %token <int> NUMBER
 %nterm <std::vector<int>> expr
