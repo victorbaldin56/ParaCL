@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project("ParaCL")
+project(pcl)
 
-add_subdirectory(lexer)
-add_subdirectory(driver)
+add_subdirectory(parser)
+add_subdirectory(interpreter)
