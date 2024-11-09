@@ -36,20 +36,34 @@ parser::token_type yylex(parser::semantic_type* yylval,
 }
 
 %token
-  EQUAL             "=="
   MINUS             "-"
   PLUS              "+"
   DIV               "/"
   ASTERICK          "*"
+  PERCENT           "%"
+
+  IS_EQ             "=="
+  IS_GE             ">="
+  IS_GT             ">"
+  IS_LT             "<"
+  IS_LE             "<="
+
+  ASSIGN            "="
+
   SCOLON            ";"
   IF                "if"
   WHILE             "while"
-  INPUT             "?"
-  ASSIGNMENT        "="
-  OPENING_BRACKET   "{"
-  CLOSING_BRACKET   "}"
+
+  SCAN              "?"
+  PRINT             "print"
+
+  LB                "{"
+  RB                "}"
+  LP                "("
+  RP                ")"
 
 %token <int> NUMBER
+%token <std::string> ID
 %nterm <std::vector<int>> expr
 %nterm <std::pair<std::vector<int>, std::vector<int>>> equals
 %nterm <std::vector<std::pair<std::vector<int>, std::vector<int>>>> eqlist
@@ -67,7 +81,7 @@ eqlist: equals SCOLON eqlist  { $$ = $3; $$.push_back($1); }
       | equals SCOLON         { $$.push_back($1);          }
 ;
 
-equals: expr EQUAL expr       { $$ = std::make_pair($1, $3); }
+equals: expr IS_EQ expr       { $$ = std::make_pair($1, $3); }
 ;
 
 expr: NUMBER                  { $$.push_back($1); }
