@@ -1,6 +1,9 @@
 %option yyclass="yy::PLexer"
 %option c++
 
+%option noyywrap
+%option yylineno
+
 %{
 
 #include "lexer.hh"

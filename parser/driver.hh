@@ -31,7 +31,8 @@ class PDriver final {
   }
 
  public:
-  parser::token_type yylex(parser::semantic_type* yylval) {
+  parser::token_type yylex(parser::semantic_type* yylval,
+                           parser::location_type* yylloc) {
     parser::token_type tt = static_cast<parser::token_type>(plex_->yylex());
     return tt;
   }
