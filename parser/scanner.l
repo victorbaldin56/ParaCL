@@ -18,9 +18,9 @@ ID            [a-zA-Z][a-zA-Z0-9_]*
 {WS}              // all whitespace symbols are ignored in ParaCL
 "+"               return yy::parser::token_type::PLUS;
 "-"               return yy::parser::token_type::MINUS;
-"*"               return yy::parser::token_type::ASTERICK;
+"*"               return yy::parser::token_type::MUL;
 "/"               return yy::parser::token_type::DIV;
-"%"               return yy::parser::token_type::PERCENT;
+"%"               return yy::parser::token_type::MOD;
 
 "=="              return yy::parser::token_type::IS_EQ;
 ">="              return yy::parser::token_type::IS_GE;

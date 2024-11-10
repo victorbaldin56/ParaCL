@@ -2,7 +2,6 @@
 #define PARACL_DRIVER_DRIVER_HH_
 
 #include <fstream>
-#include <stdexcept>
 #include <string>
 
 #ifndef yyFlexLexer
@@ -10,6 +9,7 @@
 #endif // yyFlexLexer
 
 #include "pgrammar.tab.hh"
+#include "lexer.hh"
 
 namespace yy {
 
@@ -21,12 +21,13 @@ class PDriver final {
   FlexLexer* plex_;
 
  public:
-  PDriver(const std::string& input_file_name)
-      : input_file_name_(input_file_name),
-        input_stream_(input_file_name, std::ios_base::in) {
-    if (!input_stream_.is_open()) {
-      throw std::runtime_error("Failed to open file");
-    }
+  PDriver(const std::string& input_file_name);
+
+  PDriver(const PDriver& rhs) = delete;
+  PDriver operator=(const PDriver& rhs) = delete;
+
+  ~PDriver() {
+    delete plex_;
   }
 
  public:
@@ -38,11 +39,6 @@ class PDriver final {
   bool parse() {
     parser parser(this);
     return !parser.parse();
-  }
-
- public:
-  void insert(std::vector<std::pair<std::vector<int>, std::vector<int>>>) {
-
   }
 };
 

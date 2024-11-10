@@ -3,9 +3,16 @@
 
 namespace ast {
 
+using IntT = int;
+
 class INode {
  public:
   virtual ~INode() {}
+};
+
+class IScope : public INode {
+ public:
+
 };
 
 }

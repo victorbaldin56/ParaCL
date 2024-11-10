@@ -39,8 +39,8 @@ parser::token_type yylex(parser::semantic_type* yylval,
   MINUS             "-"
   PLUS              "+"
   DIV               "/"
-  ASTERICK          "*"
-  PERCENT           "%"
+  MUL          "*"
+  MOD           "%"
 
   IS_EQ             "=="
   IS_GE             ">="
