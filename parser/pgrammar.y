@@ -4,8 +4,11 @@
 %param {yy::PDriver* driver}
 %locations
 
-%defines
+%define parse.trace
+%define parse.lac full
+
 %define api.value.type variant
+%define parse.error custom
 
 %code requires
 {
@@ -40,34 +43,23 @@ parser::token_type yylex(parser::semantic_type* yylval,
 
 }
 
+// simple tokens
 %token
-  SUB               "-"
-  ADD               "+"
-  DIV               "/"
-  MUL               "*"
-  MOD               "%"
+  SCOLON
+  IF
+  WHILE
+  SCAN
+  PRINT
+  LB
+  RB
+  LP
+  RP
 
-  IS_EQ             "=="
-  IS_GE             ">="
-  IS_GT             ">"
-  IS_LT             "<"
-  IS_LE             "<="
-  IS_NE             "!="
-
-  ASSIGN            "="
-
-  SCOLON            ";"
-  IF                "if"
-  WHILE             "while"
-
-  SCAN              "?"
-  PRINT             "print"
-
-  LB                "{"
-  RB                "}"
-  LP                "("
-  RP                ")"
-  ;
+// non-trivial operators that require precedence & associativity
+%right ASSIGN
+%left IS_EQ IS_GE IS_GT IS_LE IS_LT IS_NE
+%left ADD SUB
+%left MUL DIV MOD
 
 %token<int> NUMBER
 %token<std::string> ID
@@ -80,12 +72,11 @@ parser::token_type yylex(parser::semantic_type* yylval,
   print
   assign
   expr
-  ;
+  expr_un
 
 %type<ast::IScope*>
   scope
   br_stm
-  ;
 
 %%
 
@@ -111,16 +102,19 @@ stm:         assign                         { $$ = $1; }
 assign:      ID ASSIGN expr SCOLON          { /* TODO */ }
 
 expr:        expr ADD   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kAdd , $3); }
-             expr SUB   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kSub , $3); }
-             expr MUL   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kMul , $3); }
-             expr DIV   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kDiv , $3); }
-             expr MOD   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kMod , $3); }
-             expr IS_EQ expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsEq, $3); }
-             expr IS_GE expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsGe, $3); }
-             expr IS_GT expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsGt, $3); }
-             expr IS_LT expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsLt, $3); }
-             expr IS_LE expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsLe, $3); }
-             expr IS_NE expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsNe, $3); }
+           | expr SUB   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kSub , $3); }
+           | expr MUL   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kMul , $3); }
+           | expr DIV   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kDiv , $3); }
+           | expr MOD   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kMod , $3); }
+           | expr IS_EQ expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsEq, $3); }
+           | expr IS_GE expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsGe, $3); }
+           | expr IS_GT expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsGt, $3); }
+           | expr IS_LT expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsLt, $3); }
+           | expr IS_LE expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsLe, $3); }
+           | expr IS_NE expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsNe, $3); }
+           | expr_un                        { $$ = $1; }
+
+expr_un:     // TODO
 
 if:          /* TODO */                     { /* TODO */ }
 

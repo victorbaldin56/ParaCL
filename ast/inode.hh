@@ -34,7 +34,7 @@ enum class BinOp {
   kIsGe,
 };
 
-enum UnOp {
+enum class UnOp {
   kPlus,
   kMinus,
 };
