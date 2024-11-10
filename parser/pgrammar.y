@@ -1,9 +1,14 @@
 %language "c++"
-
 %skeleton "lalr1.cc"
-%defines
-%define api.value.type variant
+
 %param {yy::PDriver* driver}
+%locations
+
+%define parse.trace
+%define parse.lac full
+
+%define api.value.type variant
+%define parse.error custom
 
 %code requires
 {
@@ -12,6 +17,8 @@
 #include <string>
 #include <utility>
 #include <vector>
+
+#include "inode.hh"
 
 namespace yy {
 
@@ -29,77 +36,105 @@ class PDriver;
 namespace yy {
 
 parser::token_type yylex(parser::semantic_type* yylval,
+                         parser::location_type* yylloc,
                          PDriver* driver);
 
 }
 
 }
 
+// simple tokens
 %token
-  MINUS             "-"
-  PLUS              "+"
-  DIV               "/"
-  ASTERICK          "*"
-  PERCENT           "%"
+  SCOLON
+  IF
+  WHILE
+  SCAN
+  PRINT
+  LB
+  RB
+  LP
+  RP
 
-  IS_EQ             "=="
-  IS_GE             ">="
-  IS_GT             ">"
-  IS_LT             "<"
-  IS_LE             "<="
+// non-trivial operators that require precedence & associativity
+%right ASSIGN
+%left IS_EQ IS_GE IS_GT IS_LE IS_LT IS_NE
+%left ADD SUB
+%left MUL DIV MOD
 
-  ASSIGN            "="
+%token<int> NUMBER
+%token<std::string> ID
 
-  SCOLON            ";"
-  IF                "if"
-  WHILE             "while"
+%type<ast::INode*>
+  stm
+  stms
+  if
+  while
+  print
+  assign
+  expr
+  expr_un
 
-  SCAN              "?"
-  PRINT             "print"
-
-  LB                "{"
-  RB                "}"
-  LP                "("
-  RP                ")"
-
-%token <int> NUMBER
-%token <std::string> ID
-%nterm <std::vector<int>> expr
-%nterm <std::pair<std::vector<int>, std::vector<int>>> equals
-%nterm <std::vector<std::pair<std::vector<int>, std::vector<int>>>> eqlist
-
-%left '+' '-'
-
-%start program
+%type<ast::IScope*>
+  scope
+  br_stm
 
 %%
 
-program: eqlist               { driver->insert($1); }
-;
+program:     stms                           { current_scope->calc(); }
+scope:       op_sc stms cl_sc               { /* nothing */ }
 
-eqlist: equals SCOLON eqlist  { $$ = $3; $$.push_back($1); }
-      | equals SCOLON         { $$.push_back($1);          }
-;
+op_sc:       LB                             { current_scope = ast::makeScope(current_scope); }
+cl_sc:       RB                             { current_scope = current_scope->parentScope(); }
 
-equals: expr IS_EQ expr       { $$ = std::make_pair($1, $3); }
-;
+stms:        stm                            { current_scope->push($1); }
+           | stms stm                       { current_scope->push($2); }
 
-expr: NUMBER                  { $$.push_back($1); }
-    | expr PLUS NUMBER        { $$ = $1; $$.push_back($3); }
-    | expr MINUS NUMBER       { $$ = $1; $$.push_back(-$3); }
-;
+br_stm:      stm                            {
+                                              $$ = ast::makeScope(current_scope);
+                                              $$->push($1);
+                                            }
+
+stm:         assign                         { $$ = $1; }
+           | if                             { $$ = $1; }
+           | while                          { $$ = $1; }
+           | print                          { $$ = $1; }
+
+assign:      ID ASSIGN expr SCOLON          { /* TODO */ }
+
+expr:        expr ADD   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kAdd , $3); }
+           | expr SUB   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kSub , $3); }
+           | expr MUL   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kMul , $3); }
+           | expr DIV   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kDiv , $3); }
+           | expr MOD   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kMod , $3); }
+           | expr IS_EQ expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsEq, $3); }
+           | expr IS_GE expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsGe, $3); }
+           | expr IS_GT expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsGt, $3); }
+           | expr IS_LT expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsLt, $3); }
+           | expr IS_LE expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsLe, $3); }
+           | expr IS_NE expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsNe, $3); }
+           | expr_un                        { $$ = $1; }
+
+expr_un:     // TODO
+
+if:          /* TODO */                     { /* TODO */ }
+
+while:       /* TODO */                     { /* TODO */ }
+
+print:       PRINT expr SCOLON              { /* TODO */ }
 
 %%
 
 namespace yy {
 
 parser::token_type yylex(parser::semantic_type* yylval,
+                         parser::location_type* yylloc,
                          PDriver* driver) {
-  return driver->yylex(yylval);
+  return driver->yylex(yylval, yylloc);
 }
 
-void parser::error(const std::string& e) {
-  std::cerr << e;
+void parser::error(const parser::location_type& location,
+                   const std::string& e) {
+  std::cerr << e << " in: " << location << "\n";
 }
 
 }
