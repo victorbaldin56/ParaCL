@@ -2,6 +2,8 @@
 
 #include <stdexcept>
 
+ast::IScope* current_scope = nullptr;
+
 namespace yy {
 
 PDriver::PDriver(const std::string& input_file_name)

@@ -3,6 +3,7 @@
 
 namespace ast {
 
+// built-in numeric types in ParaCL
 using IntT = int;
 
 class INode {
@@ -16,6 +17,35 @@ class IScope : public INode {
   virtual void push(const INode* node) = 0;
   virtual IScope* parentScope() const = 0;
 };
+
+enum class BinOp {
+  kAdd,
+  kSub,
+  kMul,
+  kDiv,
+  kMod,
+  kAssign,
+
+  kIsEq,
+  kIsNe,
+  kIsLt,
+  kIsLe,
+  kIsGt,
+  kIsGe,
+};
+
+enum UnOp {
+  kPlus,
+  kMinus,
+};
+
+// create concrete nodes
+INode*  makeValue(IntT val);
+INode*  makeUnOp (INode* n, UnOp op);
+INode*  makeBinOp(INode* left, BinOp op, INode* right);
+INode*  makeWhile(INode* op, INode* sc);
+INode*  makeIf   (INode* op, INode* sc);
+IScope* makeScope(INode* par = nullptr);
 
 }
 

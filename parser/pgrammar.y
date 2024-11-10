@@ -41,8 +41,8 @@ parser::token_type yylex(parser::semantic_type* yylval,
 }
 
 %token
-  MINUS             "-"
-  PLUS              "+"
+  SUB               "-"
+  ADD               "+"
   DIV               "/"
   MUL               "*"
   MOD               "%"
@@ -52,6 +52,7 @@ parser::token_type yylex(parser::semantic_type* yylval,
   IS_GT             ">"
   IS_LT             "<"
   IS_LE             "<="
+  IS_NE             "!="
 
   ASSIGN            "="
 
@@ -66,49 +67,41 @@ parser::token_type yylex(parser::semantic_type* yylval,
   RB                "}"
   LP                "("
   RP                ")"
+  ;
 
 %token<int> NUMBER
 %token<std::string> ID
 
-%nterm<ast::IScope*>
-  scope
-  br_scope
-  op_br_sc
-  ;
-
-%nterm<ast::IScope*> br_stm
-
-%nterm<ast::INode*>
+%type<ast::INode*>
   stm
   stms
-  ;
-
-%nterm<ast::INode*>
   if
   while
   print
   assign
-  ;
-
-%nterm<ast::INode*>
   expr
-  expr_un
-  expr_term
   ;
 
-
-%start program
+%type<ast::IScope*>
+  scope
+  br_stm
+  ;
 
 %%
 
 program:     stms                           { current_scope->calc(); }
 scope:       op_sc stms cl_sc               { /* nothing */ }
 
-op_sc:       LB                             { /* TODO */ }
+op_sc:       LB                             { current_scope = ast::makeScope(current_scope); }
 cl_sc:       RB                             { current_scope = current_scope->parentScope(); }
 
 stms:        stm                            { current_scope->push($1); }
            | stms stm                       { current_scope->push($2); }
+
+br_stm:      stm                            {
+                                              $$ = ast::makeScope(current_scope);
+                                              $$->push($1);
+                                            }
 
 stm:         assign                         { $$ = $1; }
            | if                             { $$ = $1; }
@@ -117,15 +110,23 @@ stm:         assign                         { $$ = $1; }
 
 assign:      ID ASSIGN expr SCOLON          { /* TODO */ }
 
-expr:        /* TODO */                     { /* TODO */ }
+expr:        expr ADD   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kAdd , $3); }
+             expr SUB   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kSub , $3); }
+             expr MUL   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kMul , $3); }
+             expr DIV   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kDiv , $3); }
+             expr MOD   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kMod , $3); }
+             expr IS_EQ expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsEq, $3); }
+             expr IS_GE expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsGe, $3); }
+             expr IS_GT expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsGt, $3); }
+             expr IS_LT expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsLt, $3); }
+             expr IS_LE expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsLe, $3); }
+             expr IS_NE expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsNe, $3); }
 
 if:          /* TODO */                     { /* TODO */ }
 
 while:       /* TODO */                     { /* TODO */ }
 
 print:       PRINT expr SCOLON              { /* TODO */ }
-
-
 
 %%
 
