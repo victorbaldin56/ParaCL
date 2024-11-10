@@ -44,8 +44,8 @@ parser::token_type yylex(parser::semantic_type* yylval,
   MINUS             "-"
   PLUS              "+"
   DIV               "/"
-  MUL          "*"
-  MOD           "%"
+  MUL               "*"
+  MOD               "%"
 
   IS_EQ             "=="
   IS_GE             ">="
