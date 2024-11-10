@@ -2,6 +2,7 @@
 #define PARACL_DRIVER_DRIVER_HH_
 
 #include <fstream>
+#include <stdexcept>
 #include <string>
 
 #ifndef yyFlexLexer
@@ -19,22 +20,14 @@ class PDriver final {
   std::ifstream input_stream_;
   FlexLexer* plex_;
 
-  bool valid_; // "bad bit"
-
  public:
   PDriver(const std::string& input_file_name)
       : input_file_name_(input_file_name),
-        input_stream_(input_file_name),
-        valid_(true) {
+        input_stream_(input_file_name, std::ios_base::in) {
     if (!input_stream_.is_open()) {
-      valid_ = false;
-      std::cerr << "Failed to open file " << input_file_name_ << "\n";
+      throw std::runtime_error("Failed to open file");
     }
   }
-
-  // Methods for checking PDriver validity.
-  bool valid() const { return valid_; }
-  operator bool() const { return valid(); }
 
  public:
   parser::token_type yylex(parser::semantic_type* yylval) {
