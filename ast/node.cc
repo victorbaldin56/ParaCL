@@ -22,6 +22,10 @@ INode* makeWhile(INode* op, INode* sc) {
   // TODO
 }
 
+INode* makeVar(const std::string& name) {
+  // TODO
+}
+
 IScope* makeScope(IScope* par) {
   // TODO
 }

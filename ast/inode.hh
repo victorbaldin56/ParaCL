@@ -1,6 +1,8 @@
 #ifndef PARACL_AST_INODE_HH_
 #define PARACL_AST_INODE_HH_
 
+#include <string>
+
 namespace ast {
 
 // built-in numeric types in ParaCL
@@ -45,6 +47,7 @@ INode*  makeUnOp (INode* n, UnOp op);
 INode*  makeBinOp(INode* left, BinOp op, INode* right);
 INode*  makeWhile(INode* op, INode* sc);
 INode*  makeIf   (INode* op, INode* sc);
+INode*  makeVar  (const std::string& name);
 IScope* makeScope(INode* par = nullptr);
 
 }

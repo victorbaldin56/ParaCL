@@ -73,6 +73,7 @@ parser::token_type yylex(parser::semantic_type* yylval,
   assign
   expr
   expr_un
+  expr_term
 
 %type<ast::IScope*>
   scope
@@ -114,7 +115,12 @@ expr:        expr ADD   expr                { $$ = ast::makeBinOp($1, ast::BinOp
            | expr IS_NE expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsNe, $3); }
            | expr_un                        { $$ = $1; }
 
-expr_un:     // TODO
+expr_un:     ADD expr_term                  { $$ = ast::makeUnOp($2, ast::UnOp::kPlus); }
+           | SUB expr_term                  { $$ = ast::makeUnOp($2, ast::UnOp::kMinus); }
+           | expr_term
+
+expr_term:   NUMBER                         { $$ = ast::makeValue($1); }
+           | ID                             { $$ = ast::makeVar($1); }
 
 if:          /* TODO */                     { /* TODO */ }
 
