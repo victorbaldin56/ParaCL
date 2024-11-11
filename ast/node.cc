@@ -2,20 +2,26 @@
 
 namespace ast {
 
+Scope::~Scope() {
+  for (INode* p : stms_) {
+    delete p;
+  }
+}
+
 INode* makeValue(IntT val) {
-  // TODO
+  return new ValueNode(val);
 }
 
 INode* makeUnOp(INode* n, UnOp op) {
-  // TODO
+  return new UnOpNode(n, op);
 }
 
 INode* makeBinOp(INode* left, BinOp op, INode* right) {
-  // TODO
+  return new BinOpNode(left, op, right);
 }
 
 INode* makeIf(INode* op, INode* sc) {
-  // TODO
+
 }
 
 INode* makeWhile(INode* op, INode* sc) {
