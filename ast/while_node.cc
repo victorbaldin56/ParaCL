@@ -3,7 +3,7 @@
 namespace ast {
 
 INode* makeWhile(INode* op, INode* sc) {
-  // TODO
+  return new WhileNode(op, sc);
 }
 
 } // namespace ast

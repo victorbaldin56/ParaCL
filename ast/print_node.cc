@@ -3,7 +3,7 @@
 namespace ast {
 
 INode* makePrint(INode* n) {
-  // TODO
+  return new PrintNode(n);
 }
 
 } // namespace ast

@@ -3,7 +3,7 @@
 namespace ast {
 
 INode* makeScan(INode* n) {
-  // TODO
+  return new ScanNode(n);
 }
 
 } // namespace ast

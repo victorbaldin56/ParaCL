@@ -13,8 +13,10 @@ class Scope : public IScope {
   IScope* parent_;
 
  public:
-  Scope(IScope* parent) noexcept : parent_(parent) {}
+  explicit Scope(IScope* parent) noexcept : parent_(parent) {}
   ~Scope() override;
+
+  IntT calc() const override { return 0; }
 
   IScope* parentScope() const override { return parent_; }
   void push(INode* node) override { stms_.push_back(node); }

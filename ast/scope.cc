@@ -3,7 +3,7 @@
 namespace ast {
 
 IScope* makeScope(IScope* par) {
-  // TODO
+  return new Scope(par);
 }
 
 } // namespace ast

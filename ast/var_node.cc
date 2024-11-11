@@ -3,7 +3,7 @@
 namespace ast {
 
 INode* makeVar(const std::string& name) {
-  // TODO
+  return new VarNode(name);
 }
 
 } // namespace ast

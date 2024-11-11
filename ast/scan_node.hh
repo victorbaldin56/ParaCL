@@ -6,7 +6,14 @@
 namespace ast {
 
 class ScanNode : public INode {
+ private:
+  INode* stm_;
 
+ public:
+  explicit ScanNode(INode* stm) noexcept : stm_(stm) {}
+  ~ScanNode() override { delete stm_; }
+
+  IntT calc() const override;
 };
 
 } // namespace ast
