@@ -5,7 +5,9 @@
 
 namespace ast {
 
-// built-in numeric types in ParaCL
+/**
+ * Built-in numeric types in ParaCL
+ */
 using IntT = int;
 
 class INode {
@@ -16,7 +18,7 @@ class INode {
 
 class IScope : public INode {
  public:
-  // REVIEW: стоит ли здесь делать виртуальные методы, обе операции
+  // TODO: стоит ли здесь делать виртуальные методы, обе операции
   // тривиальны и хорошо инлайнятся?
   virtual void push(INode* node) = 0;
   virtual IScope* parentScope() const = 0;
@@ -54,8 +56,11 @@ INode*  makePrint(INode* n);
 INode*  makeScan (INode* n);
 IScope* makeScope(INode* par = nullptr);
 
-}
+} // namespace ast
 
+/**
+ * Global context for interpreter.
+ */
 extern ast::IScope* current_scope;
 
 #endif // PARACL_AST_INODE_HH_

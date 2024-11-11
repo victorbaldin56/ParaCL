@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "inode.hh"
+#include "symtab.hh"
 
 namespace ast {
 
@@ -11,6 +12,8 @@ class Scope : public IScope {
  private:
   std::vector<INode*> stms_;
   IScope* parent_;
+
+  Symtab symtab_;
 
  public:
   explicit Scope(IScope* parent) noexcept : parent_(parent) {}
