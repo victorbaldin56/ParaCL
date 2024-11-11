@@ -48,6 +48,8 @@ INode*  makeBinOp(INode* left, BinOp op, INode* right);
 INode*  makeWhile(INode* op, INode* sc);
 INode*  makeIf   (INode* op, INode* sc);
 INode*  makeVar  (const std::string& name);
+INode*  makePrint(INode* n);
+INode*  makeScan (INode* n);
 IScope* makeScope(INode* par = nullptr);
 
 }

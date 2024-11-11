@@ -70,10 +70,12 @@ parser::token_type yylex(parser::semantic_type* yylval,
   if
   while
   print
+  scan
   assign
   expr
   expr_un
   expr_term
+  var
 
 %type<ast::IScope*>
   scope
@@ -90,17 +92,18 @@ cl_sc:       RB                             { current_scope = current_scope->par
 stms:        stm                            { current_scope->push($1); }
            | stms stm                       { current_scope->push($2); }
 
-br_stm:      stm                            {
+/* br_stm:      stm                            {
                                               $$ = ast::makeScope(current_scope);
                                               $$->push($1);
-                                            }
+                                            } */
 
 stm:         assign                         { $$ = $1; }
            | if                             { $$ = $1; }
            | while                          { $$ = $1; }
            | print                          { $$ = $1; }
+           | scan                           { $$ = $1; }
 
-assign:      ID ASSIGN expr SCOLON          { /* TODO */ }
+assign:      var ASSIGN expr SCOLON         { $$ = ast::makeBinOp($1, ast::BinOp::kAssign, $3); }
 
 expr:        expr ADD   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kAdd , $3); }
            | expr SUB   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kSub , $3); }
@@ -122,11 +125,17 @@ expr_un:     ADD expr_term                  { $$ = ast::makeUnOp($2, ast::UnOp::
 expr_term:   NUMBER                         { $$ = ast::makeValue($1); }
            | ID                             { $$ = ast::makeVar($1); }
 
-if:          /* TODO */                     { /* TODO */ }
+if:          IF LP expr RP scope            { $$ = ast::makeIf($3, $5); }
+           | IF LP expr RP expr              { $$ = ast::makeIf($3, $5); }
 
-while:       /* TODO */                     { /* TODO */ }
+while:       WHILE LP expr RP scope         { $$ = ast::makeWhile($3, $5); }
+           | WHILE LP expr RP expr          { $$ = ast::makeWhile($3, $5); }
 
-print:       PRINT expr SCOLON              { /* TODO */ }
+print:       PRINT expr SCOLON              { $$ = ast::makePrint($2); }
+
+scan:        var ASSIGN SCAN SCOLON         { $$ = ast::makeScan($1); }
+
+var:         ID                             { $$ = ast::makeVar($1); }
 
 %%
 

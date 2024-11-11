@@ -26,6 +26,14 @@ INode* makeVar(const std::string& name) {
   // TODO
 }
 
+INode* makePrint(INode* n) {
+  // TODO
+}
+
+INode* makeScan(INode* n) {
+  // TODO
+}
+
 IScope* makeScope(IScope* par) {
   // TODO
 }
