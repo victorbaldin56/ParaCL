@@ -18,7 +18,7 @@ class IScope : public INode {
  public:
   // REVIEW: стоит ли здесь делать виртуальные методы, обе операции
   // тривиальны и хорошо инлайнятся?
-  virtual void push(const INode* node) = 0;
+  virtual void push(INode* node) = 0;
   virtual IScope* parentScope() const = 0;
 };
 

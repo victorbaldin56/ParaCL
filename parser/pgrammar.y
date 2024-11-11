@@ -64,7 +64,7 @@ parser::token_type yylex(parser::semantic_type* yylval,
 %token<int> NUMBER
 %token<std::string> ID
 
-%type<ast::INode*>
+%nterm<ast::INode*>
   stm
   stms
   if
@@ -77,9 +77,9 @@ parser::token_type yylex(parser::semantic_type* yylval,
   expr_term
   var
 
-%type<ast::IScope*>
+%nterm<ast::IScope*>
   scope
-  br_stm
+  // br_stm
 
 %%
 
