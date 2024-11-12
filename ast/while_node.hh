@@ -7,16 +7,12 @@ namespace ast {
 
 class WhileNode : public INode {
  private:
-  INode* cond_;
-  INode* stm_;
+  pINode cond_;
+  pINode stm_;
 
  public:
-  WhileNode(INode* cond, INode* stm) noexcept : cond_(cond), stm_(stm) {}
-
-  ~WhileNode() {
-    delete cond_;
-    delete stm_;
-  }
+  WhileNode(const pINode& cond, const pINode& stm) noexcept
+      : cond_(cond), stm_(stm) {}
 
   IntT calc() const override;
 };

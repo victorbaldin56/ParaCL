@@ -2,8 +2,12 @@
 
 namespace ast {
 
-INode* makeIf(INode* op, INode* sc) {
-  return new IfNode(op, sc);
+pINode makeIf(const pINode& op, const pINode& sc) {
+  return std::make_shared<IfNode>(op, sc);
+}
+
+IntT IfNode::calc() const {
+  return 0; // TODO
 }
 
 } // namespace ast

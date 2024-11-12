@@ -4,8 +4,8 @@
 
 namespace ast {
 
-INode* makeUnOp(INode* n, UnOp op) {
-  return new UnOpNode(n, op);
+pINode makeUnOp(const pINode& n, UnOp op) {
+  return std::make_shared<UnOpNode>(n, op);
 }
 
 IntT UnOpNode::calc() const {

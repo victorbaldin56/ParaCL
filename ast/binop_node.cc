@@ -2,8 +2,12 @@
 
 namespace ast {
 
-INode* makeBinOp(INode* left, BinOp op, INode* right) {
-  return new BinOpNode(left, op, right);
+pINode makeBinOp(const pINode& left, BinOp op, const pINode& right) {
+  return std::make_shared<BinOpNode>(left, op, right);
+}
+
+IntT BinOpNode::calc() const {
+  return 0; // TODO
 }
 
 } // namespace ast

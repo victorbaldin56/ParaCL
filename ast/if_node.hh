@@ -7,16 +7,11 @@ namespace ast {
 
 class IfNode : public INode {
  private:
-  INode* cond_;
-  INode* stm_;
+  pINode cond_;
+  pINode stm_;
 
  public:
-  IfNode(INode* cond, INode* stm) noexcept : cond_(cond), stm_(stm) {}
-
-  ~IfNode() {
-    delete cond_;
-    delete stm_;
-  }
+  IfNode(pINode cond, pINode stm) noexcept : cond_(cond), stm_(stm) {}
 
   IntT calc() const override;
 };

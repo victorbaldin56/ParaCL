@@ -34,6 +34,13 @@ int main(int argc, char** argv) {
       std::string filename = var_map["source"].as<std::string>();
 
       yy::PDriver driver(filename);
+      current_scope = ast::makeScope();
+
+      if (!driver.parse()) {
+        return EXIT_FAILURE;
+      }
+
+      current_scope->calc();
     }
   } catch (po::error& ex) {
     std::cerr << ex.what() << "\n";

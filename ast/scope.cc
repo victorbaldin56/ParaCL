@@ -2,8 +2,8 @@
 
 namespace ast {
 
-IScope* makeScope(IScope* par) {
-  return new Scope(par);
+pIScope makeScope(const pIScope& par) {
+  return std::make_shared<Scope>(par);
 }
 
 } // namespace ast

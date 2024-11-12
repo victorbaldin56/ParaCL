@@ -30,7 +30,6 @@ class PDriver final {
     delete plex_;
   }
 
- public:
   parser::token_type yylex(parser::semantic_type* yylval,
                            parser::location_type* yylloc);
 

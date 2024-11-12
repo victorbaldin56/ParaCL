@@ -7,11 +7,10 @@ namespace ast {
 
 class PrintNode : public INode {
 private:
-  INode* stm_;
+  pINode stm_;
 
  public:
-  explicit PrintNode(INode* stm) noexcept : stm_(stm) {}
-  ~PrintNode() override { delete stm_; }
+  explicit PrintNode(const pINode& stm) noexcept : stm_(stm) {}
 
   IntT calc() const override;
 };

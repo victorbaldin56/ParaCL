@@ -8,7 +8,7 @@
 %define parse.lac full
 
 %define api.value.type variant
-%define parse.error custom
+// %define parse.error custom
 
 %code requires
 {
@@ -24,7 +24,7 @@ namespace yy {
 
 class PDriver;
 
-}
+} // namespace yy
 
 }
 
@@ -64,7 +64,7 @@ parser::token_type yylex(parser::semantic_type* yylval,
 %token<int> NUMBER
 %token<std::string> ID
 
-%nterm<ast::INode*>
+%nterm<ast::pINode>
   stm
   stms
   if
@@ -77,7 +77,7 @@ parser::token_type yylex(parser::semantic_type* yylval,
   expr_term
   var
 
-%nterm<ast::IScope*>
+%nterm<ast::pIScope>
   scope
   // br_stm
 
@@ -126,7 +126,7 @@ expr_term:   NUMBER                         { $$ = ast::makeValue($1); }
            | ID                             { $$ = ast::makeVar($1); }
 
 if:          IF LP expr RP scope            { $$ = ast::makeIf($3, $5); }
-           | IF LP expr RP expr              { $$ = ast::makeIf($3, $5); }
+           | IF LP expr RP expr             { $$ = ast::makeIf($3, $5); }
 
 while:       WHILE LP expr RP scope         { $$ = ast::makeWhile($3, $5); }
            | WHILE LP expr RP expr          { $$ = ast::makeWhile($3, $5); }

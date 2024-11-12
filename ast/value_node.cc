@@ -2,8 +2,8 @@
 
 namespace ast {
 
-INode* makeValue(IntT val) {
-  return new ValueNode(val);
+pINode makeValue(IntT val) {
+  return std::make_shared<ValueNode>(val);
 }
 
 } // namespace ast

@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-ast::IScope* current_scope = nullptr;
+ast::pIScope current_scope = nullptr;
 
 namespace yy {
 

@@ -2,8 +2,12 @@
 
 namespace ast {
 
-INode* makePrint(INode* n) {
-  return new PrintNode(n);
+pINode makePrint(const pINode& n) {
+  return std::make_shared<PrintNode>(n);
+}
+
+IntT PrintNode::calc() const {
+  return 0; // TODO
 }
 
 } // namespace ast

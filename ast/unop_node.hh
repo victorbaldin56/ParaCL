@@ -10,12 +10,11 @@ namespace ast {
  */
 class UnOpNode : public INode {
  private:
-  INode* ch_;
+  pINode ch_;
   UnOp op_;
 
  public:
-  UnOpNode(INode* ch, UnOp op) noexcept : ch_(ch), op_(op) {}
-  ~UnOpNode() override { delete ch_; }
+  UnOpNode(const pINode& ch, UnOp op) noexcept : ch_(ch), op_(op) {}
 
   IntT calc() const override;
 };

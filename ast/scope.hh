@@ -10,19 +10,18 @@ namespace ast {
 
 class Scope : public IScope {
  private:
-  std::vector<INode*> stms_;
-  IScope* parent_;
+  std::vector<pINode> stms_;
+  pIScope parent_;
 
   Symtab symtab_;
 
  public:
-  explicit Scope(IScope* parent) noexcept : parent_(parent) {}
-  ~Scope() override;
+  explicit Scope(const pIScope& parent) noexcept : parent_(parent) {}
 
   IntT calc() const override { return 0; }
 
-  IScope* parentScope() const override { return parent_; }
-  void push(INode* node) override { stms_.push_back(node); }
+  pIScope parentScope() const override { return parent_; }
+  void push(const pINode& node) override { stms_.push_back(node); }
 };
 
 } // namespace ast

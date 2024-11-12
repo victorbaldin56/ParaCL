@@ -2,8 +2,12 @@
 
 namespace ast {
 
-INode* makeWhile(INode* op, INode* sc) {
-  return new WhileNode(op, sc);
+pINode makeWhile(const pINode& op, const pINode& sc) {
+  return std::make_shared<WhileNode>(op, sc);
+}
+
+IntT WhileNode::calc() const {
+  return 0; // TODO
 }
 
 } // namespace ast

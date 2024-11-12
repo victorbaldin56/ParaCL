@@ -7,18 +7,13 @@ namespace ast {
 
 class BinOpNode : public INode {
  private:
-  INode* left_;
-  INode* right_;
+  pINode left_;
+  pINode right_;
   BinOp op_;
 
  public:
-  BinOpNode(INode* left, BinOp op, INode* right) noexcept
+  BinOpNode(const pINode& left, BinOp op, const pINode& right) noexcept
       : left_(left), op_(op), right_(right) {}
-
-  ~BinOpNode() override {
-    delete left_;
-    delete right_;
-  }
 
   IntT calc() const override;
 };

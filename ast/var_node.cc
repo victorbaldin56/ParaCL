@@ -2,8 +2,12 @@
 
 namespace ast {
 
-INode* makeVar(const std::string& name) {
-  return new VarNode(name);
+pINode makeVar(const std::string& name) {
+  return std::make_shared<VarNode>(name);
+}
+
+IntT VarNode::calc() const {
+  return 0; // TODO
 }
 
 } // namespace ast
