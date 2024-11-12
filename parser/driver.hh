@@ -32,22 +32,7 @@ class PDriver final {
 
  public:
   parser::token_type yylex(parser::semantic_type* yylval,
-                           parser::location_type* yylloc) {
-    parser::token_type tt = static_cast<parser::token_type>(plex_->yylex());
-
-    switch (tt) {
-    case parser::token_type::NUMBER:
-      yylval->emplace<int>(std::stoi(plex_->YYText()));
-      break;
-    case parser::token_type::ID:
-      yylval->emplace<std::string>(plex_->YYText());
-      break;
-    default:
-      break;
-    }
-
-    return tt;
-  }
+                           parser::location_type* yylloc);
 
   bool parse() {
     parser parser(this);
