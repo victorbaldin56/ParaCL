@@ -4,8 +4,6 @@
 #ifndef PARACL_AST_DETAIL_HH_
 #define PARACL_AST_DETAIL_HH_
 
-#include <stack>
-
 #include "inode.hh"
 
 namespace ast {
