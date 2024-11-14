@@ -10,7 +10,6 @@
 
 namespace ast {
 
-extern std::stack<IntT> calc_stack;
 
 } // namespace ast
 
