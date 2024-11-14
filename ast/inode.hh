@@ -63,11 +63,8 @@ pINode  makePrint(const pINode& n);
 pINode  makeScan (const pINode& n);
 pIScope makeScope(const pIScope& par = nullptr);
 
-} // namespace ast
+extern pIScope current_scope;
 
-/**
- * Global context for interpreter.
- */
-extern ast::pIScope current_scope;
+} // namespace ast
 
 #endif // PARACL_AST_INODE_HH_

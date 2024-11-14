@@ -1,3 +1,6 @@
+/**
+ * Declares internal part of global context.
+ */
 #ifndef PARACL_AST_DETAIL_HH_
 #define PARACL_AST_DETAIL_HH_
 

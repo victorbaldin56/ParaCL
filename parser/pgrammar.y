@@ -83,17 +83,17 @@ parser::token_type yylex(parser::semantic_type* yylval,
 
 %%
 
-program:     stms                           { current_scope->calc(); }
+program:     stms                           { ast::current_scope->calc(); }
 scope:       op_sc stms cl_sc               { /* nothing */ }
 
-op_sc:       LB                             { current_scope = ast::makeScope(current_scope); }
-cl_sc:       RB                             { current_scope = current_scope->parentScope(); }
+op_sc:       LB                             { ast::current_scope = ast::makeScope(ast::current_scope); }
+cl_sc:       RB                             { ast::current_scope = ast::current_scope->parentScope(); }
 
-stms:        stm                            { current_scope->push($1); }
-           | stms stm                       { current_scope->push($2); }
+stms:        stm                            { ast::current_scope->push($1); }
+           | stms stm                       { ast::current_scope->push($2); }
 
 /* br_stm:      stm                            {
-                                              $$ = ast::makeScope(current_scope);
+                                              $$ = ast::makeScope(ast::current_scope);
                                               $$->push($1);
                                             } */
 
