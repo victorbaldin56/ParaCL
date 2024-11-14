@@ -20,15 +20,17 @@ using pIScope = std::shared_ptr<IScope>;
 class INode {
  public:
   virtual IntT calc() const = 0;
+
   virtual ~INode() {}
 };
 
-class IScope : public INode {
+class IScope {
  public:
-  // TODO: стоит ли здесь делать виртуальные методы, обе операции
-  // тривиальны и хорошо инлайнятся?
+  virtual void calc() const = 0;
   virtual void push(const pINode& node) = 0;
   virtual pIScope parentScope() const = 0;
+
+  virtual ~IScope() {}
 };
 
 enum class BinOp {
