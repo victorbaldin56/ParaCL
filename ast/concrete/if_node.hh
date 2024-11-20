@@ -1,5 +1,4 @@
-#ifndef PARACL_AST_IF_NODE_HH_
-#define PARACL_AST_IF_NODE_HH_
+#pragma once
 
 #include "inode.hh"
 
@@ -18,4 +17,3 @@ class IfNode : public INode {
 
 } // namespace ast
 
-#endif // PARACL_AST_IF_NODE_HH_

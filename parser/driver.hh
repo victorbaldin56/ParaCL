@@ -1,12 +1,10 @@
-#ifndef PARACL_DRIVER_DRIVER_HH_
-#define PARACL_DRIVER_DRIVER_HH_
+#pragma once
 
 #include <fstream>
 #include <string>
 
-#ifndef yyFlexLexer
+#pragma once
 #include <FlexLexer.h>
-#endif // yyFlexLexer
 
 #include "pgrammar.tab.hh"
 #include "lexer.hh"
@@ -41,4 +39,3 @@ class PDriver final {
 
 } // namespace yy
 
-#endif // PARACL_DRIVER_DRIVER_HH_

@@ -1,5 +1,4 @@
-#ifndef PARACL_AST_BINOP_NODE_HH_
-#define PARACL_AST_BINOP_NODE_HH_
+#pragma once
 
 #include "inode.hh"
 
@@ -20,4 +19,3 @@ class BinOpNode : public INode {
 
 } // namespace ast
 
-#endif // PARACL_AST_BINOP_NODE_HH_

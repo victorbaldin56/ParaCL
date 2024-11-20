@@ -1,5 +1,4 @@
-#ifndef PARACL_AST_VAR_NODE_HH_
-#define PARACL_AST_VAR_NODE_HH_
+#pragma once
 
 #include "context.hh"
 #include "inode.hh"
@@ -20,4 +19,3 @@ class VarNode : public INode {
 
 } // namespace ast
 
-#endif // PARACL_AST_VAR_NODE_HH_

@@ -1,5 +1,4 @@
-#ifndef PARACL_AST_NODE_HH_
-#define PARACL_AST_NODE_HH_
+#pragma once
 
 #include <vector>
 
@@ -26,4 +25,3 @@ class Scope : public IScope {
 
 } // namespace ast
 
-#endif // PARACL_AST_NODE_HH_

@@ -1,5 +1,4 @@
-#ifndef PARACL_AST_WHILE_NODE_HH_
-#define PARACL_AST_WHILE_NODE_HH_
+#pragma once
 
 #include "inode.hh"
 
@@ -19,4 +18,3 @@ class WhileNode : public INode {
 
 } // namespace ast
 
-#endif // PARACL_AST_WHILE_NODE_HH_

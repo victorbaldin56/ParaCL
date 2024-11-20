@@ -1,5 +1,4 @@
-#ifndef PARACL_AST_INODE_HH_
-#define PARACL_AST_INODE_HH_
+#pragma once
 
 #include <memory>
 #include <string>
@@ -65,4 +64,3 @@ extern pIScope current_scope;
 
 } // namespace ast
 
-#endif // PARACL_AST_INODE_HH_

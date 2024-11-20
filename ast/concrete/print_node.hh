@@ -1,5 +1,4 @@
-#ifndef PARACL_AST_PRINT_NODE_HH_
-#define PARACL_AST_PRINT_NODE_HH_
+#pragma once
 
 #include "inode.hh"
 
@@ -17,4 +16,3 @@ private:
 
 } // namespace ast
 
-#endif // PARACL_AST_PRINT_NODE_HH_

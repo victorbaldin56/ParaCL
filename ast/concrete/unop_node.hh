@@ -1,5 +1,4 @@
-#ifndef PARACL_AST_UNOP_NODE_HH_
-#define PARACL_AST_UNOP_NODE_HH_
+#pragma once
 
 #include "inode.hh"
 
@@ -21,4 +20,3 @@ class UnOpNode : public INode {
 
 } // namespace ast
 
-#endif // PARACL_AST_UNOP_NODE_HH_

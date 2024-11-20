@@ -1,8 +1,7 @@
 /**
  * Symtab implementation.
  */
-#ifndef PARACL_AST_SYMTAB_HH_
-#define PARACL_AST_SYMTAB_HH_
+#pragma once
 
 #include <unordered_map>
 
@@ -19,4 +18,3 @@ using SymtabIt = Symtab::iterator;
 
 }
 
-#endif // PARACL_AST_SYMTAB_HH_
