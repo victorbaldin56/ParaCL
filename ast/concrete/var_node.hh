@@ -13,9 +13,9 @@ class VarNode : public INode {
  public:
   VarNode(const std::string& name) : name_(name) {}
   SymtabIt find() const { return symtab.find(name_); }
+  const std::string& name() const { return name_; }
 
   IntT calc() const override;
 };
 
 } // namespace ast
-

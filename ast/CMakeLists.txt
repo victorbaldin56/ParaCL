@@ -5,6 +5,7 @@ add_library(ast_interface INTERFACE)
 target_include_directories(ast_interface INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(ast STATIC
+  concrete/assign_node.cc
   concrete/binop_node.cc
   concrete/if_node.cc
   concrete/print_node.cc

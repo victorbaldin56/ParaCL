@@ -8,7 +8,7 @@
 %define parse.lac full
 
 %define api.value.type variant
-// %define parse.error custom
+//%define parse.error custom
 
 %code requires
 {
@@ -103,7 +103,7 @@ stm:         assign                         { $$ = $1; }
            | print                          { $$ = $1; }
            | scan                           { $$ = $1; }
 
-assign:      var ASSIGN expr SCOLON         { $$ = ast::makeBinOp($1, ast::BinOp::kAssign, $3); }
+assign:      var ASSIGN expr SCOLON         { $$ = ast::makeAssign($1, $3); }
 
 expr:        expr ADD   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kAdd , $3); }
            | expr SUB   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kSub , $3); }
