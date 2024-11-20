@@ -13,6 +13,8 @@
 %code requires
 {
 
+//#define YYDEBUG 1
+
 #include <iostream>
 #include <string>
 #include <utility>

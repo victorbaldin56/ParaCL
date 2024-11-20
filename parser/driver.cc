@@ -21,9 +21,11 @@ parser::token_type PDriver::yylex(parser::semantic_type* yylval,
 
   switch (tt) {
   case parser::token_type::NUMBER:
+    PARACL_LOG("Detected number: %s", plex_->YYText());
     yylval->emplace<int>(std::stoi(plex_->YYText()));
     break;
   case parser::token_type::ID:
+    PARACL_LOG("Detected ID: %s", plex_->YYText());
     yylval->emplace<std::string>(plex_->YYText());
     break;
   default:
