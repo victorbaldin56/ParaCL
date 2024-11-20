@@ -7,7 +7,10 @@ pINode makeIf(const pINode& op, const pINode& sc) {
 }
 
 IntT IfNode::calc() const {
-  return 0; // TODO
+  if (cond_) {
+    stm_->calc();
+  }
+  return 0; // FIXME (?)
 }
 
 } // namespace ast

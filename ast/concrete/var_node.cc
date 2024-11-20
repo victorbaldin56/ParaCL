@@ -7,7 +7,7 @@ pINode makeVar(const std::string& name) {
 }
 
 IntT VarNode::calc() const {
-  return 0; // TODO
+  return find()->second.value;
 }
 
 } // namespace ast

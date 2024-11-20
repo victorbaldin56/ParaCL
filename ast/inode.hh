@@ -25,8 +25,6 @@ class INode {
 
 class IScope : public INode {
  public:
-  // TODO: стоит ли здесь делать виртуальные методы, обе операции
-  // тривиальны и хорошо инлайнятся?
   virtual void push(const pINode& node) = 0;
   virtual pIScope parentScope() const = 0;
 };

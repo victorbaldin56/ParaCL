@@ -7,7 +7,10 @@ pINode makeWhile(const pINode& op, const pINode& sc) {
 }
 
 IntT WhileNode::calc() const {
-  return 0; // TODO
+  while (cond_->calc()) {
+    stm_->calc();
+  }
+  return 0; // FIXME (?)
 }
 
 } // namespace ast
