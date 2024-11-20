@@ -1,5 +1,7 @@
 #include "print_node.hh"
 
+#include <iostream>
+
 namespace ast {
 
 pINode makePrint(const pINode& n) {
@@ -7,7 +9,8 @@ pINode makePrint(const pINode& n) {
 }
 
 IntT PrintNode::calc() const {
-  return 0; // TODO
+  std::cout << stm_->calc();
+  return 0; // FIXME
 }
 
 } // namespace ast

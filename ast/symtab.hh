@@ -15,6 +15,7 @@ struct SymtabItem {
 };
 
 using Symtab = std::unordered_map<std::string, SymtabItem>;
+using SymtabIt = Symtab::iterator;
 
 }
 

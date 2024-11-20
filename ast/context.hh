@@ -5,9 +5,11 @@
 #define PARACL_AST_DETAIL_HH_
 
 #include "inode.hh"
+#include "symtab.hh"
 
 namespace ast {
 
+extern Symtab symtab;
 
 } // namespace ast
 

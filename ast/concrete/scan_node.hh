@@ -2,6 +2,7 @@
 #define PARACL_AST_SCAN_NODE_HH_
 
 #include "inode.hh"
+#include "var_node.hh"
 
 namespace ast {
 
