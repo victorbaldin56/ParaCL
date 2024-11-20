@@ -17,11 +17,23 @@ TO build:
 ```sh
 git clone --recursive https://github.com/victorbaldin56/ParaCL.git
 ```
-2. Generate build files:
+3. Create virtual environment:
 ```sh
-cmake -S . -B build
+python3 -m venv .venv
+source .venv/bin/activate
+pip3 install conan
+conan profile detect --force
 ```
-3. Build:
+4. Install required packages:
 ```sh
-cmake --build build
+conan install . --output-folder=build --build=missing
+```
+5. Generate build files:
+```sh
+cd build/
+cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+```
+6. Build:
+```sh
+cmake --build .
 ```

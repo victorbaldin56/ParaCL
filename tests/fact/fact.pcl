@@ -1,0 +1,10 @@
+i = 1;
+n = 1;
+x = ?;
+
+while(i <= x) {
+  n = n * i;
+  i = i + 1;
+}
+
+print n;
