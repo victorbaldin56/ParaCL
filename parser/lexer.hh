@@ -2,8 +2,9 @@
 
 #include <cstdlib>
 
-#pragma once
+#ifndef yyFlexLexer
 #include <FlexLexer.h>
+#endif // yyFlexLexer
 
 #include "pgrammar.tab.hh"
 
@@ -20,4 +21,3 @@ class PLexer final : public yyFlexLexer {
 };
 
 }
-

@@ -3,8 +3,9 @@
 #include <fstream>
 #include <string>
 
-#pragma once
+#ifndef yyFlexLexer
 #include <FlexLexer.h>
+#endif // yyFlexLexer
 
 #include "pgrammar.tab.hh"
 #include "lexer.hh"
@@ -38,4 +39,3 @@ class PDriver final {
 };
 
 } // namespace yy
-
