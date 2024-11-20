@@ -8,7 +8,7 @@
 %define parse.lac full
 
 %define api.value.type variant
-%define parse.error custom
+// %define parse.error custom
 
 %code requires
 {
@@ -24,7 +24,7 @@ namespace yy {
 
 class PDriver;
 
-}
+} // namespace yy
 
 }
 
@@ -64,42 +64,46 @@ parser::token_type yylex(parser::semantic_type* yylval,
 %token<int> NUMBER
 %token<std::string> ID
 
-%type<ast::INode*>
+%nterm<ast::pINode>
   stm
   stms
   if
   while
   print
+  scan
   assign
   expr
   expr_un
+  expr_term
+  var
 
-%type<ast::IScope*>
+%nterm<ast::pIScope>
   scope
-  br_stm
+  // br_stm
 
 %%
 
-program:     stms                           { current_scope->calc(); }
+program:     stms                           { ast::current_scope->calc(); }
 scope:       op_sc stms cl_sc               { /* nothing */ }
 
-op_sc:       LB                             { current_scope = ast::makeScope(current_scope); }
-cl_sc:       RB                             { current_scope = current_scope->parentScope(); }
+op_sc:       LB                             { ast::current_scope = ast::makeScope(ast::current_scope); }
+cl_sc:       RB                             { ast::current_scope = ast::current_scope->parentScope(); }
 
-stms:        stm                            { current_scope->push($1); }
-           | stms stm                       { current_scope->push($2); }
+stms:        stm                            { ast::current_scope->push($1); }
+           | stms stm                       { ast::current_scope->push($2); }
 
-br_stm:      stm                            {
-                                              $$ = ast::makeScope(current_scope);
+/* br_stm:      stm                            {
+                                              $$ = ast::makeScope(ast::current_scope);
                                               $$->push($1);
-                                            }
+                                            } */
 
 stm:         assign                         { $$ = $1; }
            | if                             { $$ = $1; }
            | while                          { $$ = $1; }
            | print                          { $$ = $1; }
+           | scan                           { $$ = $1; }
 
-assign:      ID ASSIGN expr SCOLON          { /* TODO */ }
+assign:      var ASSIGN expr SCOLON         { $$ = ast::makeBinOp($1, ast::BinOp::kAssign, $3); }
 
 expr:        expr ADD   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kAdd , $3); }
            | expr SUB   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kSub , $3); }
@@ -114,13 +118,24 @@ expr:        expr ADD   expr                { $$ = ast::makeBinOp($1, ast::BinOp
            | expr IS_NE expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsNe, $3); }
            | expr_un                        { $$ = $1; }
 
-expr_un:     // TODO
+expr_un:     ADD expr_term                  { $$ = ast::makeUnOp($2, ast::UnOp::kPlus); }
+           | SUB expr_term                  { $$ = ast::makeUnOp($2, ast::UnOp::kMinus); }
+           | expr_term
 
-if:          /* TODO */                     { /* TODO */ }
+expr_term:   NUMBER                         { $$ = ast::makeValue($1); }
+           | ID                             { $$ = ast::makeVar($1); }
 
-while:       /* TODO */                     { /* TODO */ }
+if:          IF LP expr RP scope            { $$ = ast::makeIf($3, $5); }
+           | IF LP expr RP expr             { $$ = ast::makeIf($3, $5); }
 
-print:       PRINT expr SCOLON              { /* TODO */ }
+while:       WHILE LP expr RP scope         { $$ = ast::makeWhile($3, $5); }
+           | WHILE LP expr RP expr          { $$ = ast::makeWhile($3, $5); }
+
+print:       PRINT expr SCOLON              { $$ = ast::makePrint($2); }
+
+scan:        var ASSIGN SCAN SCOLON         { $$ = ast::makeScan($1); }
+
+var:         ID                             { $$ = ast::makeVar($1); }
 
 %%
 

@@ -2,8 +2,6 @@
 
 #include <stdexcept>
 
-ast::IScope* current_scope = nullptr;
-
 namespace yy {
 
 PDriver::PDriver(const std::string& input_file_name)
@@ -15,6 +13,24 @@ PDriver::PDriver(const std::string& input_file_name)
   }
 
   plex_->switch_streams(input_stream_, std::cout);
+}
+
+parser::token_type PDriver::yylex(parser::semantic_type* yylval,
+                                  parser::location_type* yylloc) {
+  parser::token_type tt = static_cast<parser::token_type>(plex_->yylex());
+
+  switch (tt) {
+  case parser::token_type::NUMBER:
+    yylval->emplace<int>(std::stoi(plex_->YYText()));
+    break;
+  case parser::token_type::ID:
+    yylval->emplace<std::string>(plex_->YYText());
+    break;
+  default:
+    break;
+  }
+
+  return tt;
 }
 
 } // namespace yy
