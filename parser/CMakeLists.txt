@@ -6,7 +6,7 @@ find_package(BISON REQUIRED)
 
 flex_target(scanner
   scanner.l
-  ${CMAKE_CURRENT_BINARY_DIR}/lexer.cc
+  ${CMAKE_CURRENT_BINARY_DIR}/plexer.cc
 )
 
 bison_target(parser
@@ -19,6 +19,7 @@ add_flex_bison_dependency(scanner parser)
 
 add_library(parser STATIC
   driver.cc
+  lexer.cc
   ${BISON_parser_OUTPUTS}
   ${FLEX_scanner_OUTPUTS}
 )

@@ -18,20 +18,19 @@ PDriver::PDriver(const std::string& input_file_name)
 parser::token_type PDriver::yylex(parser::semantic_type* yylval,
                                   parser::location_type* yylloc) {
   parser::token_type tt = static_cast<parser::token_type>(plex_->yylex());
+  const char* cur_text = plex_->YYText();
 
   switch (tt) {
   case parser::token_type::NUMBER:
-    PARACL_LOG("Detected number: %s", plex_->YYText());
-    yylval->emplace<int>(std::stoi(plex_->YYText()));
+    yylval->emplace<int>(std::stoi(cur_text));
     break;
   case parser::token_type::ID:
-    PARACL_LOG("Detected ID: %s", plex_->YYText());
-    yylval->emplace<std::string>(plex_->YYText());
+    yylval->emplace<std::string>(cur_text);
     break;
   default:
     break;
   }
-
+  *yylloc = plex_->getCurrentLocation();
   return tt;
 }
 

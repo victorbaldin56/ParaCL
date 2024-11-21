@@ -13,7 +13,7 @@
 %code requires
 {
 
-//#define YYDEBUG 1
+#define YYDEBUG 1
 
 #include <iostream>
 #include <string>
@@ -92,12 +92,7 @@ op_sc:       LB                             { ast::current_scope = ast::makeScop
 cl_sc:       RB                             { ast::current_scope = ast::current_scope->parentScope(); }
 
 stms:        stm                            { ast::current_scope->push($1); }
-           | stms stm                       { ast::current_scope->push($2); }
-
-/* br_stm:      stm                            {
-                                              $$ = ast::makeScope(ast::current_scope);
-                                              $$->push($1);
-                                            } */
+           | stm stms                       { ast::current_scope->push($1); }
 
 stm:         assign                         { $$ = $1; }
            | if                             { $$ = $1; }

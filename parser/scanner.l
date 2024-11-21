@@ -1,5 +1,6 @@
 %option yyclass="yy::PLexer"
 %option c++
+%option debug
 
 %option noyywrap
 %option yylineno
@@ -8,6 +9,8 @@
 
 #include "lexer.hh"
 #include "pgrammar.tab.hh"
+
+#define YY_USER_ACTION updateCurrentLocation();
 
 %}
 
