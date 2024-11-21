@@ -40,9 +40,6 @@ jobs:
           - os: ubuntu-latest
             c_compiler: cl
 
-    steps:
-    - uses: actions/checkout@v4
-
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
       id: strings
@@ -51,7 +48,7 @@ jobs:
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
     - name: Install required packages
-      run:run: >
+      run: >
         python3 -m venv .venv &&
         source .venv/bin/activate &&
         pip3 install conan &&
