@@ -7,7 +7,7 @@ pIScope makeScope(const pIScope& par) {
 }
 
 IntT Scope::calc() const {
-  for (const pINode p : stms_) {
+  for (const pINode& p : stms_) {
     p->calc();
   }
   return 0;

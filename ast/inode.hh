@@ -48,7 +48,9 @@ enum class UnOp {
   kMinus,
 };
 
-// create concrete nodes
+/**
+ * Create concrete nodes.
+ */
 pINode  makeValue (IntT val);
 pINode  makeUnOp  (const pINode& n, UnOp op);
 pINode  makeBinOp (const pINode& left, BinOp op, const pINode& right);
