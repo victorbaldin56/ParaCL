@@ -7,13 +7,12 @@ namespace ast {
 
 class ScanNode : public INode {
  private:
-  pINode stm_;
+  pINode var_;
 
  public:
-  explicit ScanNode(const pINode& stm) noexcept : stm_(stm) {}
+  explicit ScanNode(const pINode& stm) noexcept : var_(stm) {}
 
   IntT calc() const override;
 };
 
 } // namespace ast
-

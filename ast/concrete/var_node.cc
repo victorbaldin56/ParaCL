@@ -2,19 +2,21 @@
 
 #include <stdexcept>
 
+#include "scope.hh"
+
 namespace ast {
 
 pINode makeVar(const std::string& name) {
-  return std::make_shared<VarNode>(name);
-}
+  std::shared_ptr<Scope> scope
+      = std::static_pointer_cast<Scope>(current_scope);
+  Scope::ItNBool it_n_bool = scope->getSymbol(name);
 
-IntT VarNode::calc() const {
-  SymtabIt it = find();
-  if (it == symtab.end()) {
-    std::string what = "Undefined variable " + name_;
-    throw std::runtime_error(what); // FIXME: на стадию парсинга
+  if (!it_n_bool.second) {
+    std::string what = "Undefined variable '" + name + "'";
+    throw std::runtime_error(what);
   }
-  return it->second.value;
+
+  return std::make_shared<VarNode>(it_n_bool.first);
 }
 
 } // namespace ast

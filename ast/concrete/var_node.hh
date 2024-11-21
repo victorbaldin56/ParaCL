@@ -1,6 +1,5 @@
 #pragma once
 
-#include "context.hh"
 #include "inode.hh"
 #include "symtab.hh"
 
@@ -8,14 +7,14 @@ namespace ast {
 
 class VarNode : public INode {
  private:
-  std::string name_;
+  Symtab::iterator it_;
 
  public:
-  VarNode(const std::string& name) : name_(name) {}
-  SymtabIt find() const { return symtab.find(name_); }
-  const std::string& name() const { return name_; }
+  VarNode(Symtab::iterator it) : it_(it) {}
 
-  IntT calc() const override;
+  IntT calc() const override { return it_->second.value; }
+
+  void assign(IntT val) { it_->second.value = val; }
 };
 
 } // namespace ast

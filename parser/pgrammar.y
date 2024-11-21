@@ -101,7 +101,7 @@ stm:         assign                         { $$ = $1; }
            | print                          { $$ = $1; }
            | scan                           { $$ = $1; }
 
-assign:      var ASSIGN expr SCOLON         { $$ = ast::makeAssign($1, $3); }
+assign:      ID ASSIGN expr SCOLON         { $$ = ast::makeAssign($1, $3); }
 
 expr:        expr ADD   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kAdd , $3); }
            | expr SUB   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kSub , $3); }
@@ -131,9 +131,7 @@ while:       WHILE LP expr RP scope         { $$ = ast::makeWhile($3, $5); }
 
 print:       PRINT expr SCOLON              { $$ = ast::makePrint($2); }
 
-scan:        var ASSIGN SCAN SCOLON         { $$ = ast::makeScan($1); }
-
-var:         ID                             { $$ = ast::makeVar($1); }
+scan:        ID ASSIGN SCAN SCOLON          { $$ = ast::makeScan($1); }
 
 %%
 
