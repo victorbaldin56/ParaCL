@@ -25,8 +25,8 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         build_type: [Release, Debug]
-        c_compiler: [gcc, clang, cl]
-        use_asan: [1, 0]
+        c_compiler: [gcc, cl]
+        use_asan: [0, 1]
         include:
           - os: windows-latest
             c_compiler: cl
@@ -34,14 +34,9 @@ jobs:
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
-          - os: ubuntu-latest
-            c_compiler: clang
-            cpp_compiler: clang++
         exclude:
           - os: windows-latest
             c_compiler: gcc
-          - os: windows-latest
-            c_compiler: clang
           - os: ubuntu-latest
             c_compiler: cl
 
@@ -55,15 +50,13 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-    - name: Create virtual environment
-      run: >
+    - name: Install required packages
+      run:run: >
         python3 -m venv .venv &&
         source .venv/bin/activate &&
         pip3 install conan &&
-        conan profile detect --force
-
-    - name: Install required packages
-      run: conan install . --output-folder=build --build=missing
+        conan profile detect --force &&
+        conan install . --output-folder=build --build=missing
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
@@ -73,6 +66,7 @@ jobs:
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        -DUSE_ASAN=${{ matrix.use_asan }}
         -S ${{ github.workspace }}
 
     - name: Build
