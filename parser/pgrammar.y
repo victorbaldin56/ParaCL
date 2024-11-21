@@ -56,6 +56,7 @@ parser::token_type yylex(parser::semantic_type* yylval,
   RB
   LP
   RP
+  UNKNOWN
 
 // non-trivial operators that require precedence & associativity
 %right ASSIGN
@@ -85,7 +86,7 @@ parser::token_type yylex(parser::semantic_type* yylval,
 
 %%
 
-program:     stms                           { ast::current_scope->calc(); }
+program:     stms                           { /* nothing */ }
 scope:       op_sc stms cl_sc               { /* nothing */ }
 
 op_sc:       LB                             { ast::current_scope = ast::makeScope(ast::current_scope); }
@@ -123,10 +124,10 @@ expr_term:   NUMBER                         { $$ = ast::makeValue($1); }
            | ID                             { $$ = ast::makeVar($1); }
 
 if:          IF LP expr RP scope            { $$ = ast::makeIf($3, $5); }
-           | IF LP expr RP expr             { $$ = ast::makeIf($3, $5); }
+           | IF LP expr RP stm              { $$ = ast::makeIf($3, $5); }
 
 while:       WHILE LP expr RP scope         { $$ = ast::makeWhile($3, $5); }
-           | WHILE LP expr RP expr          { $$ = ast::makeWhile($3, $5); }
+           | WHILE LP expr RP stm           { $$ = ast::makeWhile($3, $5); }
 
 print:       PRINT expr SCOLON              { $$ = ast::makePrint($2); }
 

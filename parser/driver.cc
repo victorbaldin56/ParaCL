@@ -7,6 +7,7 @@ namespace yy {
 PDriver::PDriver(const std::string& input_file_name)
     : input_file_name_(input_file_name), plex_(new PLexer) {
   input_stream_.open(input_file_name, std::ios_base::in);
+
   if (!input_stream_.is_open()) {
     std::string what = "Failed to open file " + input_file_name_;
     throw std::runtime_error(what);
@@ -26,6 +27,9 @@ parser::token_type PDriver::yylex(parser::semantic_type* yylval,
     break;
   case parser::token_type::ID:
     yylval->emplace<std::string>(cur_text);
+    break;
+  case parser::token_type::UNKNOWN:
+    std::cerr << "Unknown token \"" << cur_text << "\"\n";
     break;
   default:
     break;

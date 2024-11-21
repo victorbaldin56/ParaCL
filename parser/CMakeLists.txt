@@ -24,7 +24,11 @@ add_library(parser STATIC
   ${FLEX_scanner_OUTPUTS}
 )
 
-target_link_libraries(parser ast_interface)
-target_compile_features(parser PRIVATE cxx_std_17)
 target_include_directories(parser PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(parser PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+target_link_libraries(parser ast_interface)
+target_compile_features(parser PRIVATE cxx_std_17)
+
+if (${USE_ASAN})
+  target_compile_options(parser PUBLIC "-fsanitize=address,leak,undefined")
+endif()
