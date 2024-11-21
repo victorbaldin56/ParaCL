@@ -9,8 +9,8 @@ pINode makePrint(const pINode& n) {
 }
 
 IntT PrintNode::calc() const {
-  std::cout << stm_->calc();
-  return 0; // FIXME
+  std::cout << stm_->calc() << "\n";
+  return 0;
 }
 
 } // namespace ast

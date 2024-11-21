@@ -1,25 +1,23 @@
-#include "scan_node.hh"
-
-#include <iostream>
+#include "assign_node.hh"
 
 #include "scope.hh"
+#include "var_node.hh"
 
 namespace ast {
 
-pINode makeScan(const std::string& var_name) {
+pINode makeAssign(const std::string& var_name, const pINode& expr) {
   std::shared_ptr<Scope> scope
       = std::static_pointer_cast<Scope>(current_scope);
   Symtab::iterator it = scope->maybeInsertSymbol(var_name);
   pINode var_ptr = std::make_shared<VarNode>(it);
-  return std::make_shared<ScanNode>(var_ptr);
+  return std::make_shared<AssignNode>(var_ptr, expr);
 }
 
-IntT ScanNode::calc() const {
+IntT AssignNode::calc() const {
+  IntT expr_val = expr_->calc();
   std::shared_ptr<VarNode> vp = std::static_pointer_cast<VarNode>(var_);
-  IntT tmp{};
-  std::cin >> tmp;
-  vp->assign(tmp);
-  return 0;
+  vp->assign(expr_val);
+  return expr_val;
 }
 
 } // namespace ast

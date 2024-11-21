@@ -1,5 +1,4 @@
-#ifndef PARACL_AST_INODE_HH_
-#define PARACL_AST_INODE_HH_
+#pragma once
 
 #include <memory>
 #include <string>
@@ -35,7 +34,6 @@ enum class BinOp {
   kMul,
   kDiv,
   kMod,
-  kAssign,
 
   kIsEq,
   kIsNe,
@@ -50,19 +48,21 @@ enum class UnOp {
   kMinus,
 };
 
-// create concrete nodes
-pINode  makeValue(IntT val);
-pINode  makeUnOp (const pINode& n, UnOp op);
-pINode  makeBinOp(const pINode& left, BinOp op, const pINode& right);
-pINode  makeWhile(const pINode& op, const pINode& sc);
-pINode  makeIf   (const pINode& op, const pINode& sc);
-pINode  makeVar  (const std::string& name);
-pINode  makePrint(const pINode& n);
-pINode  makeScan (const pINode& n);
+/**
+ * Create concrete nodes.
+ */
+pINode  makeValue (IntT val);
+pINode  makeUnOp  (const pINode& n, UnOp op);
+pINode  makeBinOp (const pINode& left, BinOp op, const pINode& right);
+pINode  makeWhile (const pINode& op, const pINode& sc);
+pINode  makeIf    (const pINode& op, const pINode& sc);
+pINode  makeVar   (const std::string& name);
+pINode  makePrint (const pINode& n);
+pINode  makeScan  (const std::string& var_name);
+pINode  makeAssign(const std::string& var_name, const pINode& rhs);
+
 pIScope makeScope(const pIScope& par = nullptr);
 
 extern pIScope current_scope;
 
 } // namespace ast
-
-#endif // PARACL_AST_INODE_HH_

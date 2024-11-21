@@ -1,20 +1,23 @@
-%option yyclass="yy::PLexer"
 %option c++
-
 %option noyywrap
 %option yylineno
+
+%option warn nodefault debug noinput
+%option yyclass="yy::PLexer"
 
 %{
 
 #include "lexer.hh"
 #include "pgrammar.tab.hh"
 
+#define YY_USER_ACTION updateCurrentLocation();
+
 %}
 
 WS            [ \t\n\v]+
 DIGIT         [0-9]
 DIGIT1        [1-9]
-ID            [a-zA-Z][a-zA-Z0-9_]*
+ID            [a-zA-Z_][a-zA-Z0-9_]*
 
 %%
 
@@ -24,6 +27,7 @@ ID            [a-zA-Z][a-zA-Z0-9_]*
 "*"               return yy::parser::token_type::MUL;
 "/"               return yy::parser::token_type::DIV;
 "%"               return yy::parser::token_type::MOD;
+"="               return yy::parser::token_type::ASSIGN;
 
 "=="              return yy::parser::token_type::IS_EQ;
 ">="              return yy::parser::token_type::IS_GE;
@@ -32,9 +36,8 @@ ID            [a-zA-Z][a-zA-Z0-9_]*
 "<="              return yy::parser::token_type::IS_LE;
 "!="              return yy::parser::token_type::IS_NE;
 
-"="               return yy::parser::token_type::ASSIGN;
-
 {DIGIT1}{DIGIT}*  return yy::parser::token_type::NUMBER;
+"0"               return yy::parser::token_type::NUMBER;
 
 "while"           return yy::parser::token_type::WHILE;
 "if"              return yy::parser::token_type::IF;
@@ -50,5 +53,7 @@ ID            [a-zA-Z][a-zA-Z0-9_]*
 ")"               return yy::parser::token_type::RP;
 
 {ID}              return yy::parser::token_type::ID;
+
+.                 return yy::parser::token_type::UNKNOWN;
 
 %%

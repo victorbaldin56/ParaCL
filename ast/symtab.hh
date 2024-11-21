@@ -1,8 +1,7 @@
 /**
  * Symtab implementation.
  */
-#ifndef PARACL_AST_SYMTAB_HH_
-#define PARACL_AST_SYMTAB_HH_
+#pragma once
 
 #include <unordered_map>
 
@@ -15,8 +14,5 @@ struct SymtabItem {
 };
 
 using Symtab = std::unordered_map<std::string, SymtabItem>;
-using SymtabIt = Symtab::iterator;
 
-}
-
-#endif // PARACL_AST_SYMTAB_HH_
+} // namespace ast

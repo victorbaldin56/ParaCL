@@ -5,6 +5,7 @@ add_library(ast_interface INTERFACE)
 target_include_directories(ast_interface INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(ast STATIC
+  concrete/assign_node.cc
   concrete/binop_node.cc
   concrete/if_node.cc
   concrete/print_node.cc
@@ -19,3 +20,7 @@ add_library(ast STATIC
 
 target_compile_features(ast PRIVATE cxx_std_17)
 target_link_libraries(ast ast_interface)
+
+if (${USE_ASAN})
+  target_compile_options(ast PUBLIC "-fsanitize=address,leak,undefined")
+endif()

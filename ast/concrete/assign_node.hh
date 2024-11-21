@@ -1,16 +1,16 @@
 #pragma once
 
 #include "inode.hh"
-#include "var_node.hh"
 
 namespace ast {
 
-class ScanNode : public INode {
+class AssignNode : public INode {
  private:
   pINode var_;
+  pINode expr_;
 
  public:
-  explicit ScanNode(const pINode& stm) noexcept : var_(stm) {}
+  AssignNode(const pINode& var, const pINode& expr) : var_(var), expr_(expr) {}
 
   IntT calc() const override;
 };

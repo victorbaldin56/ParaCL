@@ -1,5 +1,4 @@
-#ifndef PARACL_LEXER_LEXER_HH_
-#define PARACL_LEXER_LEXER_HH_
+#pragma once
 
 #include <cstdlib>
 
@@ -12,15 +11,21 @@
 namespace yy {
 
 class PLexer final : public yyFlexLexer {
+ private:
+  yy::location cur_loc_;
+  int cur_line_;
+
  public:
   PLexer() = default;
-
   PLexer(const PLexer& rhs) = delete;
   PLexer& operator=(const PLexer& rhs) = delete;
 
   int yylex() override;
+
+  const location& getCurrentLocation() const noexcept { return cur_loc_; }
+  void updateCurrentLocation();
+
+  static bool isEmptyLine(const char* line) noexcept;
 };
 
-}
-
-#endif // PARACL_LEXER_LEXER_HH_
+} // namespace yy

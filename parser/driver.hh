@@ -1,5 +1,4 @@
-#ifndef PARACL_DRIVER_DRIVER_HH_
-#define PARACL_DRIVER_DRIVER_HH_
+#pragma once
 
 #include <fstream>
 #include <string>
@@ -18,7 +17,7 @@ class PDriver final {
   std::string input_file_name_;
 
   std::ifstream input_stream_;
-  FlexLexer* plex_;
+  PLexer* plex_;
 
  public:
   PDriver(const std::string& input_file_name);
@@ -40,5 +39,3 @@ class PDriver final {
 };
 
 } // namespace yy
-
-#endif // PARACL_DRIVER_DRIVER_HH_

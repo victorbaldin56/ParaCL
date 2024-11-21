@@ -10,7 +10,7 @@ IntT WhileNode::calc() const {
   while (cond_->calc()) {
     stm_->calc();
   }
-  return 0; // FIXME (?)
+  return 0;
 }
 
 } // namespace ast
