@@ -23,22 +23,15 @@ jobs:
       #
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
         build_type: [Release, Debug]
-        c_compiler: [gcc, cl]
+        cxx_compiler: [g++]
         use_asan: [0, 1]
-        include:
-          - os: windows-latest
-            c_compiler: cl
-            cpp_compiler: cl
-          - os: ubuntu-latest
-            c_compiler: gcc
-            cpp_compiler: g++
         exclude:
-          - os: windows-latest
-            c_compiler: gcc
-          - os: ubuntu-latest
-            c_compiler: cl
+          - build_type: Debug
+            use_asan: 0
+          - build_type: Release
+            use_asan: 1
 
     steps:
     - uses: actions/checkout@v4
@@ -53,23 +46,19 @@ jobs:
     - name: Install required packages
       run: >
 
-    - name: Build
+    - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: >
-        python3 -m venv .venv &&
-        source .venv/bin/activate &&
-        pip3 install conan &&
-        conan profile detect --force &&
-        conan install . --output-folder=build --build=missing &&
         cd build &&
         cmake -B .
-        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
-        -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
+        -DCMAKE_CXX_COMPILER=${{ matrix.cxx_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -DUSE_ASAN=${{ matrix.use_asan }}
-        -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake
-        -S ${{ github.workspace }} &&
+        -S ${{ github.workspace }}
+
+    - name: Build
+      run:
         cmake --build . --config ${{ matrix.build_type }} -j`nproc`
 
     # - name: Test
