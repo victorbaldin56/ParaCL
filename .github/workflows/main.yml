@@ -45,13 +45,14 @@ jobs:
 
     - name: Install required packages
       run: >
+        sudo apt-get -y update &&
+        sudo apt-get -y install libboost-all-dev flex libfl-dev
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: >
-        cd build &&
-        cmake -B .
+        cmake -B build
         -DCMAKE_CXX_COMPILER=${{ matrix.cxx_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -DUSE_ASAN=${{ matrix.use_asan }}
@@ -59,7 +60,7 @@ jobs:
 
     - name: Build
       run:
-        cmake --build . --config ${{ matrix.build_type }} -j`nproc`
+        cmake --build build --config ${{ matrix.build_type }} -j`nproc`
 
     # - name: Test
     #   working-directory: ${{ steps.strings.outputs.build-output-dir }}
