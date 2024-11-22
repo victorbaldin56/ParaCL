@@ -18,10 +18,22 @@ WS            [ \t\n\v]+
 DIGIT         [0-9]
 DIGIT1        [1-9]
 ID            [a-zA-Z_][a-zA-Z0-9_]*
+COMMENT       "//".*"\n"
+%x IN_COMMENT
 
 %%
 
-{WS}              // all whitespace symbols are ignored in ParaCL
+{WS}              /* all whitespace symbols are ignored in ParaCL */
+{COMMENT}         /* skip */
+<INITIAL>{
+"/*"              BEGIN(IN_COMMENT);
+}
+<IN_COMMENT>{
+"*/"              BEGIN(INITIAL);
+[^*\n]+           // eat comment in chunks
+"*"               // eat the lone star
+}
+
 "+"               return yy::parser::token_type::ADD;
 "-"               return yy::parser::token_type::SUB;
 "*"               return yy::parser::token_type::MUL;
