@@ -60,9 +60,12 @@ parser::token_type yylex(parser::semantic_type* yylval,
 
 /* non-trivial operators that require precedence & associativity */
 %right ASSIGN
+%left OR
+%left AND
 %left IS_EQ IS_GE IS_GT IS_LE IS_LT IS_NE
 %left ADD SUB
 %left MUL DIV MOD
+%left NOT
 
 %token<int> NUMBER
 %token<std::string> ID
@@ -132,10 +135,13 @@ expr:        expr ADD   expr                { $$ = ast::makeBinOp($1, ast::BinOp
            | expr IS_LT expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsLt, $3); }
            | expr IS_LE expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsLe, $3); }
            | expr IS_NE expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsNe, $3); }
+           | expr AND   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kAnd , $3); }
+           | expr OR    expr                { $$ = ast::makeBinOp($1, ast::BinOp::kOr  , $3); }
            | expr_un                        { $$ = $1; }
 
 expr_un:     ADD expr_term                  { $$ = ast::makeUnOp($2, ast::UnOp::kPlus); }
            | SUB expr_term                  { $$ = ast::makeUnOp($2, ast::UnOp::kMinus); }
+           | NOT expr_term                  { $$ = ast::makeUnOp($2, ast::UnOp::kNot); }
            | expr_term                      { $$ = $1; }
 
 expr_term:   LP expr RP                     { $$ = $2; }

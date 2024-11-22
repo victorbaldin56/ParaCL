@@ -18,10 +18,24 @@ WS            [ \t\n\v]+
 DIGIT         [0-9]
 DIGIT1        [1-9]
 ID            [a-zA-Z_][a-zA-Z0-9_]*
+COMMENT       "//".*"\n"
+%x IN_COMMENT
+splice                  (\\[[:blank:]]*\n)*
 
 %%
+{WS}              /* all whitespace symbols are ignored in ParaCL */
+{COMMENT}         /* skip */
 
-{WS}              // all whitespace symbols are ignored in ParaCL
+[/]{splice}[*]          BEGIN(IN_COMMENT);
+
+<IN_COMMENT>{
+  [^*\\\n]+             /* eat anything that's not a '*' or line end */
+  "*"+[^*/\\\n]*        /* eat up '*'s not followed by '/'s or line end */
+  [*]{splice}[/]        BEGIN(INITIAL);
+  [*\\]                 /* stray '*' or backslash */
+  \n                    /* Reduce the amount of work needed for yylineno */
+}
+
 "+"               return yy::parser::token_type::ADD;
 "-"               return yy::parser::token_type::SUB;
 "*"               return yy::parser::token_type::MUL;
@@ -35,6 +49,10 @@ ID            [a-zA-Z_][a-zA-Z0-9_]*
 "<"               return yy::parser::token_type::IS_LT;
 "<="              return yy::parser::token_type::IS_LE;
 "!="              return yy::parser::token_type::IS_NE;
+
+"!"               return yy::parser::token_type::NOT;
+"||"              return yy::parser::token_type::OR;
+"&&"              return yy::parser::token_type::AND;
 
 {DIGIT1}{DIGIT}*  return yy::parser::token_type::NUMBER;
 "0"               return yy::parser::token_type::NUMBER;

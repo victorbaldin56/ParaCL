@@ -1,7 +1,11 @@
+/**
+ * Prints fibonacci numbers til the n'th.
+ */
+
 n = 0;
 a = 0;
 b = 1;
-x = ?;
+x = ?; // take x from the standard input
 
 while(n < x) {
   n = n + 1;
@@ -14,7 +18,7 @@ while(n < x) {
 
   if (n > 2) {
     tmp = b;
-    b = a + b;
+    b = a + b; // calculate fibonacci number
     a = tmp;
     print b;
   }

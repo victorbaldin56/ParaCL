@@ -14,6 +14,8 @@ IntT UnOpNode::calc() const {
     return ch_->calc();
   case UnOp::kMinus:
     return -ch_->calc();
+  case UnOp::kNot:
+    return !ch_->calc();
   default:
     assert(0 && "Unhandled UnOp enum value");
   }
