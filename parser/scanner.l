@@ -20,18 +20,20 @@ DIGIT1        [1-9]
 ID            [a-zA-Z_][a-zA-Z0-9_]*
 COMMENT       "//".*"\n"
 %x IN_COMMENT
+splice                  (\\[[:blank:]]*\n)*
 
 %%
-
 {WS}              /* all whitespace symbols are ignored in ParaCL */
 {COMMENT}         /* skip */
-<INITIAL>{
-"/*"              BEGIN(IN_COMMENT);
-}
+
+[/]{splice}[*]          BEGIN(IN_COMMENT);
+
 <IN_COMMENT>{
-"*/"              BEGIN(INITIAL);
-[^*\n]+           // eat comment in chunks
-"*"               // eat the lone star
+  [^*\\\n]+             /* eat anything that's not a '*' or line end */
+  "*"+[^*/\\\n]*        /* eat up '*'s not followed by '/'s or line end */
+  [*]{splice}[/]        BEGIN(INITIAL);
+  [*\\]                 /* stray '*' or backslash */
+  \n                    /* Reduce the amount of work needed for yylineno */
 }
 
 "+"               return yy::parser::token_type::ADD;

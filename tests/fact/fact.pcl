@@ -1,3 +1,7 @@
+/**
+ * Calculates factorial.
+ */
+
 i = 1;
 n = 1;
 x = ?;
@@ -7,4 +11,4 @@ while(i <= x) {
   i = i + 1;
 }
 
-print n;
+print n; // Prints the result.
