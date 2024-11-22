@@ -11,25 +11,25 @@ pINode makeBinOp(const pINode& left, BinOp op, const pINode& right) {
 IntT BinOpNode::calc() const {
   switch (op_) {
   case BinOp::kAdd:
-    return left_->calc() + right_->calc();
+    return left_->calc() +  right_->calc();
   case BinOp::kSub:
-    return left_->calc() - right_->calc();
+    return left_->calc() -  right_->calc();
   case BinOp::kMul:
-    return left_->calc() * right_->calc();
+    return left_->calc() *  right_->calc();
   case BinOp::kDiv:
-    return left_->calc() / right_->calc();
+    return left_->calc() /  right_->calc();
   case BinOp::kMod:
-    return left_->calc() % right_->calc();
+    return left_->calc() %  right_->calc();
   case BinOp::kIsEq:
     return left_->calc() == right_->calc();
   case BinOp::kIsNe:
     return left_->calc() != right_->calc();
   case BinOp::kIsGt:
-    return left_->calc() > right_->calc();
+    return left_->calc() >  right_->calc();
   case BinOp::kIsGe:
     return left_->calc() >= right_->calc();
   case BinOp::kIsLt:
-    return left_->calc() < right_->calc();
+    return left_->calc() <  right_->calc();
   case BinOp::kIsLe:
     return left_->calc() <= right_->calc();
   case BinOp::kAnd:
