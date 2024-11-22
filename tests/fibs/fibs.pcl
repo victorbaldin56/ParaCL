@@ -1,3 +1,6 @@
+// Prints fibonacci numbers til the n'th.
+// This is single-line comment.
+
 n = 0;
 a = 0;
 b = 1;
@@ -14,7 +17,7 @@ while(n < x) {
 
   if (n > 2) {
     tmp = b;
-    b = a + b;
+    b = a + b; // calculate fibonacci number
     a = tmp;
     print b;
   }
