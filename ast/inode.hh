@@ -41,11 +41,15 @@ enum class BinOp {
   kIsLe,
   kIsGt,
   kIsGe,
+
+  kAnd,
+  kOr,
 };
 
 enum class UnOp {
   kPlus,
   kMinus,
+  kNot,
 };
 
 /**

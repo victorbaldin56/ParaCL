@@ -36,6 +36,10 @@ ID            [a-zA-Z_][a-zA-Z0-9_]*
 "<="              return yy::parser::token_type::IS_LE;
 "!="              return yy::parser::token_type::IS_NE;
 
+"!"               return yy::parser::token_type::NOT;
+"||"              return yy::parser::token_type::OR;
+"&&"              return yy::parser::token_type::AND;
+
 {DIGIT1}{DIGIT}*  return yy::parser::token_type::NUMBER;
 "0"               return yy::parser::token_type::NUMBER;
 

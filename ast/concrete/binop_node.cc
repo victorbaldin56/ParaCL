@@ -32,6 +32,10 @@ IntT BinOpNode::calc() const {
     return left_->calc() < right_->calc();
   case BinOp::kIsLe:
     return left_->calc() <= right_->calc();
+  case BinOp::kAnd:
+    return left_->calc() && right_->calc();
+  case BinOp::kOr:
+    return left_->calc() || right_->calc();
   default:
     assert(0 && "Unhandled BinOp value");
   }
