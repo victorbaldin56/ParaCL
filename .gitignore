@@ -2,6 +2,10 @@
 build/*
 release/*
 
+# Python
+__pycache__/
+.venv/
+
 # Objects / executables / libraries
 *.out
 *.o
@@ -13,3 +17,6 @@ release/*
 
 # Generated tests / data
 *.dat
+
+# Conan
+CMakeUserPresets.json
