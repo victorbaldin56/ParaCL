@@ -53,12 +53,6 @@ class PDriver final {
     return res;
   }
 
-  /**
-   * Interface for parser used in cases which can be considered as a syntax
-   * error using only grammar.
-   */
-  void reportSyntaxError(const parser::context& ctx) const;
-
  private:
   /**
    * Handles exceptions which cannot be handled by parser itself, thus is an

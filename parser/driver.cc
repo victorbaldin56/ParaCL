@@ -43,11 +43,6 @@ void PDriver::handleParserError(const parser& parser,
   parser::symbol_type sym(parser::token_type::UNKNOWN_ID,
                           plex_->getCurrentLocation());
   parser::context ctx(parser, sym);
-  reportSyntaxError(ctx);
-}
-
-void PDriver::reportSyntaxError(const parser::context& ctx) const {
-  std::cerr << ctx.location() << ": syntax error";
 }
 
 } // namespace yy
