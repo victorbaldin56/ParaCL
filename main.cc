@@ -45,6 +45,9 @@ int main(int argc, char** argv) {
   } catch (po::error& ex) {
     std::cerr << ex.what() << "\n";
     return EXIT_FAILURE;
+  } catch (std::runtime_error& ex) {
+    std::cerr << ex.what() << "\n";
+    return EXIT_FAILURE;
   }
 
   return 0;

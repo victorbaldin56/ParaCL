@@ -39,7 +39,7 @@ parser::token_type PDriver::yylex(parser::semantic_type* yylval,
 }
 
 void PDriver::reportSyntaxError(const parser::context& ctx) const {
-
+  std::cerr << ctx.location() << ": syntax error";
 }
 
 } // namespace yy
