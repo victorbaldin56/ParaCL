@@ -23,6 +23,7 @@ COMMENT       "//".*"\n"
 splice                  (\\[[:blank:]]*\n)*
 
 %%
+
 {WS}              /* all whitespace symbols are ignored in ParaCL */
 {COMMENT}         /* skip */
 

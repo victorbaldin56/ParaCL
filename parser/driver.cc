@@ -38,4 +38,8 @@ parser::token_type PDriver::yylex(parser::semantic_type* yylval,
   return tt;
 }
 
+void PDriver::reportSyntaxError(const parser::context& ctx) const {
+
+}
+
 } // namespace yy

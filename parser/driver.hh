@@ -43,6 +43,8 @@ class PDriver final {
     parser parser(this);
     return !parser.parse();
   }
+
+  void reportSyntaxError(const parser::context& ctx) const;
 };
 
 } // namespace yy

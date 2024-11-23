@@ -8,7 +8,7 @@
 %define parse.lac full
 
 %define api.value.type variant
-//%define parse.error custom
+%define parse.error custom
 
 %code requires
 {
@@ -171,6 +171,10 @@ parser::token_type yylex(parser::semantic_type* yylval,
 void parser::error(const parser::location_type& location,
                    const std::string& e) {
   std::cerr << e << " in: " << location << "\n";
+}
+
+void parser::report_syntax_error(const parser::context& ctx) const {
+  driver->reportSyntaxError(ctx);
 }
 
 }
