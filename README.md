@@ -11,7 +11,7 @@ To build you need the following installed:
 * Bison
 
 ## Examples
-ParaCL syntax is quite similar to C. Examples can be found in `examples` directory.
+ParaCL syntax is quite similar to C. Examples can be found in `tests` directory.
 
 ## Build
 To build:
@@ -38,4 +38,10 @@ cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
 6. Build:
 ```sh
 cmake --build . -j`nproc`
+```
+
+## Docs
+To generate docs, you need Doxygen. Once you have it installed, just run:
+```sh
+doxygen
 ```
