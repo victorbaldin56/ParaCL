@@ -1,3 +1,7 @@
+/**
+ * @file
+ * Driver interface.
+ */
 #pragma once
 
 #include <fstream>
@@ -12,6 +16,9 @@
 
 namespace yy {
 
+/**
+ * Provides interface for Bison parser to communicate with lexer.
+ */
 class PDriver final {
  private:
   std::string input_file_name_;

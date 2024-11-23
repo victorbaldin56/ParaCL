@@ -1,3 +1,7 @@
+/**
+ * @file
+ * Lexer interface.
+ */
 #pragma once
 
 #include <cstdlib>
@@ -10,6 +14,9 @@
 
 namespace yy {
 
+/**
+ * Overrides some FlexLexer methods and adds custom ones.
+ */
 class PLexer final : public yyFlexLexer {
  private:
   yy::location cur_loc_;
