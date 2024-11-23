@@ -1,3 +1,7 @@
+/**
+ * @file
+ * Contains classes that introduce virtual AST interface.
+ */
 #pragma once
 
 #include <memory>
@@ -6,9 +10,14 @@
 namespace ast {
 
 /**
- * Built-in numeric types in ParaCL
+ * @defgroup ParaCLTypes Basic types in ParaCL
+ * @{
  */
+
+/** just `int` */
 using IntT = int;
+
+/** @} */
 
 class INode;
 class IScope;
@@ -16,18 +25,27 @@ class IScope;
 using pINode = std::shared_ptr<INode>;
 using pIScope = std::shared_ptr<IScope>;
 
+/**
+ * Generalized Node of AST.
+ */
 class INode {
  public:
   virtual IntT calc() const = 0;
   virtual ~INode() {}
 };
 
+/**
+ * Scope interface, is also Node.
+ */
 class IScope : public INode {
  public:
   virtual void push(const pINode& node) = 0;
   virtual pIScope parentScope() const = 0;
 };
 
+/**
+ * Binary operations.
+ */
 enum class BinOp {
   kAdd,
   kSub,
@@ -46,6 +64,9 @@ enum class BinOp {
   kOr,
 };
 
+/**
+ * Unary operations.
+ */
 enum class UnOp {
   kPlus,
   kMinus,
@@ -53,8 +74,11 @@ enum class UnOp {
 };
 
 /**
- * Create concrete nodes.
+ * @defgroup NodeCreators
+ * Allocate concrete nodes and return pointer.
+ * @{
  */
+
 pINode  makeValue (IntT val);
 pINode  makeUnOp  (const pINode& n, UnOp op);
 pINode  makeBinOp (const pINode& left, BinOp op, const pINode& right);
@@ -66,6 +90,8 @@ pINode  makeScan  (const std::string& var_name);
 pINode  makeAssign(const std::string& var_name, const pINode& rhs);
 
 pIScope makeScope(const pIScope& par = nullptr);
+
+/** @} */
 
 extern pIScope current_scope;
 
