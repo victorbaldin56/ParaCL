@@ -48,18 +48,15 @@ class PDriver final {
     try {
       res = !parser.parse();
     } catch (std::runtime_error& ex) {
-      handleParserError(parser, ex);
+      handleAstError(parser, ex);
     }
     return res;
   }
 
  private:
-  /**
-   * Handles exceptions which cannot be handled by parser itself, thus is an
-   * implementation detail.
-   */
-  void handleParserError(const parser& parser,
-                         const std::runtime_error& ex) const;
+  /** Handles exceptions from AST construction stage. */
+  void handleAstError(const parser& parser,
+                      const std::runtime_error& ex) const;
 };
 
 } // namespace yy

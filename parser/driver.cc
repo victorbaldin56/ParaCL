@@ -38,8 +38,8 @@ parser::token_type PDriver::yylex(parser::semantic_type* yylval,
   return tt;
 }
 
-void PDriver::handleParserError(const parser& parser,
-                                const std::runtime_error& ex) const {
+void PDriver::handleAstError(const parser& parser,
+                             const std::runtime_error& ex) const {
   parser::symbol_type sym(parser::token_type::UNKNOWN_ID,
                           plex_->getCurrentLocation());
   parser::context ctx(parser, sym);
