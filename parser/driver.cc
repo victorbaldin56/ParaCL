@@ -38,6 +38,12 @@ parser::token_type PDriver::yylex(parser::semantic_type* yylval,
   return tt;
 }
 
+void PDriver::handleParserError(const parser& parser,
+                                const std::runtime_error& ex) const {
+  parser::context ctx(parser, parser::symbol_type());
+  reportSyntaxError(ctx);
+}
+
 void PDriver::reportSyntaxError(const parser::context& ctx) const {
   std::cerr << ctx.location() << ": syntax error";
 }
