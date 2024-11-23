@@ -7,12 +7,14 @@ To build you need the following installed:
 * CMake
 * Any C++ compiler supported by CMake
 * Boost
+* Flex
+* Bison
 
 ## Examples
 ParaCL syntax is quite similar to C. Examples can be found in `examples` directory.
 
 ## Build
-TO build:
+To build:
 1. Clone repo:
 ```sh
 git clone --recursive https://github.com/victorbaldin56/ParaCL.git
@@ -35,5 +37,5 @@ cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
 ```
 6. Build:
 ```sh
-cmake --build .
+cmake --build . -j`nproc`
 ```
