@@ -57,6 +57,7 @@ parser::token_type yylex(parser::semantic_type* yylval,
   LP
   RP
   UNKNOWN
+  UNKNOWN_ID
 
 /* non-trivial operators that require precedence & associativity */
 %right ASSIGN

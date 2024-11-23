@@ -40,7 +40,9 @@ parser::token_type PDriver::yylex(parser::semantic_type* yylval,
 
 void PDriver::handleParserError(const parser& parser,
                                 const std::runtime_error& ex) const {
-  parser::context ctx(parser, parser::symbol_type());
+  parser::symbol_type sym(parser::token_type::UNKNOWN_ID,
+                          plex_->getCurrentLocation());
+  parser::context ctx(parser, sym);
   reportSyntaxError(ctx);
 }
 

@@ -41,15 +41,16 @@ class PDriver final {
   parser::token_type yylex(parser::semantic_type* yylval,
                            parser::location_type* yylloc);
 
+  /** Invokes Bison parser. */
   bool parse() {
     parser parser(this);
-    bool res;
+    bool res = false;
     try {
-      res = parser.parse();
+      res = !parser.parse();
     } catch (std::runtime_error& ex) {
       handleParserError(parser, ex);
     }
-    return !res;
+    return res;
   }
 
   /**
