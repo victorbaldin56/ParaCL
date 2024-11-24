@@ -30,7 +30,7 @@ class PLexer final : public yyFlexLexer {
   int yylex() override;
 
   const location& getCurrentLocation() const noexcept { return cur_loc_; }
-  void updateCurrentLocation();
+  void updateCurrentLocation() noexcept;
 
   static bool isEmptyLine(const char* line) noexcept;
 };

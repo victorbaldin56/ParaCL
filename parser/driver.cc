@@ -45,6 +45,22 @@ parser::token_type PDriver::yylex(parser::semantic_type* yylval,
   return tt;
 }
 
+void PDriver::printErroneousLine(const location& loc) const {
+  int line_num = loc.begin.line;
+  std::cerr << std::right << std::setw(9) << line_num;
+  std::cerr << " | " << lines_of_code_[line_num - 1] << '\n';
+  std::cerr << "          | ";
+
+  for (int i = 0; i < loc.begin.column - 1; ++i) {
+    std::cerr << ' '; // padding
+  }
+  std::cerr << '^'; // 'pointer' to the error
+  for (int i = 0; i < loc.end.column - loc.begin.column; ++i) {
+    std::cerr << "~"; // to underline an error
+  }
+  std::cerr << '\n';
+}
+
 void PDriver::reportAstError(const parser& parser,
                              const std::runtime_error& ex) const {
   // AST error currently can mean only symtab-related things.

@@ -5,6 +5,7 @@
 #pragma once
 
 #include <fstream>
+#include <iomanip>
 #include <string>
 
 #ifndef yyFlexLexer
@@ -55,15 +56,10 @@ class PDriver final {
   }
 
   void reportErrorAtLocation(const location& loc) const {
-    std::cerr << loc << ": error: ";
+    std::cerr << input_file_name_ << ':' << loc << ": error: ";
   }
 
-  void printErroneousLine(const location& loc) const {
-    int line_num = loc.begin.line;
-    std::cerr << "  " << line_num << " | " << lines_of_code_[line_num - 1]
-              << '\n';
-    // TODO: внизу написать указатель на конкретную позицию в строке где ошибка
-  }
+  void printErroneousLine(const location& loc) const;
 
  private:
   /** Handles exceptions from AST construction stage. */

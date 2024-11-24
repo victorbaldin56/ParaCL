@@ -2,7 +2,7 @@
 
 namespace yy {
 
-void PLexer::updateCurrentLocation() {
+void PLexer::updateCurrentLocation() noexcept {
   int cur_line = lineno();
 
   int prev_end = cur_loc_.end.column;
