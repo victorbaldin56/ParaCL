@@ -73,7 +73,6 @@ parser::token_type yylex(parser::semantic_type* yylval,
 
 %nterm<ast::pINode>
   stm
-  stms
   if
   while
   print
@@ -84,6 +83,7 @@ parser::token_type yylex(parser::semantic_type* yylval,
   expr_term
 
 %nterm<ast::pIScope>
+  stms
   scope
   br_stm
   op_br_stm

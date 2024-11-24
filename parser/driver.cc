@@ -56,7 +56,7 @@ void PDriver::printErroneousLine(const location& loc) const {
   }
   std::cerr << '^'; // 'pointer' to the error
   for (int i = 0; i < loc.end.column - loc.begin.column; ++i) {
-    std::cerr << "~"; // to underline an error
+    std::cerr << '~'; // to underline an error
   }
   std::cerr << '\n';
 }
