@@ -54,11 +54,13 @@ void PDriver::printErroneousLine(const location& loc) const {
   for (int i = 0; i < loc.begin.column - 1; ++i) {
     std::cerr << ' '; // padding
   }
+
+  std::cerr << ctty::setAttr(ctty::Attribute::kBold, ctty::Color::kRed);
   std::cerr << '^'; // 'pointer' to the error
   for (int i = 0; i < loc.end.column - loc.begin.column - 1; ++i) {
     std::cerr << '~'; // to underline an error
   }
-  std::cerr << '\n';
+  std::cerr << ctty::resetAttr() << '\n';
 }
 
 void PDriver::reportAstError(const parser& parser,
