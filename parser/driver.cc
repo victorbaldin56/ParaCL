@@ -5,7 +5,7 @@
 namespace yy {
 
 PDriver::PDriver(const std::string& input_file_name)
-    : input_file_name_(input_file_name), plex_(new PLexer) {
+    : input_file_name_(input_file_name) {
   input_stream_.open(input_file_name, std::ios_base::in);
 
   if (!input_stream_.is_open()) {
@@ -20,13 +20,13 @@ PDriver::PDriver(const std::string& input_file_name)
   }
   input_stream_.clear();
   input_stream_.seekg(std::ios::beg);
-  plex_->switch_streams(input_stream_, std::cout);
+  plex_.switch_streams(input_stream_, std::cout);
 }
 
 parser::token_type PDriver::yylex(parser::semantic_type* yylval,
                                   parser::location_type* yylloc) {
-  parser::token_type tt = static_cast<parser::token_type>(plex_->yylex());
-  const char* cur_text = plex_->YYText();
+  parser::token_type tt = static_cast<parser::token_type>(plex_.yylex());
+  const char* cur_text = plex_.YYText();
 
   switch (tt) {
   case parser::token_type::NUMBER:
@@ -41,7 +41,7 @@ parser::token_type PDriver::yylex(parser::semantic_type* yylval,
   default:
     break;
   }
-  *yylloc = plex_->getCurrentLocation();
+  *yylloc = plex_.getCurrentLocation();
   return tt;
 }
 
@@ -64,7 +64,7 @@ void PDriver::printErroneousLine(const location& loc) const {
 void PDriver::reportAstError(const parser& parser,
                              const std::runtime_error& ex) const {
   // AST error currently can mean only symtab-related things.
-  const location& loc = plex_->getCurrentLocation();
+  const location& loc = plex_.getCurrentLocation();
   reportErrorAtLocation(loc);
 
   std::cerr << ex.what() << '\n';

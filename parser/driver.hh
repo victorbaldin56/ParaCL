@@ -24,20 +24,11 @@ class PDriver final {
  private:
   std::string input_file_name_;
   std::ifstream input_stream_;
-  std::unique_ptr<PLexer> plex_;
+  PLexer plex_;
   std::vector<std::string> lines_of_code_; ///< for verbose error reporting
 
  public:
   PDriver(const std::string& input_file_name);
-
-  /** Non-copyable. */
-  PDriver(const PDriver& rhs) = delete;
-
-  /** Non-copyable. */
-  PDriver operator=(const PDriver& rhs) = delete;
-
-  PDriver(PDriver&& rhs) = default;
-  PDriver& operator=(PDriver&& rhs) = default;
 
   /** The way for parser to call lexer. */
   parser::token_type yylex(parser::semantic_type* yylval,

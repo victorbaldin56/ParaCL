@@ -24,9 +24,6 @@ class PLexer final : public yyFlexLexer {
 
  public:
   PLexer() = default;
-  PLexer(const PLexer& rhs) = delete;
-  PLexer& operator=(const PLexer& rhs) = delete;
-
   int yylex() override;
 
   const location& getCurrentLocation() const noexcept { return cur_loc_; }
