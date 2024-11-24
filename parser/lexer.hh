@@ -20,7 +20,6 @@ namespace yy {
 class PLexer final : public yyFlexLexer {
  private:
   yy::location cur_loc_;
-  int cur_line_;
 
  public:
   PLexer() = default;
@@ -31,7 +30,7 @@ class PLexer final : public yyFlexLexer {
 
   static bool isEmptyLine(const char* line) noexcept {
     char s = *line;
-    return std::isspace(s) && std::iscntrl(s);
+    return s == '\n';
   }
 };
 

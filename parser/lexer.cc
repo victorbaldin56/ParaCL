@@ -14,7 +14,6 @@ void PLexer::updateCurrentLocation() noexcept {
     cur_loc_.begin.column = prev_end_col;
     cur_loc_.end.column = cur_loc_.begin.column + yyleng;
   }
-  cur_line_ = cur_line;
 }
 
 } // namespace yy
