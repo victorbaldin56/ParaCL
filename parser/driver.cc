@@ -13,6 +13,13 @@ PDriver::PDriver(const std::string& input_file_name)
     throw std::runtime_error(what);
   }
 
+  while (!input_stream_.eof()) {
+    std::string tmp;
+    std::getline(input_stream_, tmp);
+    lines_of_code_.push_back(tmp);
+  }
+  input_stream_.clear();
+  input_stream_.seekg(std::ios::beg);
   plex_->switch_streams(input_stream_, std::cout);
 }
 
@@ -41,10 +48,7 @@ parser::token_type PDriver::yylex(parser::semantic_type* yylval,
 void PDriver::reportAstError(const parser& parser,
                              const std::runtime_error& ex) const {
   // AST error currently can mean only symtab-related things.
-  parser::symbol_type sym(parser::token_type::UNKNOWN_ID,
-                          plex_->getCurrentLocation());
-  parser::context ctx(parser, sym);
-  const location& loc = ctx.location();
+  const location& loc = plex_->getCurrentLocation();
   reportErrorAtLocation(loc);
 
   std::cerr << ex.what() << '\n';

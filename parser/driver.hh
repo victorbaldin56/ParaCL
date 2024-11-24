@@ -24,7 +24,7 @@ class PDriver final {
   std::string input_file_name_;
   std::ifstream input_stream_;
   std::unique_ptr<PLexer> plex_;
-  std::vector<std::string> code_lines_; ///< for verbose error reporting
+  std::vector<std::string> lines_of_code_; ///< for verbose error reporting
 
  public:
   PDriver(const std::string& input_file_name);
@@ -60,7 +60,7 @@ class PDriver final {
 
   void printErroneousLine(const location& loc) const {
     int line_num = loc.begin.line;
-    std::cerr << "  " << line_num << code_lines_[line_num] << '\n';
+    std::cerr << "  " << line_num << " | " << lines_of_code_[line_num] << '\n';
     // TODO: внизу написать указатель на конкретную позицию в строке где ошибка
   }
 
