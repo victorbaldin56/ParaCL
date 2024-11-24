@@ -59,6 +59,7 @@ class PDriver final {
     std::cerr << input_file_name_ << ':' << loc << ": error: ";
   }
 
+  /** Prints the line in which an error occurred with a pointer to error. */
   void printErroneousLine(const location& loc) const;
 
  private:

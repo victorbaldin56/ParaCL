@@ -32,7 +32,10 @@ class PLexer final : public yyFlexLexer {
   const location& getCurrentLocation() const noexcept { return cur_loc_; }
   void updateCurrentLocation() noexcept;
 
-  static bool isEmptyLine(const char* line) noexcept;
+  static bool isEmptyLine(const char* line) noexcept {
+    char s = *line;
+    return std::isspace(s) && std::iscntrl(s);
+  }
 };
 
 } // namespace yy
