@@ -175,12 +175,13 @@ void parser::error(const parser::location_type& location,
 }
 
 void parser::report_syntax_error(const parser::context& ctx) const {
-  std::cerr << ctx.location() << ": syntax error";
+  const location& loc = ctx.location;
+  driver->reportErrorAtLocation(loc);
 
   symbol_kind_type expected[symbol_kind_type::YYNTOKENS]{};
   int n = ctx.expected_tokens(expected, symbol_kind::YYNTOKENS);
   for (int i = 0; i < n; ++i) {
-    std::cerr << ((i == 0) ? ": expected " : " or") << symbol_name(expected[i]);
+    std::cerr << ((i == 0) ? "expected " : " or") << symbol_name(expected[i]);
   }
 
   symbol_kind_type lookahead = ctx.token();
@@ -188,6 +189,7 @@ void parser::report_syntax_error(const parser::context& ctx) const {
     std::cerr << " before " << symbol_name(lookahead);
   }
   std::cerr << '\n';
+  driver->printErroneousLine(loc);
 }
 
 }

@@ -22,9 +22,9 @@ namespace yy {
 class PDriver final {
  private:
   std::string input_file_name_;
-
   std::ifstream input_stream_;
-  PLexer* plex_;
+  std::unique_ptr<PLexer> plex_;
+  std::vector<std::string> code_lines_; ///< for verbose error reporting
 
  public:
   PDriver(const std::string& input_file_name);
@@ -35,7 +35,8 @@ class PDriver final {
   /** Non-copyable. */
   PDriver operator=(const PDriver& rhs) = delete;
 
-  ~PDriver() { delete plex_; }
+  PDriver(PDriver&& rhs) = default;
+  PDriver& operator=(PDriver&& rhs) = default;
 
   /** The way for parser to call lexer. */
   parser::token_type yylex(parser::semantic_type* yylval,
@@ -48,14 +49,24 @@ class PDriver final {
     try {
       res = !parser.parse();
     } catch (std::runtime_error& ex) {
-      handleAstError(parser, ex);
+      reportAstError(parser, ex);
     }
     return res;
   }
 
+  void reportErrorAtLocation(const location& loc) const {
+    std::cerr << loc << ": error: ";
+  }
+
+  void printErroneousLine(const location& loc) const {
+    int line_num = loc.begin.line;
+    std::cerr << "  " << line_num << code_lines_[line_num] << '\n';
+    // TODO: внизу написать указатель на конкретную позицию в строке где ошибка
+  }
+
  private:
   /** Handles exceptions from AST construction stage. */
-  void handleAstError(const parser& parser,
+  void reportAstError(const parser& parser,
                       const std::runtime_error& ex) const;
 };
 

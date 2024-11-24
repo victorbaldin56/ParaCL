@@ -38,11 +38,17 @@ parser::token_type PDriver::yylex(parser::semantic_type* yylval,
   return tt;
 }
 
-void PDriver::handleAstError(const parser& parser,
+void PDriver::reportAstError(const parser& parser,
                              const std::runtime_error& ex) const {
+  // AST error currently can mean only symtab-related things.
   parser::symbol_type sym(parser::token_type::UNKNOWN_ID,
                           plex_->getCurrentLocation());
   parser::context ctx(parser, sym);
+  const location& loc = ctx.location();
+  reportErrorAtLocation(loc);
+
+  std::cerr << ex.what() << '\n';
+  printErroneousLine(loc);
 }
 
 } // namespace yy
