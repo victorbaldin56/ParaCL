@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
 
       ast::current_scope->calc();
     }
-  } catch (po::error& ex) {
+  } catch (std::runtime_error& ex) {
     std::cerr << ex.what() << "\n";
     return EXIT_FAILURE;
   }

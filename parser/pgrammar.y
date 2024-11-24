@@ -8,7 +8,7 @@
 %define parse.lac full
 
 %define api.value.type variant
-//%define parse.error custom
+%define parse.error custom
 
 %code requires
 {
@@ -57,6 +57,7 @@ parser::token_type yylex(parser::semantic_type* yylval,
   LP
   RP
   UNKNOWN
+  UNKNOWN_ID
 
 /* non-trivial operators that require precedence & associativity */
 %right ASSIGN
@@ -72,7 +73,6 @@ parser::token_type yylex(parser::semantic_type* yylval,
 
 %nterm<ast::pINode>
   stm
-  stms
   if
   while
   print
@@ -83,6 +83,7 @@ parser::token_type yylex(parser::semantic_type* yylval,
   expr_term
 
 %nterm<ast::pIScope>
+  stms
   scope
   br_stm
   op_br_stm
@@ -171,6 +172,24 @@ parser::token_type yylex(parser::semantic_type* yylval,
 void parser::error(const parser::location_type& location,
                    const std::string& e) {
   std::cerr << e << " in: " << location << "\n";
+}
+
+void parser::report_syntax_error(const parser::context& ctx) const {
+  const location& loc = ctx.location();
+  driver->reportErrorAtLocation(loc);
+
+  symbol_kind_type expected[symbol_kind_type::YYNTOKENS]{};
+  int n = ctx.expected_tokens(expected, symbol_kind::YYNTOKENS);
+  for (int i = 0; i < n; ++i) {
+    std::cerr << ((i == 0) ? "expected " : " or ") << symbol_name(expected[i]);
+  }
+
+  symbol_kind_type lookahead = ctx.token();
+  if (lookahead != symbol_kind::S_YYEMPTY) {
+    std::cerr << " before " << symbol_name(lookahead);
+  }
+  std::cerr << '\n';
+  driver->printErroneousLine(loc);
 }
 
 }

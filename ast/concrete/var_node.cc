@@ -12,7 +12,7 @@ pINode makeVar(const std::string& name) {
   Scope::ItNBool it_n_bool = scope->getSymbol(name);
 
   if (!it_n_bool.second) {
-    std::string what = "Undefined variable '" + name + "'";
+    std::string what = "'" + name + "'" + " was not declared in this scope";
     throw std::runtime_error(what);
   }
 
