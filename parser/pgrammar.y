@@ -175,7 +175,7 @@ void parser::error(const parser::location_type& location,
 }
 
 void parser::report_syntax_error(const parser::context& ctx) const {
-  const location& loc = ctx.location;
+  const location& loc = ctx.location();
   driver->reportErrorAtLocation(loc);
 
   symbol_kind_type expected[symbol_kind_type::YYNTOKENS]{};
