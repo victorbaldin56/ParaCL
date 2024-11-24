@@ -1,0 +1,3 @@
+[submodule "YAColorTTY"]
+	path = YAColorTTY
+	url = git@github.com:victorbaldin56/YAColorTTY.git
