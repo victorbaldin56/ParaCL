@@ -7,7 +7,7 @@
 #include <iterator>
 #include <string>
 
-const std::string TEST_DIR = std::string(TEST_DATA_DIR);
+const std::string TEST_DIR = std::string(TEST_DATA_DIR) + "/";
 
 template <typename Stream1, typename Stream2>
 void close_files(Stream1 &file1, Stream2 &file2) {
