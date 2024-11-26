@@ -16,7 +16,7 @@ PDriver::PDriver(const std::string& input_file_name)
   while (!input_stream_.eof()) {
     std::string tmp;
     std::getline(input_stream_, tmp);
-    lines_of_code_.push_back(tmp);
+    lines_of_code_.push_back(std::move(tmp));
   }
   input_stream_.clear();
   input_stream_.seekg(std::ios::beg);
