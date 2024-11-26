@@ -2,11 +2,10 @@ add_executable(test test.cpp)
 enable_testing()
 include(GoogleTest)
 
-target_link_libraries(test
-  parser
-  ast
-  gtest gmock
-)
+set(TEST_DATA_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_compile_definitions(test PUBLIC TEST_DATA_DIR="${TEST_DATA_DIR}")
+target_link_libraries(test parser ast gtest gmock)
 
 gtest_discover_tests(test)
 

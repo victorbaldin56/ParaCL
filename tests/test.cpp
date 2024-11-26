@@ -7,6 +7,8 @@
 #include <iterator>
 #include <string>
 
+const std::string TEST_DIR = std::string(TEST_DATA_DIR);
+
 template <typename Stream1, typename Stream2>
 void close_files(Stream1 &file1, Stream2 &file2) {
   file1.close();
@@ -43,8 +45,7 @@ bool compare_files(const std::string &file1, const std::string &file2) {
 
 bool test(const std::string &pcl_file, const std::string &in_file,
           const std::string &out_file) {
-
-  std::ifstream in(in_file);
+  std::ifstream in(TEST_DIR + in_file);
   std::streambuf *cinbuf = std::cin.rdbuf();
   std::cin.rdbuf(in.rdbuf());
 
@@ -52,7 +53,7 @@ bool test(const std::string &pcl_file, const std::string &in_file,
   std::streambuf *coutbuf = std::cout.rdbuf();
   std::cout.rdbuf(out.rdbuf());
 
-  yy::PDriver driver(pcl_file);
+  yy::PDriver driver(TEST_DIR + pcl_file);
   ast::current_scope = ast::makeScope();
 
   if (!driver.parse()) {
@@ -66,51 +67,39 @@ bool test(const std::string &pcl_file, const std::string &in_file,
 
   close_files(in, out);
 
-  return compare_files("buf.txt", out_file);
+  return compare_files("buf.txt", TEST_DIR + out_file);
 }
 
 TEST(is_prime, test1) {
-  ASSERT_TRUE(test("../../tests/is_prime/is_prime.pcl",
-                   "../../tests/is_prime/is_prime1.in",
-                   "../../tests/is_prime/is_prime1.out"));
+  ASSERT_TRUE(test("/is_prime/is_prime.pcl", "/is_prime/is_prime1.in",
+                   "/is_prime/is_prime1.out"));
 }
 
 TEST(is_prime, test2) {
-  ASSERT_TRUE(test("../../tests/is_prime/is_prime.pcl",
-                   "../../tests/is_prime/is_prime2.in",
-                   "../../tests/is_prime/is_prime2.out"));
+  ASSERT_TRUE(test("/is_prime/is_prime.pcl", "/is_prime/is_prime2.in",
+                   "/is_prime/is_prime2.out"));
 }
 
 TEST(other, test1) {
-  ASSERT_TRUE(test("../../tests/other/other.pcl",
-                   "../../tests/other/other.in",
-                   "../../tests/other/other.out"));
+  ASSERT_TRUE(test("/other/other.pcl", "/other/other.in", "/other/other.out"));
 }
 
 TEST(fibs, test1) {
-  ASSERT_TRUE(test("../../tests/fibs/fibs.pcl",
-                   "../../tests/fibs/fibs1.in",
-                   "../../tests/fibs/fibs1.out"));
+  ASSERT_TRUE(test("/fibs/fibs.pcl", "/fibs/fibs1.in", "/fibs/fibs1.out"));
 }
 
 TEST(fibs, test2) {
-  ASSERT_TRUE(test("../../tests/fibs/fibs.pcl",
-                   "../../tests/fibs/fibs2.in",
-                   "../../tests/fibs/fibs2.out"));
+  ASSERT_TRUE(test("/fibs/fibs.pcl", "/fibs/fibs2.in", "/fibs/fibs2.out"));
 }
 
 TEST(fact, test1) {
-  ASSERT_TRUE(test("../../tests/fact/fact.pcl",
-                   "../../tests/fact/fact1.in",
-                   "../../tests/fact/fact1.out"));
+  ASSERT_TRUE(test("/fact/fact.pcl", "/fact/fact1.in", "/fact/fact1.out"));
 }
 
 TEST(braces, test1) {
-  ASSERT_TRUE(test("../../tests/braces/braces.pcl",
-                   "../../tests/braces/braces1.in",
-                   "../../tests/braces/braces1.out"));
+  ASSERT_TRUE(
+      test("/braces/braces.pcl", "/braces/braces1.in", "/braces/braces1.out"));
 }
-
 
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleMock(&argc, argv);
