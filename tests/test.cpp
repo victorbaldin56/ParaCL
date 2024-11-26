@@ -71,34 +71,34 @@ bool test(const std::string &pcl_file, const std::string &in_file,
 }
 
 TEST(is_prime, test1) {
-  ASSERT_TRUE(test("/is_prime/is_prime.pcl", "/is_prime/is_prime1.in",
-                   "/is_prime/is_prime1.out"));
+  ASSERT_TRUE(test("is_prime/is_prime.pcl", "is_prime/is_prime1.in",
+                   "is_prime/is_prime1.out"));
 }
 
 TEST(is_prime, test2) {
-  ASSERT_TRUE(test("/is_prime/is_prime.pcl", "/is_prime/is_prime2.in",
-                   "/is_prime/is_prime2.out"));
+  ASSERT_TRUE(test("is_prime/is_prime.pcl", "is_prime/is_prime2.in",
+                   "is_prime/is_prime2.out"));
 }
 
 TEST(other, test1) {
-  ASSERT_TRUE(test("/other/other.pcl", "/other/other.in", "/other/other.out"));
+  ASSERT_TRUE(test("other/other.pcl", "other/other.in", "other/other.out"));
 }
 
 TEST(fibs, test1) {
-  ASSERT_TRUE(test("/fibs/fibs.pcl", "/fibs/fibs1.in", "/fibs/fibs1.out"));
+  ASSERT_TRUE(test("fibs/fibs.pcl", "fibs/fibs1.in", "fibs/fibs1.out"));
 }
 
 TEST(fibs, test2) {
-  ASSERT_TRUE(test("/fibs/fibs.pcl", "/fibs/fibs2.in", "/fibs/fibs2.out"));
+  ASSERT_TRUE(test("fibs/fibs.pcl", "fibs/fibs2.in", "fibs/fibs2.out"));
 }
 
 TEST(fact, test1) {
-  ASSERT_TRUE(test("/fact/fact.pcl", "/fact/fact1.in", "/fact/fact1.out"));
+  ASSERT_TRUE(test("fact/fact.pcl", "fact/fact1.in", "fact/fact1.out"));
 }
 
 TEST(braces, test1) {
   ASSERT_TRUE(
-      test("/braces/braces.pcl", "/braces/braces1.in", "/braces/braces1.out"));
+      test("braces/braces.pcl", "braces/braces1.in", "braces/braces1.out"));
 }
 
 int main(int argc, char *argv[]) {
