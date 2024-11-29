@@ -57,7 +57,6 @@ parser::token_type yylex(parser::semantic_type* yylval,
   LP
   RP
   UNKNOWN
-  UNKNOWN_ID
 
 /* non-trivial operators that require precedence & associativity */
 %right ASSIGN
@@ -76,7 +75,6 @@ parser::token_type yylex(parser::semantic_type* yylval,
   if
   while
   print
-  scan
   assign
   expr
   expr_un
@@ -121,7 +119,7 @@ stm:         assign                         { $$ = $1; }
            | if                             { $$ = $1; }
            | while                          { $$ = $1; }
            | print                          { $$ = $1; }
-           | scan                           { $$ = $1; }
+           | SCOLON                         { /* nothing */ }
 
 assign:      ID ASSIGN expr SCOLON          { $$ = ast::makeAssign($1, $3); }
 
@@ -138,6 +136,7 @@ expr:        expr ADD   expr                { $$ = ast::makeBinOp($1, ast::BinOp
            | expr IS_NE expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsNe, $3); }
            | expr AND   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kAnd , $3); }
            | expr OR    expr                { $$ = ast::makeBinOp($1, ast::BinOp::kOr  , $3); }
+           | ID ASSIGN expr                 { $$ = ast::makeAssign($1, $3); }
            | expr_un                        { $$ = $1; }
 
 expr_un:     ADD expr_term                  { $$ = ast::makeUnOp($2, ast::UnOp::kPlus); }
@@ -148,6 +147,7 @@ expr_un:     ADD expr_term                  { $$ = ast::makeUnOp($2, ast::UnOp::
 expr_term:   LP expr RP                     { $$ = $2; }
            | NUMBER                         { $$ = ast::makeValue($1); }
            | ID                             { $$ = ast::makeVar($1); }
+           | SCAN                           { $$ = ast::makeScan(); }
 
 if:          IF LP expr RP br_stm           { $$ = ast::makeIf($3, $5); }
            | IF LP expr RP stm              { $$ = ast::makeIf($3, $5); }
@@ -156,8 +156,6 @@ while:       WHILE LP expr RP br_stm        { $$ = ast::makeWhile($3, $5); }
            | WHILE LP expr RP stm           { $$ = ast::makeWhile($3, $5); }
 
 print:       PRINT expr SCOLON              { $$ = ast::makePrint($2); }
-
-scan:        ID ASSIGN SCAN SCOLON          { $$ = ast::makeScan($1); }
 
 %%
 
