@@ -115,6 +115,20 @@ TEST(loop_input, test1) {
            "loop_input/loop_input.out"));
 }
 
+TEST(logic, test1) {
+  ASSERT_TRUE(
+      test("logic/logic.pcl",
+           "logic/logic1.in",
+           "logic/logic1.out"));
+}
+
+TEST(logic, test2) {
+  ASSERT_TRUE(
+      test("logic/logic.pcl",
+           "logic/logic2.in",
+           "logic/logic2.out"));
+}
+
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleMock(&argc, argv);
   return RUN_ALL_TESTS();
