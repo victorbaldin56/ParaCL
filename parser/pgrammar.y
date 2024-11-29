@@ -60,6 +60,7 @@ parser::token_type yylex(parser::semantic_type* yylval,
 
 /* non-trivial operators that require precedence & associativity */
 %right ASSIGN
+
 %left OR
 %left AND
 %left IS_EQ IS_GE IS_GT IS_LE IS_LT IS_NE
@@ -75,7 +76,6 @@ parser::token_type yylex(parser::semantic_type* yylval,
   if
   while
   print
-  assign
   expr
   expr_un
   expr_term
@@ -90,8 +90,10 @@ parser::token_type yylex(parser::semantic_type* yylval,
 
 program:     stms                           { /* nothing */ }
 scope:       op_sc stms cl_sc               { /* nothing */ } /* plain scope */
+           | op_sc cl_sc                    { /* nothing */ }
 
 br_stm:      op_br_stm stms cl_sc           { $$ = $1; }
+           | op_br_stm cl_sc                { $$ = $1; }
 
 op_br_stm:   LB                             {
                                               $$ = ast::current_scope
@@ -110,18 +112,16 @@ cl_sc:       RB                             {
                                                   = ast::current_scope->parentScope();
                                             }
 
-stms:        stm                            { ast::current_scope->push($1); }
-           | stms stm                       { ast::current_scope->push($2); }
+stms:        stm                            { if ($1) ast::current_scope->push($1); }
+           | stms stm                       { if ($2) ast::current_scope->push($2); }
            | scope
            | stms scope
 
-stm:         assign                         { $$ = $1; }
-           | if                             { $$ = $1; }
+stm:         if                             { $$ = $1; }
            | while                          { $$ = $1; }
            | print                          { $$ = $1; }
-           | SCOLON                         { /* nothing */ }
-
-assign:      ID ASSIGN expr SCOLON          { $$ = ast::makeAssign($1, $3); }
+           | expr SCOLON                    { $$ = $1; }
+           | SCOLON                         { $$ = nullptr; }
 
 expr:        expr ADD   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kAdd , $3); }
            | expr SUB   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kSub , $3); }
@@ -136,7 +136,7 @@ expr:        expr ADD   expr                { $$ = ast::makeBinOp($1, ast::BinOp
            | expr IS_NE expr                { $$ = ast::makeBinOp($1, ast::BinOp::kIsNe, $3); }
            | expr AND   expr                { $$ = ast::makeBinOp($1, ast::BinOp::kAnd , $3); }
            | expr OR    expr                { $$ = ast::makeBinOp($1, ast::BinOp::kOr  , $3); }
-           | ID ASSIGN expr                 { $$ = ast::makeAssign($1, $3); }
+           | ID ASSIGN  expr                { $$ = ast::makeAssign($1, $3); }
            | expr_un                        { $$ = $1; }
 
 expr_un:     ADD expr_term                  { $$ = ast::makeUnOp($2, ast::UnOp::kPlus); }
