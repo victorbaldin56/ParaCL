@@ -87,7 +87,7 @@ pINode  makeWhile (const pINode& op, const pINode& sc);
 pINode  makeIf    (const pINode& op, const pINode& sc);
 pINode  makeVar   (const std::string& name);
 pINode  makePrint (const pINode& n);
-pINode  makeScan  (const std::string& var_name);
+pINode  makeScan  ();
 pINode  makeAssign(const std::string& var_name, const pINode& rhs);
 
 pIScope makeScope(const pIScope& par = nullptr);
