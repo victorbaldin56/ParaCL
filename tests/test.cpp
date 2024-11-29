@@ -101,6 +101,20 @@ TEST(braces, test1) {
       test("braces/braces.pcl", "braces/braces1.in", "braces/braces1.out"));
 }
 
+TEST(assignment, test1) {
+  ASSERT_TRUE(
+      test("assignment/assignment.pcl",
+           "assignment/assignment1.in",
+           "assignment/assignment1.out"));
+}
+
+TEST(loop_input, test1) {
+  ASSERT_TRUE(
+      test("loop_input/loop_input.pcl",
+           "loop_input/loop_input.in",
+           "loop_input/loop_input.out"));
+}
+
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleMock(&argc, argv);
   return RUN_ALL_TESTS();
