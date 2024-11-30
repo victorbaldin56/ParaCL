@@ -150,6 +150,13 @@ TEST(complex_logic, test3) {
            "complex_logic/complex_logic3.out"));
 }
 
+TEST(print_logic, test1) {
+  ASSERT_TRUE(
+      test("print_logic/print_logic.pcl",
+           "print_logic/print_logic.in",
+           "print_logic/print_logic.out"));
+}
+
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleMock(&argc, argv);
   return RUN_ALL_TESTS();
