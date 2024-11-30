@@ -129,6 +129,27 @@ TEST(logic, test2) {
            "logic/logic2.out"));
 }
 
+TEST(complex_logic, test1) {
+  ASSERT_TRUE(
+      test("complex_logic/complex_logic.pcl",
+           "complex_logic/complex_logic1.in",
+           "complex_logic/complex_logic1.out"));
+}
+
+TEST(complex_logic, test2) {
+  ASSERT_TRUE(
+      test("complex_logic/complex_logic.pcl",
+           "complex_logic/complex_logic2.in",
+           "complex_logic/complex_logic2.out"));
+}
+
+TEST(complex_logic, test3) {
+  ASSERT_TRUE(
+      test("complex_logic/complex_logic.pcl",
+           "complex_logic/complex_logic3.in",
+           "complex_logic/complex_logic3.out"));
+}
+
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleMock(&argc, argv);
   return RUN_ALL_TESTS();
