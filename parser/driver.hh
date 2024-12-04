@@ -60,8 +60,6 @@ class PDriver final {
   /** Handles exceptions from AST construction stage. */
   void reportAstError(const parser& parser,
                       const std::runtime_error& ex) const;
-  static void printAndColorizeError(const std::string& line,
-                           const location& loc);
 };
 
 } // namespace yy
