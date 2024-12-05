@@ -60,6 +60,7 @@ splice                  (\\[[:blank:]]*\n)*
 
 "while"           return yy::parser::token_type::WHILE;
 "if"              return yy::parser::token_type::IF;
+"else"            return yy::parser::token_type::ELSE;
 
 ";"               return yy::parser::token_type::SCOLON;
 
