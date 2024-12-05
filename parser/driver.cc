@@ -48,7 +48,8 @@ parser::token_type PDriver::yylex(parser::semantic_type* yylval,
 void PDriver::printErroneousLine(const location& loc) const {
   int line_num = loc.begin.line;
   std::cerr << std::right << std::setw(9) << line_num;
-  std::cerr << " | " << lines_of_code_[line_num - 1] << '\n';
+  std::cerr << " | ";
+  printUnderlinedLineOfCode(lines_of_code_[line_num - 1], loc);
   std::cerr << "          | ";
 
   for (int i = 0; i < loc.begin.column - 1; ++i) {
@@ -71,6 +72,17 @@ void PDriver::reportAstError(const parser& parser,
 
   std::cerr << ex.what() << '\n';
   printErroneousLine(loc);
+}
+
+void PDriver::printUnderlinedLineOfCode(const std::string& line,
+                                        const location& loc) {
+  int begin = loc.begin.column - 1;
+  int end = loc.end.column - 1;
+  std::cerr << line.substr(0, begin)
+            << ctty::setAttr(ctty::Attribute::kBold, ctty::Color::kRed)
+            << line.substr(begin, end - begin)
+            << ctty::resetAttr()
+            << line.substr(end) << '\n';
 }
 
 } // namespace yy
