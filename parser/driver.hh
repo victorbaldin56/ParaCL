@@ -12,6 +12,7 @@
 #include <FlexLexer.h>
 #endif // yyFlexLexer
 
+#include "color_output.hh"
 #include "pgrammar.tab.hh"
 #include "lexer.hh"
 
@@ -47,7 +48,9 @@ class PDriver final {
   }
 
   void reportErrorAtLocation(const location& loc) const {
-    std::cerr << input_file_name_ << ':' << loc << ": error: ";
+    std::cerr << input_file_name_ << ':' << loc << ": "
+              << ctty::setAttr(ctty::Attribute::kBold, ctty::Color::kRed)
+              << "error: " << ctty::resetAttr();
   }
 
   /** Prints the line in which an error occurred with a pointer to error. */
@@ -57,6 +60,8 @@ class PDriver final {
   /** Handles exceptions from AST construction stage. */
   void reportAstError(const parser& parser,
                       const std::runtime_error& ex) const;
+  static void printUnderlinedLineOfCode(const std::string& line,
+                                        const location& loc);
 };
 
 } // namespace yy

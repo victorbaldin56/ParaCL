@@ -157,6 +157,13 @@ TEST(print_logic, test1) {
            "print_logic/print_logic.out"));
 }
 
+TEST(else, test1) {
+  ASSERT_TRUE(
+      test("else/else.pcl",
+           "else/else1.in",
+           "else/else1.out"));
+}
+
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleMock(&argc, argv);
   return RUN_ALL_TESTS();

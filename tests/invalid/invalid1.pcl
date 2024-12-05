@@ -1,0 +1,6 @@
+n = 1;
+{
+  unknown = 1;
+}
+
+n = unknown + 1;
