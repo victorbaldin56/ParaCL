@@ -20,6 +20,6 @@ while(n < x) {
     tmp = b;
     b = a + b; // calculate fibonacci number
     a = tmp;
-    print uuu;
+    print b;
   }
 }
