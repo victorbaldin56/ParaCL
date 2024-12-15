@@ -33,7 +33,7 @@ class PDriver;
 %code
 {
 
-#include "driver.hh"
+#include "parser/driver.hh"
 
 namespace yy {
 
