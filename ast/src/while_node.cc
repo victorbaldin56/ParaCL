@@ -1,4 +1,4 @@
-#include "while_node.hh"
+#include "ast/while_node.hh"
 
 namespace ast {
 

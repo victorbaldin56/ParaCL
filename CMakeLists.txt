@@ -10,7 +10,7 @@ include(FetchContent)
 FetchContent_Declare(
   YAColorTTY
   GIT_REPOSITORY https://github.com/victorbaldin56/YAColorTTY.git
-  GIT_TAG        3de6c11cadf3f71fc35a13996bc3daaeb619bdb0
+  GIT_TAG        d9493eb591fa496db103dbb7bba0a36a7251b003
 )
 FetchContent_MakeAvailable(YAColorTTY)
 

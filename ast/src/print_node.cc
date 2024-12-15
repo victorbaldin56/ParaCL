@@ -1,4 +1,4 @@
-#include "print_node.hh"
+#include "ast/print_node.hh"
 
 #include <iostream>
 

@@ -1,4 +1,4 @@
-#include "lexer.hh"
+#include "parser/lexer.hh"
 
 namespace yy {
 

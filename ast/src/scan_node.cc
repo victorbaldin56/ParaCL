@@ -1,8 +1,8 @@
-#include "scan_node.hh"
+#include "ast/scan_node.hh"
 
 #include <iostream>
 
-#include "scope.hh"
+#include "ast/scope.hh"
 
 namespace ast {
 

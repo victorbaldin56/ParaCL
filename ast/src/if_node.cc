@@ -1,4 +1,4 @@
-#include "if_node.hh"
+#include "ast/if_node.hh"
 
 namespace ast {
 

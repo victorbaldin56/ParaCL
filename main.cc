@@ -3,7 +3,7 @@
 
 #include <boost/program_options.hpp>
 
-#include "driver.hh"
+#include "parser/driver.hh"
 
 namespace po = boost::program_options;
 

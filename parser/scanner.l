@@ -7,7 +7,7 @@
 
 %{
 
-#include "lexer.hh"
+#include "parser/lexer.hh"
 #include "pgrammar.tab.hh"
 
 #define YY_USER_ACTION updateCurrentLocation();

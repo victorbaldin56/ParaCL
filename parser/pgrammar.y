@@ -20,7 +20,7 @@
 #include <utility>
 #include <vector>
 
-#include "inode.hh"
+#include "ast/inode.hh"
 
 namespace yy {
 
@@ -33,7 +33,7 @@ class PDriver;
 %code
 {
 
-#include "driver.hh"
+#include "parser/driver.hh"
 
 namespace yy {
 

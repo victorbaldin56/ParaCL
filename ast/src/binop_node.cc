@@ -1,4 +1,4 @@
-#include "binop_node.hh"
+#include "ast/binop_node.hh"
 
 #include <cassert>
 

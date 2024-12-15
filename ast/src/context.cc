@@ -1,4 +1,4 @@
-#include "inode.hh"
+#include "ast/inode.hh"
 
 namespace ast {
 
