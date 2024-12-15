@@ -1,10 +1,9 @@
 cmake_minimum_required(VERSION 3.14)
-project(ast)
 
 add_library(ast_interface INTERFACE)
 target_include_directories(ast_interface INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_library(ast STATIC
+add_library(ast
   concrete/assign_node.cc
   concrete/binop_node.cc
   concrete/if_node.cc

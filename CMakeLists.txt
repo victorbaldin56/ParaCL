@@ -8,6 +8,8 @@ add_subdirectory(tests)
 
 find_package(Boost COMPONENTS program_options REQUIRED)
 find_package(GTest REQUIRED)
+find_package(FLEX REQUIRED)
+find_package(BISON REQUIRED)
 
 add_executable(pcl
   main.cc
