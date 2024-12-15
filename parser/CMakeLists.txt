@@ -14,8 +14,8 @@ bison_target(parser
 add_flex_bison_dependency(scanner parser)
 
 add_library(parser
-  driver.cc
-  lexer.cc
+  src/driver.cc
+  src/lexer.cc
   ${BISON_parser_OUTPUTS}
   ${FLEX_scanner_OUTPUTS}
 )
