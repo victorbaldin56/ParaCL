@@ -1,20 +1,20 @@
 cmake_minimum_required(VERSION 3.14)
 
 add_library(ast_interface INTERFACE)
-target_include_directories(ast_interface INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(ast_interface INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_library(ast
-  concrete/assign_node.cc
-  concrete/binop_node.cc
-  concrete/if_node.cc
-  concrete/print_node.cc
-  concrete/scan_node.cc
-  concrete/scope.cc
-  concrete/unop_node.cc
-  concrete/value_node.cc
-  concrete/var_node.cc
-  concrete/while_node.cc
-  context.cc
+  src/assign_node.cc
+  src/binop_node.cc
+  src/if_node.cc
+  src/print_node.cc
+  src/scan_node.cc
+  src/scope.cc
+  src/unop_node.cc
+  src/value_node.cc
+  src/var_node.cc
+  src/while_node.cc
+  src/context.cc
 )
 
 target_compile_features(ast PRIVATE cxx_std_17)

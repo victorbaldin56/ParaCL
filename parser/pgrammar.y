@@ -20,7 +20,7 @@
 #include <utility>
 #include <vector>
 
-#include "inode.hh"
+#include "ast/inode.hh"
 
 namespace yy {
 
