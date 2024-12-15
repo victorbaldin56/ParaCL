@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-#include "scope.hh"
+#include "ast/scope.hh"
 
 namespace ast {
 
