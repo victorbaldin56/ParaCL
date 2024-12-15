@@ -1,8 +1,4 @@
 cmake_minimum_required(VERSION 3.14)
-project(pcl)
-
-find_package(FLEX REQUIRED)
-find_package(BISON REQUIRED)
 
 flex_target(scanner
   scanner.l
@@ -18,7 +14,7 @@ bison_target(parser
 
 add_flex_bison_dependency(scanner parser)
 
-add_library(parser STATIC
+add_library(parser
   driver.cc
   lexer.cc
   ${BISON_parser_OUTPUTS}
