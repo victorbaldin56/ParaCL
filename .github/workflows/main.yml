@@ -62,7 +62,7 @@ jobs:
 
     - name: Build
       run:
-        cmake --build build -j`nproc`
+        cmake --build build -DBUILD_TESTING=1 -j`nproc`
 
     - name: Test
       run: ctest --output-on-failure --test-dir build/tests/
