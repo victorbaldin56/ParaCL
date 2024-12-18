@@ -58,11 +58,12 @@ jobs:
         -DCMAKE_CXX_COMPILER=${{ matrix.cxx_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -DUSE_ASAN=${{ matrix.use_asan }}
+        -DBUILD_TESTING=1
         -S ${{ github.workspace }}
 
     - name: Build
       run:
-        cmake --build build -DBUILD_TESTING=1 -j`nproc`
+        cmake --build build -j`nproc`
 
     - name: Test
       run: ctest --output-on-failure --test-dir build/tests/
