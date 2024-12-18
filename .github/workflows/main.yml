@@ -58,7 +58,7 @@ jobs:
         -DCMAKE_CXX_COMPILER=${{ matrix.cxx_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -DUSE_ASAN=${{ matrix.use_asan }}
-        -DBUILD_TESTING=1
+        -DBUILD_TESTING=ON
         -S ${{ github.workspace }}
 
     - name: Build
