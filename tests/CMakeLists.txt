@@ -1,5 +1,5 @@
 add_executable(test test.cpp)
-enable_testing()
+
 include(GoogleTest)
 
 set(TEST_DATA_DIR ${CMAKE_CURRENT_SOURCE_DIR})

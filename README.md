@@ -33,7 +33,7 @@ conan install . --output-folder=build --build=missing
 5. Generate build files:
 ```sh
 cd build/
-cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+cmake .. --toolchain=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
 ```
 6. Build:
 ```sh

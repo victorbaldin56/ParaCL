@@ -23,15 +23,15 @@ jobs:
       #
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-22.04]
         build_type: [Release, Debug]
         cxx_compiler: [g++]
-        use_asan: [0, 1]
+        use_asan: [True, False]
         exclude:
           - build_type: Debug
-            use_asan: 0
+            use_asan: False
           - build_type: Release
-            use_asan: 1
+            use_asan: True
 
     steps:
     - uses: actions/checkout@v4
@@ -62,7 +62,7 @@ jobs:
 
     - name: Build
       run:
-        cmake --build build --config ${{ matrix.build_type }} -j`nproc`
+        cmake --build build -j`nproc`
 
     - name: Test
       run: ctest --output-on-failure --test-dir build/tests/
