@@ -62,7 +62,7 @@ jobs:
 
     - name: Build
       run:
-        cmake --build build --config ${{ matrix.build_type }} -j`nproc`
+        cmake --build build -j`nproc`
 
     - name: Test
       run: ctest --output-on-failure --test-dir build/tests/
