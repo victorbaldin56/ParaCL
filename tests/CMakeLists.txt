@@ -1,4 +1,7 @@
 add_executable(test test.cpp)
+if (${BUILD_TESTING})
+  enable_testing()
+endif()
 
 include(GoogleTest)
 
