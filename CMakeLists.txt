@@ -27,7 +27,3 @@ target_link_libraries(pcl
   parser
   ast
 )
-
-if (${USE_ASAN})
-  target_link_options(pcl PRIVATE "-fsanitize=address,leak,undefined")
-endif()

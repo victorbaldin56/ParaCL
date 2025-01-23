@@ -19,7 +19,3 @@ add_library(ast
 
 target_compile_features(ast PRIVATE cxx_std_17)
 target_link_libraries(ast ast_interface)
-
-if (${USE_ASAN})
-  target_compile_options(ast PUBLIC "-fsanitize=address,leak,undefined")
-endif()

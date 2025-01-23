@@ -44,17 +44,26 @@ jobs:
       shell: bash
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
+        
+    - name: Install Conan
+      id: conan
+      uses: turtlebrowser/get-conan@main
 
-    - name: Install required packages
-      run: >
-        sudo apt-get -y update &&
-        sudo apt-get -y install libboost-all-dev flex libfl-dev libgtest-dev libgmock-dev
+    - name: Creating and setting venv
+      run: sudo apt-get -y update && 
+           sudo apt-get install python3 pip libboost-dev g++-12;
+           python3 -m venv .venv;
+           source .venv/bin/activate;
+           pip3 install conan;
+           conan profile detect --force
+           conan install . --output-folder=build --build=missing;
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: >
         cmake -B build
+        -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake
         -DCMAKE_CXX_COMPILER=${{ matrix.cxx_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -DUSE_ASAN=${{ matrix.use_asan }}
