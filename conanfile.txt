@@ -1,6 +1,7 @@
 [requires]
 boost/1.86.0
 gtest/1.15.0
+flex/2.6.4
 [generators]
 CMakeDeps
 CMakeToolchain
