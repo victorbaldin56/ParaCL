@@ -4,7 +4,7 @@ name: CMake on multiple platforms
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "conan" ]
   pull_request:
     branches: [ "master" ]
 
@@ -44,7 +44,7 @@ jobs:
       shell: bash
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
-        
+
     - name: Install Conan
       id: conan
       uses: turtlebrowser/get-conan@main
