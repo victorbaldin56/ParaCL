@@ -11,7 +11,3 @@ target_compile_definitions(test PUBLIC TEST_DATA_DIR="${TEST_DATA_DIR}")
 target_link_libraries(test parser ast gtest::gtest)
 
 gtest_discover_tests(test)
-
-if (${USE_ASAN})
-  target_link_options(pcl PRIVATE "-fsanitize=address,leak,undefined")
-endif()
