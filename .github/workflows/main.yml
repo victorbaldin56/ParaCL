@@ -51,7 +51,7 @@ jobs:
 
     - name: Creating and setting venv
       run: sudo apt-get -y update && 
-           sudo apt-get install python3 pip libboost-dev g++-12 flex bison;
+           sudo apt-get install python3 pip libboost-dev g++-12 flex bison libfl-dev;
            python3 -m venv .venv;
            source .venv/bin/activate;
            pip3 install conan;
