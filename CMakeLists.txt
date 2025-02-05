@@ -5,6 +5,7 @@ find_package(Boost COMPONENTS program_options REQUIRED)
 find_package(GTest REQUIRED)
 find_package(FLEX REQUIRED)
 find_package(BISON REQUIRED)
+find_package(LLVM REQUIRED)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -24,6 +25,7 @@ add_executable(pcl
 
 target_link_libraries(pcl
   Boost::program_options
+  llvm-core::llvm-core
   parser
   ast
 )
