@@ -34,6 +34,7 @@ using pIScope = std::shared_ptr<IScope>;
 class INode {
  public:
   virtual IntT calc() const = 0;
+  virtual std::shared_ptr<llvm::Value> codegen() const = 0;
   virtual ~INode() {}
 };
 
