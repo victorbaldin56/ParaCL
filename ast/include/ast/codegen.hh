@@ -42,11 +42,11 @@ class CodeGen final {
         module_(new llvm::Module(module_name, context_)) {}
 
   // assumption: extern void Name() { ..... }
-  void startFunction(std::string Name);
+  void startFunction(std::string name);
 
   void endCurrentFunction() { builder_->CreateRetVoid(); }
 
-  void saveModule(std::string ModuleName);
+  void saveModule(std::string module_name);
 
   llvm::Value* addDeclRead(std::string varname) {
     auto* v = named_values_[varname];
@@ -70,8 +70,10 @@ class CodeGen final {
   }
 
   llvm::BasicBlock* startIf(llvm::Value* condv) {
-    llvm::BasicBlock* thenbb = llvm::BasicBlock::Create(context_, "then", function_);
-    llvm::BasicBlock* mergebb = llvm::BasicBlock::Create(context_, "endif", function_);
+    llvm::BasicBlock* thenbb
+        = llvm::BasicBlock::Create(context_, "then", function_);
+    llvm::BasicBlock* mergebb
+        = llvm::BasicBlock::Create(context_, "endif", function_);
     builder_->CreateCondBr(condv, thenbb, mergebb);
     builder_->SetInsertPoint(thenbb);
     return mergebb;
@@ -86,8 +88,10 @@ class CodeGen final {
   using WhileBlocksTy = std::pair<llvm::BasicBlock*, llvm::BasicBlock*>;
 
   WhileBlocksTy StartWhile(llvm::Value* condv) {
-    llvm::BasicBlock* bodybb = llvm::BasicBlock::Create(context_, "body", function_);
-    llvm::BasicBlock* mergebb = llvm::BasicBlock::Create(context_, "endwhile", function_);
+    llvm::BasicBlock* bodybb
+        = llvm::BasicBlock::Create(context_, "body", function_);
+    llvm::BasicBlock* mergebb
+        = llvm::BasicBlock::Create(context_, "endwhile", function_);
     builder_->CreateCondBr(condv, bodybb, mergebb);
     builder_->SetInsertPoint(bodybb);
     return std::make_pair(bodybb, mergebb);
@@ -104,7 +108,8 @@ class CodeGen final {
   llvm::Type* getVoidTy() { return llvm::Type::getVoidTy(context_); }
 
   void createFnDecl(llvm::FunctionType* ft, std::string& name) {
-    llvm::Function::Create(ft, llvm::Function::ExternalLinkage, name, module_.get());
+    llvm::Function::Create(ft, llvm::Function::ExternalLinkage,
+                           name, module_.get());
   }
 };
 
