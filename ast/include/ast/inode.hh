@@ -8,6 +8,8 @@
 #include <stdexcept>
 #include <string>
 
+#include "llvm/IR/Value.h"
+
 namespace ast {
 
 /**

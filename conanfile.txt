@@ -1,7 +1,6 @@
 [requires]
 boost/1.86.0
 gtest/1.15.0
-llvm-core/13.0.0
 [generators]
 CMakeDeps
 CMakeToolchain

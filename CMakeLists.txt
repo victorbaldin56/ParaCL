@@ -15,6 +15,8 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(YAColorTTY)
 
+llvm_map_components_to_libnames(llvm_libs support core codegen irreader)
+
 add_subdirectory(ast)
 add_subdirectory(parser)
 add_subdirectory(tests)
@@ -24,8 +26,8 @@ add_executable(pcl
 )
 
 target_link_libraries(pcl
+  ${llvm_libs}
   Boost::program_options
-  llvm-core::llvm-core
   parser
   ast
 )
