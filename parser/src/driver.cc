@@ -30,7 +30,11 @@ parser::token_type PDriver::yylex(parser::semantic_type* yylval,
 
   switch (tt) {
   case parser::token_type::NUMBER:
-    yylval->emplace<int>(std::stoi(cur_text, nullptr, 0));
+    try {
+      yylval->emplace<int>(std::stol(cur_text, nullptr, 0));
+    } catch (std::out_of_range& ex) {
+      throw std::out_of_range("integral constant out of range");
+    }
     break;
   case parser::token_type::ID:
     yylval->emplace<std::string>(cur_text);
@@ -64,8 +68,8 @@ void PDriver::printErroneousLine(const location& loc) const {
   std::cerr << ctty::resetAttr() << '\n';
 }
 
-void PDriver::reportAstError(const parser& parser,
-                             const std::runtime_error& ex) const {
+void PDriver::reportAnyError(const parser& parser,
+                             const std::exception& ex) const {
   // AST error currently can mean only symtab-related things.
   const location& loc = plex_.getCurrentLocation();
   reportErrorAtLocation(loc);

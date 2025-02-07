@@ -80,6 +80,7 @@ splice                  (\\[[:blank:]]*\n)*
 {DIGIT1}{DIGIT}*  return yy::parser::token_type::NUMBER;
 "0"               return yy::parser::token_type::NUMBER;
 "0x"{HEX_DIGIT}*  return yy::parser::token_type::NUMBER;  /* hexadecimal */
+"0X"{HEX_DIGIT}*  return yy::parser::token_type::NUMBER;  /* hexadecimal */
 "0"{OCT_DIGIT}*   return yy::parser::token_type::NUMBER;  /* octal */
 
 "while"           return yy::parser::token_type::WHILE;
