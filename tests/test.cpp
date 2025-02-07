@@ -164,6 +164,41 @@ TEST(else, test1) {
            "else/else1.out"));
 }
 
+TEST(bitwise, test1) {
+  ASSERT_TRUE(
+      test("bitwise/bitwise.pcl",
+           "bitwise/bitwise1.in",
+           "bitwise/bitwise1.out"));
+}
+
+TEST(bitwise, test2) {
+  ASSERT_TRUE(
+      test("bitwise/bitwise.pcl",
+           "bitwise/bitwise2.in",
+           "bitwise/bitwise2.out"));
+}
+
+TEST(bitwise, test3) {
+  ASSERT_TRUE(
+      test("bitwise/bitwise.pcl",
+           "bitwise/bitwise3.in",
+           "bitwise/bitwise3.out"));
+}
+
+TEST(bitwise, test4) {
+  ASSERT_TRUE(
+      test("bitwise/bitwise.pcl",
+           "bitwise/bitwise4.in",
+           "bitwise/bitwise4.out"));
+}
+
+TEST(bitwise, test5) {
+  ASSERT_TRUE(
+      test("bitwise/bitwise.pcl",
+           "bitwise/bitwise5.in",
+           "bitwise/bitwise5.out"));
+}
+
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleMock(&argc, argv);
   return RUN_ALL_TESTS();
