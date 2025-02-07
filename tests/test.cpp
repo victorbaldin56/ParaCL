@@ -206,6 +206,13 @@ TEST(assignment_with_modify, test1) {
            "assignment_with_modify/assignment_with_modify.out"));
 }
 
+TEST(custom_base, test1) {
+  ASSERT_TRUE(
+      test("custom_base/custom_base.pcl",
+           "custom_base/custom_base.in",
+           "custom_base/custom_base.out"));
+}
+
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleMock(&argc, argv);
   return RUN_ALL_TESTS();

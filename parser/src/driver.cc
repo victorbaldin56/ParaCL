@@ -30,7 +30,7 @@ parser::token_type PDriver::yylex(parser::semantic_type* yylval,
 
   switch (tt) {
   case parser::token_type::NUMBER:
-    yylval->emplace<int>(std::stoi(cur_text));
+    yylval->emplace<int>(std::stoi(cur_text, nullptr, 0));
     break;
   case parser::token_type::ID:
     yylval->emplace<std::string>(cur_text);

@@ -12,9 +12,9 @@ class VarNode : public INode {
  public:
   VarNode(Symtab::iterator it) : it_(it) {}
 
-  IntT calc() const override { return it_->second.value; }
+  int calc() const override { return it_->second.value; }
 
-  void assign(IntT val) { it_->second.value = val; }
+  void assign(int val) { it_->second.value = val; }
 };
 
 } // namespace ast

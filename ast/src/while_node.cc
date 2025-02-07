@@ -6,7 +6,7 @@ pINode makeWhile(const pINode& op, const pINode& sc) {
   return std::make_shared<WhileNode>(op, sc);
 }
 
-IntT WhileNode::calc() const {
+int WhileNode::calc() const {
   while (cond_->calc()) {
     stm_->calc();
   }

@@ -10,8 +10,8 @@ pINode makeScan() {
   return std::make_shared<ScanNode>();
 }
 
-IntT ScanNode::calc() const {
-  IntT tmp{};
+int ScanNode::calc() const {
+  int tmp{};
   std::cin >> tmp;
   return tmp;
 }

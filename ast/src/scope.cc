@@ -6,7 +6,7 @@ pIScope makeScope(const pIScope& par) {
   return std::make_shared<Scope>(par);
 }
 
-IntT Scope::calc() const {
+int Scope::calc() const {
   for (const pINode& p : stms_) {
     p->calc();
   }

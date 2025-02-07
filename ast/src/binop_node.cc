@@ -8,7 +8,7 @@ pINode makeBinOp(const pINode& left, BinOp op, const pINode& right) {
   return std::make_shared<BinOpNode>(left, op, right);
 }
 
-IntT BinOpNode::calc() const {
+int BinOpNode::calc() const {
   switch (op_) {
   case BinOp::kAdd:
     return left_->calc() +  right_->calc();

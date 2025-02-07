@@ -10,16 +10,6 @@
 
 namespace ast {
 
-/**
- * @defgroup ParaCLTypes Basic types in ParaCL
- * @{
- */
-
-/** just `int` */
-using IntT = int;
-
-/** @} */
-
 class INode;
 class IScope;
 
@@ -31,7 +21,7 @@ using pIScope = std::shared_ptr<IScope>;
  */
 class INode {
  public:
-  virtual IntT calc() const = 0;
+  virtual int calc() const = 0;
   virtual ~INode() {}
 };
 
@@ -88,7 +78,7 @@ enum class UnOp {
  * @{
  */
 
-pINode  makeValue (IntT val);
+pINode  makeValue (int val);
 pINode  makeUnOp  (const pINode& n, UnOp op);
 pINode  makeBinOp (const pINode& left, BinOp op, const pINode& right);
 pINode  makeWhile (const pINode& op, const pINode& sc);

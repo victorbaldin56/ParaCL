@@ -8,7 +8,7 @@ pINode makeIf(const pINode& op,
   return std::make_shared<IfNode>(op, sc, else_sc);
 }
 
-IntT IfNode::calc() const {
+int IfNode::calc() const {
   if (cond_->calc()) {
     stm_->calc();
   } else {
