@@ -12,7 +12,7 @@ class ScanNode : public INode {
  public:
   explicit ScanNode() noexcept {}
 
-  IntT calc() const override;
+  int calc() const override;
 };
 
 } // namespace ast

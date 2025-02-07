@@ -1,0 +1,9 @@
+x = ?;
+
+result = 0;
+result |= (x & 0xF0F0F0F0);   // Mask and preserve alternating nibbles
+result ^= (x | 01234);        // XOR with an octal constant
+result &= ~(x >> 3);          // Clear bits shifted right by 3
+result |= (x << 2) & 0xA5A5A5A5; // Shift left and mask with hex pattern
+result ^= 0xDEADBEEF;         // XOR with a common debugging hex constant
+print result;

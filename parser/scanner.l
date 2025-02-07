@@ -15,6 +15,8 @@
 %}
 
 WS            [ \t\n\v]+
+OCT_DIGIT     [0-7]
+HEX_DIGIT     [0-9a-fA-F]
 DIGIT         [0-9]
 DIGIT1        [1-9]
 ID            [a-zA-Z_][a-zA-Z0-9_]*
@@ -77,6 +79,9 @@ splice                  (\\[[:blank:]]*\n)*
 
 {DIGIT1}{DIGIT}*  return yy::parser::token_type::NUMBER;
 "0"               return yy::parser::token_type::NUMBER;
+"0x"{HEX_DIGIT}*  return yy::parser::token_type::NUMBER;  /* hexadecimal */
+"0X"{HEX_DIGIT}*  return yy::parser::token_type::NUMBER;  /* hexadecimal */
+"0"{OCT_DIGIT}*   return yy::parser::token_type::NUMBER;  /* octal */
 
 "while"           return yy::parser::token_type::WHILE;
 "if"              return yy::parser::token_type::IF;

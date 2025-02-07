@@ -41,8 +41,8 @@ class PDriver final {
     bool res = false;
     try {
       res = !parser.parse();
-    } catch (std::runtime_error& ex) {
-      reportAstError(parser, ex);
+    } catch (std::exception& ex) {
+      reportAnyError(parser, ex);
     }
     return res;
   }
@@ -58,8 +58,8 @@ class PDriver final {
 
  private:
   /** Handles exceptions from AST construction stage. */
-  void reportAstError(const parser& parser,
-                      const std::runtime_error& ex) const;
+  void reportAnyError(const parser& parser,
+                      const std::exception& ex) const;
   static void printUnderlinedLineOfCode(const std::string& line,
                                         const location& loc);
 };

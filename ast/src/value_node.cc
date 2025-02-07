@@ -2,7 +2,7 @@
 
 namespace ast {
 
-pINode makeValue(IntT val) {
+pINode makeValue(int val) {
   return std::make_shared<ValueNode>(val);
 }
 

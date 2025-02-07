@@ -14,8 +14,7 @@ class BinOpNode : public INode {
   BinOpNode(const pINode& left, BinOp op, const pINode& right) noexcept
       : left_(left), op_(op), right_(right) {}
 
-  IntT calc() const override;
+  int calc() const override;
 };
 
 } // namespace ast
-

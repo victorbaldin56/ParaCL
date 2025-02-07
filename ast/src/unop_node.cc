@@ -8,7 +8,7 @@ pINode makeUnOp(const pINode& n, UnOp op) {
   return std::make_shared<UnOpNode>(n, op);
 }
 
-IntT UnOpNode::calc() const {
+int UnOpNode::calc() const {
   switch (op_) {
   case UnOp::kPlus:
     return ch_->calc();

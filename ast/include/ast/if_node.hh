@@ -13,7 +13,7 @@ class IfNode : public INode {
  public:
   IfNode(pINode cond, pINode stm, pINode else_stm) noexcept
       : cond_(cond), stm_(stm), else_stm_(else_stm) {}
-  IntT calc() const override;
+  int calc() const override;
 };
 
 } // namespace ast

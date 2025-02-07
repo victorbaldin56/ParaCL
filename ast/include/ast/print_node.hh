@@ -11,8 +11,7 @@ private:
  public:
   explicit PrintNode(const pINode& stm) noexcept : stm_(stm) {}
 
-  IntT calc() const override;
+  int calc() const override;
 };
 
 } // namespace ast
-
