@@ -70,7 +70,9 @@ parser::token_type yylex(parser::semantic_type* yylval,
 %left ADD SUB
 %left MUL DIV MOD
 %left SHL SHR
-%left BTW_AND BTW_OR XOR
+%left BTW_OR
+%left XOR
+%left BTW_AND
 %left NOT
 %left BTW_NOT
 
