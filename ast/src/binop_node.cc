@@ -36,6 +36,16 @@ IntT BinOpNode::calc() const {
     return left_->calc() && right_->calc();
   case BinOp::kOr:
     return left_->calc() || right_->calc();
+  case BinOp::kBtwAnd:
+    return left_->calc() &  right_->calc();
+  case BinOp::kBtwOr:
+    return left_->calc() |  right_->calc();
+  case BinOp::kXor:
+    return left_->calc() ^  right_->calc();
+  case BinOp::kShl:
+    return left_->calc() << right_->calc();
+  case BinOp::kShr:
+    return left_->calc() >> right_->calc();
   default:
     assert(0 && "Unhandled BinOp value");
   }

@@ -63,6 +63,13 @@ enum class BinOp {
 
   kAnd,
   kOr,
+
+  kBtwAnd,
+  kBtwOr,
+  kXor,
+
+  kShl,
+  kShr,
 };
 
 /**
@@ -72,6 +79,7 @@ enum class UnOp {
   kPlus,
   kMinus,
   kNot,
+  kBtwNot,
 };
 
 /**

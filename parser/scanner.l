@@ -55,6 +55,15 @@ splice                  (\\[[:blank:]]*\n)*
 "||"              return yy::parser::token_type::OR;
 "&&"              return yy::parser::token_type::AND;
 
+"&"               return yy::parser::token_type::BTW_AND;
+"|"               return yy::parser::token_type::BTW_OR;
+"^"               return yy::parser::token_type::XOR;
+
+"~"               return yy::parser::token_type::BTW_NOT;
+
+"<<"              return yy::parser::token_type::SHL;
+">>"              return yy::parser::token_type::SHR;
+
 {DIGIT1}{DIGIT}*  return yy::parser::token_type::NUMBER;
 "0"               return yy::parser::token_type::NUMBER;
 
