@@ -199,6 +199,13 @@ TEST(bitwise, test5) {
            "bitwise/bitwise5.out"));
 }
 
+TEST(assignment_with_modify, test1) {
+  ASSERT_TRUE(
+      test("assignment_with_modify/assignment_with_modify.pcl",
+           "assignment_with_modify/assignment_with_modify.in",
+           "assignment_with_modify/assignment_with_modify.out"));
+}
+
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleMock(&argc, argv);
   return RUN_ALL_TESTS();
