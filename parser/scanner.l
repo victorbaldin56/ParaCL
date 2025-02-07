@@ -77,6 +77,9 @@ splice                  (\\[[:blank:]]*\n)*
 "<<"              return yy::parser::token_type::SHL;
 ">>"              return yy::parser::token_type::SHR;
 
+"++"              return yy::parser::token_type::INCR;
+"--"              return yy::parser::token_type::DECR;
+
 {DIGIT1}{DIGIT}*  return yy::parser::token_type::NUMBER;
 "0"               return yy::parser::token_type::NUMBER;
 "0x"{HEX_DIGIT}*  return yy::parser::token_type::NUMBER;  /* hexadecimal */
