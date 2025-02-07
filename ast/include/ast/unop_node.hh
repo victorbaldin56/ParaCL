@@ -16,7 +16,7 @@ class UnOpNode : public INode {
   UnOpNode(const pINode& ch, UnOp op) noexcept : ch_(ch), op_(op) {}
 
   IntT calc() const override;
+  llvm::Value* codegen() const override;
 };
 
 } // namespace ast
-

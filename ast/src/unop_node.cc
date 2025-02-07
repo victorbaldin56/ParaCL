@@ -2,6 +2,8 @@
 
 #include <cassert>
 
+#include "ast/codegen.hh"
+
 namespace ast {
 
 pINode makeUnOp(const pINode& n, UnOp op) {
@@ -19,6 +21,10 @@ IntT UnOpNode::calc() const {
   default:
     assert(0 && "Unhandled UnOp enum value");
   }
+}
+
+llvm::Value* UnOpNode::codegen() const {
+
 }
 
 } // namespace ast

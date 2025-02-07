@@ -37,12 +37,13 @@ class CodeGen final {
 
   llvm::Function* function_ = nullptr;
 
+ public:
   CodeGen(std::string& module_name)
       : builder_(new llvm::IRBuilder<>(context_)),
         module_(new llvm::Module(module_name, context_)) {}
 
   // assumption: extern void Name() { ..... }
-  void startFunction(std::string name);
+  void startFunction(std::string& name);
 
   void endCurrentFunction() { builder_->CreateRetVoid(); }
 
@@ -111,6 +112,9 @@ class CodeGen final {
     llvm::Function::Create(ft, llvm::Function::ExternalLinkage,
                            name, module_.get());
   }
+
+  llvm::Value* addUnOp (UnOp  op, llvm::Value* lhs);
+  llvm::Value* addBinOp(BinOp op, llvm::Value* lhs, llvm::Value* rhs);
 };
 
 extern std::unique_ptr<CodeGen> global_gen;
