@@ -2,6 +2,8 @@
 
 #include <cassert>
 
+#include "ast/var_node.hh"
+
 namespace ast {
 
 pINode makeUnOp(const pINode& n, UnOp op) {
@@ -18,6 +20,14 @@ int UnOpNode::calc() const {
     return !ch_->calc();
   case UnOp::kBtwNot:
     return ~ch_->calc();
+  case UnOp::kPreIncr:
+    return std::static_pointer_cast<VarNode>(ch_)->preIncrement();
+  case UnOp::kPreDecr:
+    return std::static_pointer_cast<VarNode>(ch_)->preDecrement();
+  case UnOp::kPostIncr:
+    return std::static_pointer_cast<VarNode>(ch_)->postIncrement();
+  case UnOp::kPostDecr:
+    return std::static_pointer_cast<VarNode>(ch_)->postDecrement();
   default:
     assert(0 && "Unhandled UnOp enum value");
   }

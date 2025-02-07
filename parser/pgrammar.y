@@ -60,6 +60,7 @@ parser::token_type yylex(parser::semantic_type* yylval,
 
 %nonassoc XIF
 %nonassoc ELSE
+%nonassoc INCR DECR
 
 /* non-trivial operators that require precedence & associativity */
 %right ASSIGN
@@ -169,6 +170,10 @@ expr_un:     ADD expr_term                    { $$ = ast::makeUnOp($2, ast::UnOp
            | SUB expr_term                    { $$ = ast::makeUnOp($2, ast::UnOp::kMinus); }
            | NOT expr_term                    { $$ = ast::makeUnOp($2, ast::UnOp::kNot); }
            | BTW_NOT expr_term                { $$ = ast::makeUnOp($2, ast::UnOp::kBtwNot); }
+           | INCR ID[e]                       { $$ = ast::makeUnOp(ast::makeVar($e), ast::UnOp::kPreIncr); }
+           | ID[e] INCR                       { $$ = ast::makeUnOp(ast::makeVar($e), ast::UnOp::kPostIncr); }
+           | DECR ID[e]                       { $$ = ast::makeUnOp(ast::makeVar($e), ast::UnOp::kPreDecr); }
+           | ID[e] DECR                       { $$ = ast::makeUnOp(ast::makeVar($e), ast::UnOp::kPostDecr); }
            | expr_term                        { $$ = $1; }
 
 expr_term:   LP expr RP                       { $$ = $2; }

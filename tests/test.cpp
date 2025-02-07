@@ -213,6 +213,13 @@ TEST(custom_base, test1) {
            "custom_base/custom_base.out"));
 }
 
+TEST(incr_decr, test1) {
+  ASSERT_TRUE(
+      test("incr_decr/incr_decr.pcl",
+           "incr_decr/incr_decr.in",
+           "incr_decr/incr_decr.out"));
+}
+
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleMock(&argc, argv);
   return RUN_ALL_TESTS();
