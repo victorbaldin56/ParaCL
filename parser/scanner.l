@@ -42,7 +42,18 @@ splice                  (\\[[:blank:]]*\n)*
 "*"               return yy::parser::token_type::MUL;
 "/"               return yy::parser::token_type::DIV;
 "%"               return yy::parser::token_type::MOD;
+
 "="               return yy::parser::token_type::ASSIGN;
+"+="              return yy::parser::token_type::ADD_ASSIGN;
+"-="              return yy::parser::token_type::SUB_ASSIGN;
+"*="              return yy::parser::token_type::MUL_ASSIGN;
+"/="              return yy::parser::token_type::DIV_ASSIGN;
+"%="              return yy::parser::token_type::MOD_ASSIGN;
+"&="              return yy::parser::token_type::BTW_AND_ASSIGN;
+"|="              return yy::parser::token_type::BTW_OR_ASSIGN;
+"^="              return yy::parser::token_type::XOR_ASSIGN;
+"<<="             return yy::parser::token_type::SHL_ASSIGN;
+">>="             return yy::parser::token_type::SHR_ASSIGN;
 
 "=="              return yy::parser::token_type::IS_EQ;
 ">="              return yy::parser::token_type::IS_GE;
