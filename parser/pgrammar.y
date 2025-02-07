@@ -154,6 +154,7 @@ expr:        expr ADD     expr                { $$ = ast::makeBinOp($1, ast::Bin
 expr_un:     ADD expr_term                    { $$ = ast::makeUnOp($2, ast::UnOp::kPlus); }
            | SUB expr_term                    { $$ = ast::makeUnOp($2, ast::UnOp::kMinus); }
            | NOT expr_term                    { $$ = ast::makeUnOp($2, ast::UnOp::kNot); }
+           | BTW_NOT expr_term                { $$ = ast::makeUnOp($2, ast::UnOp::kBtwNot); }
            | expr_term                        { $$ = $1; }
 
 expr_term:   LP expr RP                       { $$ = $2; }
