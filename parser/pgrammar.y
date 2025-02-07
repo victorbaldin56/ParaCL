@@ -69,10 +69,10 @@ parser::token_type yylex(parser::semantic_type* yylval,
 %left IS_EQ IS_GE IS_GT IS_LE IS_LT IS_NE
 %left ADD SUB
 %left MUL DIV MOD
-%left NOT
-%left BTW_AND BTW_OR XOR
-%left BTW_NOT
 %left SHL SHR
+%left BTW_AND BTW_OR XOR
+%left NOT
+%left BTW_NOT
 
 %token<int> NUMBER
 %token<std::string> ID
