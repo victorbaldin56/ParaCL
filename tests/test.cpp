@@ -213,6 +213,13 @@ TEST(custom_base, test1) {
            "custom_base/custom_base.out"));
 }
 
+TEST(else_if, test1) {
+  ASSERT_TRUE(
+      test("else_if/else_if.pcl",
+           "else_if/else_if.in",
+           "else_if/else_if.out"));
+}
+
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleMock(&argc, argv);
   return RUN_ALL_TESTS();

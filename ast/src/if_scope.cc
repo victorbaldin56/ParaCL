@@ -2,6 +2,10 @@
 
 namespace ast {
 
+pIScope makeIfScope(const pIScope& par) {
+  return std::make_shared<IfScope>(par);
+}
+
 int IfScope::calc() const {
   for (auto&& p : if_stms_) {
     if (p->calc()) {
