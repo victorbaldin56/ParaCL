@@ -6,6 +6,32 @@
 #include "ast/var_node.hh"
 
 namespace ast {
+namespace {
+
+inline const char* UnOpToString(UnOp op) {
+  switch (op) {
+  case UnOp::kPlus:
+    return "+";
+  case UnOp::kMinus:
+    return "-";
+  case UnOp::kNot:
+    return "!";
+  case UnOp::kBtwNot:
+    return "~";
+  case UnOp::kPreIncr:
+    return "++ (pre)";
+  case UnOp::kPreDecr:
+    return "-- (pre)";
+  case UnOp::kPostIncr:
+    return "++ (post)";
+  case UnOp::kPostDecr:
+    return "-- (post)";
+  default:
+    assert(0 && "Unhandled UnOp enum value");
+  }
+}
+
+} // namespace
 
 pINode makeUnOp(const pINode& n, UnOp op) {
   return std::make_shared<UnOpNode>(n, op);
@@ -35,7 +61,7 @@ int UnOpNode::calc() const {
 }
 
 void UnOpNode::dump(std::ostream& os) const {
-  os << current_indent << "UnaryOperator\n";
+  os << current_indent << "UnaryOperator '" << UnOpToString(op_) << "'\n";
 
   dump_helpers::increaseIndent();
   ch_->dump(os);
