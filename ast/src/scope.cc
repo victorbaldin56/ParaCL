@@ -1,5 +1,7 @@
 #include "ast/scope.hh"
 
+#include "ast/dump_helpers.hh"
+
 namespace ast {
 
 pIScope makeScope(const pIScope& par) {
@@ -14,12 +16,12 @@ int Scope::calc() const {
 }
 
 void Scope::dump(std::ostream& os) const {
-  os << "SCOPE\n";
+  os << current_indent << "Scope\n";
 
-  current_indent += kDumpIndent;
+  dump_helpers::increaseIndent();
   std::for_each(stms_.cbegin(), stms_.cend(),
                 [&os](auto&& s){ s->dump(os); });
-  current_indent -= kDumpIndent;
+  dump_helpers::resetIndent();
 }
 
 /**

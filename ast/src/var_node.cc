@@ -20,7 +20,7 @@ pINode makeVar(const std::string& name) {
 }
 
 void VarNode::dump(std::ostream& os) const {
-
+  os << current_indent << "Variable '" << it_->first << "'\n";
 }
 
 } // namespace ast

@@ -2,6 +2,7 @@
 
 #include <cassert>
 
+#include "ast/dump_helpers.hh"
 #include "ast/var_node.hh"
 
 namespace ast {
@@ -34,7 +35,11 @@ int UnOpNode::calc() const {
 }
 
 void UnOpNode::dump(std::ostream& os) const {
+  os << current_indent << "UnaryOperator\n";
 
+  dump_helpers::increaseIndent();
+  ch_->dump(os);
+  dump_helpers::resetIndent();
 }
 
 } // namespace ast

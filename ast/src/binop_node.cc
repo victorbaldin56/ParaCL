@@ -2,6 +2,8 @@
 
 #include <cassert>
 
+#include "ast/dump_helpers.hh"
+
 namespace ast {
 
 pINode makeBinOp(const pINode& left, BinOp op, const pINode& right) {
@@ -52,12 +54,12 @@ int BinOpNode::calc() const {
 }
 
 void BinOpNode::dump(std::ostream& os) const {
-  os << "BINARY_OPERATOR\n";
+  os << current_indent << "BinaryOperator\n";
 
-  current_indent += kDumpIndent;
+  dump_helpers::increaseIndent();
   left_->dump(os);
   right_->dump(os);
-  current_indent -= kDumpIndent;
+  dump_helpers::resetIndent();
 }
 
 } // namespace ast

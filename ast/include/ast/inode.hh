@@ -12,7 +12,7 @@
 
 namespace ast {
 
-constexpr unsigned kDumpIndent = 2;
+constexpr char kDumpIndent[] = "  ";
 
 class INode;
 class IScope;
@@ -92,8 +92,10 @@ pINode  makeUnOp  (const pINode& n, UnOp op);
 pINode  makeBinOp (const pINode& left, BinOp op, const pINode& right);
 pINode  makeWhile (const pINode& op, const pINode& sc);
 pINode  makeIf    (const pINode& op,
-                   const pINode& sc,
-                   const pINode& else_sc = nullptr);
+                   const pINode& sc);
+pINode  makeElseIf(const pINode& op,
+                   const pINode& sc);
+pINode  makeElse  (const pINode& sc);
 pINode  makeVar   (const std::string& name);
 pINode  makePrint (const pINode& n);
 pINode  makeScan  ();
@@ -105,6 +107,6 @@ pIScope makeIfScope(const pIScope& par = nullptr);
 /** @} */
 
 extern pIScope current_scope;
-extern unsigned current_indent; // for dump
+extern std::string current_indent; // for dump
 
 } // namespace ast

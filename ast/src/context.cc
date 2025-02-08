@@ -3,6 +3,6 @@
 namespace ast {
 
 pIScope current_scope;
-unsigned current_indent = 0;
+std::string current_indent;
 
 } // namespace ast

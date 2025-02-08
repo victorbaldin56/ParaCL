@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "ast/dump_helpers.hh"
 #include "ast/scope.hh"
 
 namespace ast {
@@ -17,7 +18,7 @@ int ScanNode::calc() const {
 }
 
 void ScanNode::dump(std::ostream& os) const {
-
+  os << current_indent << "ScanOperator\n";
 }
 
 } // namespace ast

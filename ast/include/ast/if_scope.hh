@@ -12,6 +12,7 @@ class IfScope : public Scope {
   IfScope(const pIScope& par = nullptr) : Scope(par) {}
 
   int calc() const override;
+  void dump(std::ostream& os) const override;
 };
 
 } // namespace ast

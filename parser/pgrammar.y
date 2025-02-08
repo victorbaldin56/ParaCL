@@ -207,11 +207,11 @@ else_ifs:    else_if                          { ast::current_scope->push($1); }
            | else_ifs else_if                 { ast::current_scope->push($2); }
 
 else_if:     ELSE IF LP expr[e] RP
-               br_stm[s]                      { $$ = ast::makeIf($e, $s); }
+               br_stm[s]                      { $$ = ast::makeElseIf($e, $s); }
 
 else:        ELSE
                br_stm[s]                      {
-                                                $$ = ast::makeIf(ast::makeValue(1), $s);
+                                                $$ = ast::makeElse($s);
                                                 ast::current_scope->push($$);
                                               }
 

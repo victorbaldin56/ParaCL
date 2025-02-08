@@ -1,5 +1,6 @@
 #include "ast/assign_node.hh"
 
+#include "ast/dump_helpers.hh"
 #include "ast/scope.hh"
 #include "ast/var_node.hh"
 
@@ -21,12 +22,12 @@ int AssignNode::calc() const {
 }
 
 void AssignNode::dump(std::ostream& os) const {
-  os << "ASSIGN_OPERATOR\n";
+  os << current_indent << "AssignOperator\n";
 
-  current_indent += kDumpIndent;
+  dump_helpers::increaseIndent();
   var_->dump(os);
   expr_->dump(os);
-  current_indent -= kDumpIndent;
+  dump_helpers::resetIndent();
 }
 
 } // namespace ast
