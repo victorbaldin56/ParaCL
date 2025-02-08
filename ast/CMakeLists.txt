@@ -15,8 +15,8 @@ add_library(ast
   src/var_node.cc
   src/while_node.cc
   src/context.cc
+  src/if_scope.cc
 )
 
 target_compile_features(ast PRIVATE cxx_std_17)
 target_link_libraries(ast ast_interface)
-

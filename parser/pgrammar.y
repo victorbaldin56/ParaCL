@@ -84,7 +84,10 @@ parser::token_type yylex(parser::semantic_type* yylval,
 
 %nterm<ast::pINode>
   stm
-  if
+  just_if
+  endif
+  else
+  else_if
   while
   print
   expr
@@ -94,6 +97,8 @@ parser::token_type yylex(parser::semantic_type* yylval,
 
 %nterm<ast::pIScope>
   stms
+  else_ifs
+  if
   scope
   op_br_stm
 
@@ -128,9 +133,10 @@ stms:        stm                              { if ($1) ast::current_scope->push
            | stms stm                         { if ($2) ast::current_scope->push($2); }
            | scope
            | stms scope
+           | if
+           | stms if
 
-stm:         if                               { $$ = $1; }
-           | while                            { $$ = $1; }
+stm:         while                            { $$ = $1; }
            | print                            { $$ = $1; }
            | expr SCOLON                      { $$ = $1; }
            | SCOLON                           { $$ = nullptr; }
@@ -181,12 +187,33 @@ expr_term:   LP expr RP                       { $$ = $2; }
            | ID                               { $$ = ast::makeVar($1); }
            | SCAN                             { $$ = ast::makeScan(); }
 
-if:          IF LP expr[e] RP
-               br_stm[s] %prec XIF            { $$ = ast::makeIf($e, $s); }
-           | IF LP expr[e] RP
-               br_stm[s1]
-             ELSE
-               br_stm[s2]                     { $$ = ast::makeIf($e, $s1, $s2); }
+if:          just_if               endif
+           | just_if else          endif
+           | just_if else_ifs      endif
+           | just_if else_ifs else endif
+
+endif:       %prec XIF                        { ast::current_scope = ast::current_scope->parentScope(); }
+
+just_if:     IF LP expr[e] RP
+               br_stm[s]                      {
+                                                ast::pIScope tmp = ast::current_scope;
+                                                ast::current_scope = ast::makeIfScope(tmp);
+                                                tmp->push(ast::current_scope);
+                                                $$ = ast::makeIf($e, $s);
+                                                ast::current_scope->push($$);
+                                              }
+
+else_ifs:    else_if                          { ast::current_scope->push($1); }
+           | else_ifs else_if                 { ast::current_scope->push($2); }
+
+else_if:     ELSE IF LP expr[e] RP
+               br_stm[s]                      { $$ = ast::makeIf($e, $s); }
+
+else:        ELSE
+               br_stm[s]                      {
+                                                $$ = ast::makeIf(ast::makeValue(1), $s);
+                                                ast::current_scope->push($$);
+                                              }
 
 while:       WHILE LP expr RP br_stm          { $$ = ast::makeWhile($3, $5); }
            | WHILE LP expr RP stm             { $$ = ast::makeWhile($3, $5); }
