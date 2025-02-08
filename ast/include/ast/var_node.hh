@@ -13,6 +13,7 @@ class VarNode : public INode {
   VarNode(Symtab::iterator it) : it_(it) {}
 
   int calc() const override { return it_->second.value; }
+  void dump(std::ostream& os) const override;
 
   void assign(int val) { it_->second.value = val; }
   int preIncrement() { return ++it_->second.value; }

@@ -16,6 +16,7 @@ class UnOpNode : public INode {
   UnOpNode(const pINode& ch, UnOp op) noexcept : ch_(ch), op_(op) {}
 
   int calc() const override;
+  void dump(std::ostream& os) const override;
 };
 
 } // namespace ast

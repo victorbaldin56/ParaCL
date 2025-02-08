@@ -12,6 +12,7 @@ private:
   explicit PrintNode(const pINode& stm) noexcept : stm_(stm) {}
 
   int calc() const override;
+  void dump(std::ostream& os) const override;
 };
 
 } // namespace ast

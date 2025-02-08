@@ -1,5 +1,6 @@
 #include "ast/assign_node.hh"
 
+#include "ast/dump_helpers.hh"
 #include "ast/scope.hh"
 #include "ast/var_node.hh"
 
@@ -18,6 +19,15 @@ int AssignNode::calc() const {
   std::shared_ptr<VarNode> vp = std::static_pointer_cast<VarNode>(var_);
   vp->assign(expr_val);
   return expr_val;
+}
+
+void AssignNode::dump(std::ostream& os) const {
+  os << current_indent << "AssignOperator\n";
+
+  dump_helpers::increaseIndent();
+  var_->dump(os);
+  expr_->dump(os);
+  dump_helpers::resetIndent();
 }
 
 } // namespace ast
