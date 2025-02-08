@@ -9,14 +9,11 @@ pINode makeIf(const pINode& op,
 }
 
 int IfNode::calc() const {
-  if (cond_->calc()) {
+  int cond = cond_->calc();
+  if (cond) {
     stm_->calc();
-  } else {
-    if (else_stm_) {
-      else_stm_->calc();
-    }
   }
-  return 0;
+  return cond;
 }
 
 } // namespace ast

@@ -58,7 +58,6 @@ parser::token_type yylex(parser::semantic_type* yylval,
   RP
   UNKNOWN
 
-%nonassoc XIF
 %nonassoc ELSE
 
 /* non-trivial operators that require precedence & associativity */
@@ -83,7 +82,9 @@ parser::token_type yylex(parser::semantic_type* yylval,
 
 %nterm<ast::pINode>
   stm
-  if
+  just_if
+  else
+  else_if
   while
   print
   expr
@@ -93,6 +94,8 @@ parser::token_type yylex(parser::semantic_type* yylval,
 
 %nterm<ast::pIScope>
   stms
+  else_ifs
+  if
   scope
   op_br_stm
 
@@ -176,12 +179,21 @@ expr_term:   LP expr RP                       { $$ = $2; }
            | ID                               { $$ = ast::makeVar($1); }
            | SCAN                             { $$ = ast::makeScan(); }
 
-if:          IF LP expr[e] RP
-               br_stm[s] %prec XIF            { $$ = ast::makeIf($e, $s); }
-           | IF LP expr[e] RP
-               br_stm[s1]
-             ELSE
-               br_stm[s2]                     { $$ = ast::makeIf($e, $s1, $s2); }
+if:          just_if
+           | just_if else
+           | just_if else_ifs
+           | just_if else_ifs else
+
+just_if:     IF LP expr[e] RP
+               br_stm[s]                      { $$ = ast::makeIf($e, $s); }
+
+else_ifs:    else_if                          {}
+           | else_ifs else_if                 {}
+
+else_if:     ELSE just_if                     { $$ = $2; }
+
+else:        ELSE
+               br_stm[s]                      { $$ = ast::makeIf(ast::makeValue(1), $s); }
 
 while:       WHILE LP expr RP br_stm          { $$ = ast::makeWhile($3, $5); }
            | WHILE LP expr RP stm             { $$ = ast::makeWhile($3, $5); }
