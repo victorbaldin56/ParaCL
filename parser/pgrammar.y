@@ -187,24 +187,28 @@ if:          just_if               endif
            | just_if else_ifs      endif
            | just_if else_ifs else endif
 
-endif:       %prec XIF                              { ast::current_scope = ast::current_scope->parentScope(); }
+endif:       %prec XIF                        { ast::current_scope = ast::current_scope->parentScope(); }
 
 just_if:     IF LP expr[e] RP
-               br_stm[s]                      { ast::pIScope tmp = ast::current_scope;
+               br_stm[s]                      {
+                                                ast::pIScope tmp = ast::current_scope;
                                                 ast::current_scope = ast::makeIfScope(tmp);
                                                 tmp->push(ast::current_scope);
                                                 $$ = ast::makeIf($e, $s);
-                                                ast::current_scope->push($$); }
+                                                ast::current_scope->push($$);
+                                              }
 
-else_ifs:    else_if                          { }
-           | else_ifs else_if                 { }
+else_ifs:    else_if                          { ast::current_scope->push($1); }
+           | else_ifs else_if                 { ast::current_scope->push($2); }
 
-else_if:     ELSE just_if                     { $$ = $2;
-                                                ast::current_scope->push($$); }
+else_if:     ELSE IF LP expr[e] RP
+               br_stm[s]                      { $$ = ast::makeIf($e, $s); }
 
 else:        ELSE
-               br_stm[s]                      { $$ = ast::makeIf(ast::makeValue(1), $s);
-                                                ast::current_scope->push($$); }
+               br_stm[s]                      {
+                                                $$ = ast::makeIf(ast::makeValue(1), $s);
+                                                ast::current_scope->push($$);
+                                              }
 
 while:       WHILE LP expr RP br_stm          { $$ = ast::makeWhile($3, $5); }
            | WHILE LP expr RP stm             { $$ = ast::makeWhile($3, $5); }
