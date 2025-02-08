@@ -7,7 +7,7 @@ pIScope makeIfScope(const pIScope& par) {
 }
 
 int IfScope::calc() const {
-  for (auto&& p : if_stms_) {
+  for (auto&& p : stms_) {
     if (p->calc()) {
       break;
     }

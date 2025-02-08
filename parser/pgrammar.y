@@ -187,7 +187,7 @@ if:          just_if               endif
            | just_if else_ifs      endif
            | just_if else_ifs else endif
 
-endif:       XIF                              { ast::current_scope = ast::current_scope->parentScope(); }
+endif:       %prec XIF                              { ast::current_scope = ast::current_scope->parentScope(); }
 
 just_if:     IF LP expr[e] RP
                br_stm[s]                      { ast::pIScope tmp = ast::current_scope;
