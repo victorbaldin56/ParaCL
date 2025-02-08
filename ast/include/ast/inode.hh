@@ -70,6 +70,10 @@ enum class UnOp {
   kMinus,
   kNot,
   kBtwNot,
+  kPreIncr,
+  kPostIncr,
+  kPreDecr,
+  kPostDecr,
 };
 
 /**

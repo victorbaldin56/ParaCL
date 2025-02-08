@@ -1,0 +1,17 @@
+x = ?;
+
+while (x) {
+  print --x;
+}
+
+while (x < 3) {
+  print ++x;
+}
+
+while (x) {
+  print x--;
+}
+
+while (x < 3) {
+  print x++;
+}

@@ -213,6 +213,13 @@ TEST(custom_base, test1) {
            "custom_base/custom_base.out"));
 }
 
+TEST(incr_decr, test1) {
+  ASSERT_TRUE(
+      test("incr_decr/incr_decr.pcl",
+           "incr_decr/incr_decr.in",
+           "incr_decr/incr_decr.out"));
+}
+
 TEST(else_if, test1) {
   ASSERT_TRUE(
       test("else_if/else_if.pcl",
