@@ -21,7 +21,12 @@ int AssignNode::calc() const {
 }
 
 void AssignNode::dump(std::ostream& os) const {
+  os << "ASSIGN_OPERATOR\n";
 
+  current_indent += kDumpIndent;
+  var_->dump(os);
+  expr_->dump(os);
+  current_indent -= kDumpIndent;
 }
 
 } // namespace ast

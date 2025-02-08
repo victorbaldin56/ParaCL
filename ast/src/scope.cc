@@ -14,7 +14,12 @@ int Scope::calc() const {
 }
 
 void Scope::dump(std::ostream& os) const {
+  os << "SCOPE\n";
 
+  current_indent += kDumpIndent;
+  std::for_each(stms_.cbegin(), stms_.cend(),
+                [&os](auto&& s){ s->dump(os); });
+  current_indent -= kDumpIndent;
 }
 
 /**

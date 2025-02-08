@@ -4,11 +4,15 @@
  */
 #pragma once
 
+#include <algorithm>
+#include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <string>
 
 namespace ast {
+
+constexpr unsigned kDumpIndent = 2;
 
 class INode;
 class IScope;
@@ -100,5 +104,6 @@ pIScope makeScope(const pIScope& par = nullptr);
 /** @} */
 
 extern pIScope current_scope;
+extern unsigned current_indent; // for dump
 
 } // namespace ast

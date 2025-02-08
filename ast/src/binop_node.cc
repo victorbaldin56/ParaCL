@@ -52,7 +52,12 @@ int BinOpNode::calc() const {
 }
 
 void BinOpNode::dump(std::ostream& os) const {
+  os << "BINARY_OPERATOR\n";
 
+  current_indent += kDumpIndent;
+  left_->dump(os);
+  right_->dump(os);
+  current_indent -= kDumpIndent;
 }
 
 } // namespace ast
