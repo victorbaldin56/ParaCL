@@ -33,4 +33,8 @@ int UnOpNode::calc() const {
   }
 }
 
+void UnOpNode::dump(std::ostream& os) const {
+
+}
+
 } // namespace ast

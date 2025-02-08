@@ -16,4 +16,8 @@ int ScanNode::calc() const {
   return tmp;
 }
 
+void ScanNode::dump(std::ostream& os) const {
+
+}
+
 } // namespace ast

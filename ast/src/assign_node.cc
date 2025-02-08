@@ -20,4 +20,8 @@ int AssignNode::calc() const {
   return expr_val;
 }
 
+void AssignNode::dump(std::ostream& os) const {
+
+}
+
 } // namespace ast

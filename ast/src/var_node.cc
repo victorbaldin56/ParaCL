@@ -19,4 +19,8 @@ pINode makeVar(const std::string& name) {
   return std::make_shared<VarNode>(it_n_bool.first);
 }
 
+void VarNode::dump(std::ostream& os) const {
+
+}
+
 } // namespace ast

@@ -13,4 +13,8 @@ int PrintNode::calc() const {
   return 0;
 }
 
+void PrintNode::dump(std::ostream& os) const {
+
+}
+
 } // namespace ast

@@ -51,4 +51,8 @@ int BinOpNode::calc() const {
   }
 }
 
+void BinOpNode::dump(std::ostream& os) const {
+
+}
+
 } // namespace ast

@@ -19,4 +19,8 @@ int IfNode::calc() const {
   return 0;
 }
 
+void IfNode::dump(std::ostream& os) const {
+
+}
+
 } // namespace ast

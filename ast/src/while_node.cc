@@ -13,4 +13,8 @@ int WhileNode::calc() const {
   return 0;
 }
 
+void WhileNode::dump(std::ostream& os) const {
+
+}
+
 } // namespace ast

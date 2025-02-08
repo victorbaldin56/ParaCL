@@ -13,6 +13,10 @@ int Scope::calc() const {
   return 0;
 }
 
+void Scope::dump(std::ostream& os) const {
+
+}
+
 /**
  * Finds symbol in current & all parent scopes.
  */

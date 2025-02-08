@@ -12,7 +12,8 @@ int main(int argc, char** argv) {
     po::options_description desc("Options");
     desc.add_options()
       ("help,h", "Print help message")
-      ("source", po::value<std::string>(), "source file");
+      ("source", po::value<std::string>(), "source file")
+      ("ast-dump", "Dump AST in console");
 
     po::positional_options_description pos_desc;
     pos_desc.add("source", -1);
@@ -38,6 +39,11 @@ int main(int argc, char** argv) {
 
       if (!driver.parse()) {
         return EXIT_FAILURE;
+      }
+
+      if (var_map.count("ast-dump")) {
+        ast::current_scope->dump(std::cerr);
+        return 0;
       }
 
       ast::current_scope->calc();
