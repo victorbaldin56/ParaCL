@@ -13,6 +13,7 @@ class ScanNode : public INode {
   explicit ScanNode() noexcept {}
 
   int calc() const override;
+  void dump(std::ostream& os) const override;
 };
 
 } // namespace ast

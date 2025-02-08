@@ -22,6 +22,7 @@ using pIScope = std::shared_ptr<IScope>;
 class INode {
  public:
   virtual int calc() const = 0;
+  virtual void dump(std::ostream& os) const = 0;
   virtual ~INode() {}
 };
 

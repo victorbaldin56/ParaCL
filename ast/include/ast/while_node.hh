@@ -14,6 +14,7 @@ class WhileNode : public INode {
       : cond_(cond), stm_(stm) {}
 
   int calc() const override;
+  void dump(std::ostream& os) const override;
 };
 
 } // namespace ast

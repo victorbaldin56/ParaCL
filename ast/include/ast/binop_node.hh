@@ -15,6 +15,7 @@ class BinOpNode : public INode {
       : left_(left), op_(op), right_(right) {}
 
   int calc() const override;
+  void dump(std::ostream& os) const override;
 };
 
 } // namespace ast
