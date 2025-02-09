@@ -70,7 +70,6 @@ void PDriver::printErroneousLine(const location& loc) const {
 
 void PDriver::reportAnyError(const parser& parser,
                              const std::exception& ex) const {
-  // AST error currently can mean only symtab-related things.
   const location& loc = plex_.getCurrentLocation();
   reportErrorAtLocation(loc);
 
