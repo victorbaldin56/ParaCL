@@ -1,5 +1,7 @@
 #include "interpreter/cmd_parser.hh"
 
+#include <iostream>
+
 namespace interpreter {
 
 CmdParser::CmdParser(int argc, const char* const* argv) : parser_(argc, argv) {
@@ -18,6 +20,8 @@ Config CmdParser::run() {
   Config cfg;
 
   if (var_map_.count("help")) {
+    std::cout << "Usage: pcl [options] [file] ...\n"
+                 "Options:\n" << desc_;
     cfg.help_flag_ = true;
     return cfg;
   }

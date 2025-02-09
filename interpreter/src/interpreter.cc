@@ -7,6 +7,11 @@
 namespace interpreter {
 
 void Interpreter::run() {
+  // no work to be done
+  if (cfg_.help_flag_) {
+    return;
+  }
+
   yy::PDriver driver(cfg_.filename_);
   ast::current_scope = ast::makeScope();
 
@@ -21,6 +26,8 @@ void Interpreter::run() {
   case Config::ProgramAction::kDumpAst:
     ast::current_scope->dump(std::cerr);
     return;
+  default:
+    assert(0 && "Unhandled Config::ProgramAction enum value");
   }
 }
 
