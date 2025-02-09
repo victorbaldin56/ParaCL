@@ -13,10 +13,6 @@ bison_target(parser
 
 add_flex_bison_dependency(scanner parser)
 
-add_library(parser_interface INTERFACE)
-target_include_directories(parser_interface INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include;${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(parser_interface INTERFACE ast_interface;ctty)
-
 add_library(parser
   src/driver.cc
   src/lexer.cc
@@ -24,5 +20,6 @@ add_library(parser
   ${FLEX_scanner_OUTPUTS}
 )
 
-target_link_libraries(parser parser_interface)
+target_include_directories(parser PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include;${CMAKE_CURRENT_BINARY_DIR})
+target_link_libraries(parser PUBLIC ast;ctty)
 target_compile_features(parser PRIVATE cxx_std_17)
