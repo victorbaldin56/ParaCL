@@ -16,6 +16,7 @@ FetchContent_MakeAvailable(YAColorTTY)
 
 add_subdirectory(ast)
 add_subdirectory(parser)
+add_subdirectory(interpreter)
 add_subdirectory(tests)
 
 add_executable(pcl
@@ -26,4 +27,5 @@ target_link_libraries(pcl
   Boost::program_options
   parser
   ast
+  interpreter
 )
