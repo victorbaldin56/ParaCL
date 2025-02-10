@@ -23,9 +23,5 @@ add_executable(pcl
   main.cc
 )
 
-target_link_libraries(pcl
-  Boost::program_options
-  parser
-  ast
-  interpreter
-)
+target_link_libraries(pcl interpreter)
+target_link_libraries(pcl ctty)
