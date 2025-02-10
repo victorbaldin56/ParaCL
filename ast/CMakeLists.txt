@@ -12,7 +12,6 @@ add_library(ast
   src/var_node.cc
   src/while_node.cc
   src/context.cc
-  src/if_scope.cc
 )
 
 target_include_directories(ast PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

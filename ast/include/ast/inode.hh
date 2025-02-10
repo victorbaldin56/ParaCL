@@ -102,7 +102,6 @@ pINode  makeScan  ();
 pINode  makeAssign(const std::string& var_name, const pINode& rhs);
 
 pIScope makeScope(const pIScope& par = nullptr);
-pIScope makeIfScope(const pIScope& par = nullptr);
 
 /** @} */
 

@@ -18,11 +18,14 @@ pINode makeElse(const pINode& sc) {
 }
 
 int IfNode::calc() const {
-  int cond = cond_->calc();
-  if (cond) {
+  if (cond_->calc()) {
     stm_->calc();
+  } else {
+    if (else_stm_) {
+      else_stm_->calc();
+    }
   }
-  return cond;
+  return 0;
 }
 
 void IfNode::dump(std::ostream& os) const {

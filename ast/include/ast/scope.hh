@@ -9,11 +9,10 @@ namespace ast {
 
 class Scope : public IScope {
  private:
-  pIScope parent_;
-  Symtab symtab_;
-
- protected:
   std::vector<pINode> stms_;
+  pIScope parent_;
+
+  Symtab symtab_;
 
  public:
   explicit Scope(const pIScope& parent) noexcept : parent_(parent) {}
