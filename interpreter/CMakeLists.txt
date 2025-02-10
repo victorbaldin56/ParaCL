@@ -6,5 +6,5 @@ add_library(interpreter
 )
 
 target_include_directories(interpreter PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_include_directories(interpreter PUBLIC ${Boost_INCLUDE_DIR})
-target_link_libraries(interpreter PUBLIC parser)
+target_link_libraries(interpreter PUBLIC Boost::program_options)
+target_link_libraries(interpreter PRIVATE parser)

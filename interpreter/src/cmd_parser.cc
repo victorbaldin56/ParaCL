@@ -39,6 +39,9 @@ Config CmdParser::run() {
 
   if (var_map_.count("source")) {
     cfg.filename_ = var_map_["source"].as<std::string>();
+    if (cfg.filename_.empty()) {
+      throw std::runtime_error("no input files");
+    }
   }
 
   if (var_map_.count("ast-dump")) {

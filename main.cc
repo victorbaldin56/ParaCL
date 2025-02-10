@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "ctty/color_output.hh"
 #include "interpreter/interpreter.hh"
 
 int main(int argc, char** argv) try {
@@ -9,6 +10,7 @@ int main(int argc, char** argv) try {
   interp.run();
   return 0;
 } catch (std::runtime_error& ex) {
-  std::cerr << ex.what() << "\n";
+  std::cerr << ctty::setAttr(ctty::Attribute::kBold, ctty::Color::kRed)
+            << "fatal error: " << ctty::resetAttr() << ex.what() << "\n";
   return EXIT_FAILURE;
 }
