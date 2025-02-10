@@ -92,10 +92,8 @@ pINode  makeUnOp  (const pINode& n, UnOp op);
 pINode  makeBinOp (const pINode& left, BinOp op, const pINode& right);
 pINode  makeWhile (const pINode& op, const pINode& sc);
 pINode  makeIf    (const pINode& op,
-                   const pINode& sc);
-pINode  makeElseIf(const pINode& op,
-                   const pINode& sc);
-pINode  makeElse  (const pINode& sc);
+                   const pINode& sc,
+                   const pINode& else_sc = nullptr);
 pINode  makeVar   (const std::string& name);
 pINode  makePrint (const pINode& n);
 pINode  makeScan  ();
