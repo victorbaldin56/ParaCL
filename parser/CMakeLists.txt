@@ -22,5 +22,4 @@ add_library(parser
 
 target_include_directories(parser PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(parser PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(parser ast_interface;ctty)
-target_compile_features(parser PRIVATE cxx_std_17)
+target_link_libraries(parser PUBLIC ast)

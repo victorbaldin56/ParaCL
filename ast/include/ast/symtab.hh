@@ -10,7 +10,7 @@
 namespace ast {
 
 struct SymtabItem {
-  IntT value;
+  int value;
 };
 
 using Symtab = std::unordered_map<std::string, SymtabItem>;

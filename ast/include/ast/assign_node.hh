@@ -12,7 +12,9 @@ class AssignNode : public INode {
  public:
   AssignNode(const pINode& var, const pINode& expr) : var_(var), expr_(expr) {}
 
-  IntT calc() const override;
+  int calc() const override;
+  void dump(std::ostream& os) const override;
+  llvm::Value* codegen() const override;
 };
 
 } // namespace ast

@@ -2,6 +2,7 @@
 
 namespace ast {
 
-ast::pIScope current_scope;
+pIScope current_scope;
+std::string current_indent;
 
 } // namespace ast

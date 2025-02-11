@@ -12,9 +12,25 @@ class VarNode : public INode {
  public:
   VarNode(Symtab::iterator it) : it_(it) {}
 
-  IntT calc() const override { return it_->second.value; }
+  int calc() const override { return it_->second.value; }
+  void dump(std::ostream& os) const override;
+  llvm::Value* codegen() const override;
 
-  void assign(IntT val) { it_->second.value = val; }
+  void assign(int val) { it_->second.value = val; }
+  int preIncrement() { return ++it_->second.value; }
+  int preDecrement() { return --it_->second.value; }
+
+  int postIncrement() {
+    int tmp = it_->second.value;
+    ++it_->second.value;
+    return tmp;
+  }
+
+  int postDecrement() {
+    int tmp = it_->second.value;
+    --it_->second.value;
+    return tmp;
+  }
 };
 
 } // namespace ast

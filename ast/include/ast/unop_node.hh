@@ -15,7 +15,8 @@ class UnOpNode : public INode {
  public:
   UnOpNode(const pINode& ch, UnOp op) noexcept : ch_(ch), op_(op) {}
 
-  IntT calc() const override;
+  int calc() const override;
+  void dump(std::ostream& os) const override;
   llvm::Value* codegen() const override;
 };
 

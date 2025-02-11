@@ -17,7 +17,9 @@ class Scope : public IScope {
  public:
   explicit Scope(const pIScope& parent) noexcept : parent_(parent) {}
 
-  IntT calc() const override;
+  int calc() const override;
+  void dump(std::ostream& os) const override;
+  llvm::Value* codegen() const override;
 
   pIScope parentScope() const override { return parent_; }
   void push(const pINode& node) override { stms_.push_back(node); }

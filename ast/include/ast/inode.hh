@@ -4,6 +4,8 @@
  */
 #pragma once
 
+#include <algorithm>
+#include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -12,15 +14,7 @@
 
 namespace ast {
 
-/**
- * @defgroup ParaCLTypes Basic types in ParaCL
- * @{
- */
-
-/** just `int` */
-using IntT = int;
-
-/** @} */
+constexpr char kDumpIndent[] = "  ";
 
 class INode;
 class IScope;
@@ -33,7 +27,8 @@ using pIScope = std::shared_ptr<IScope>;
  */
 class INode {
  public:
-  virtual IntT calc() const = 0;
+  virtual int calc() const = 0;
+  virtual void dump(std::ostream& os) const = 0;
   virtual llvm::Value* codegen() const = 0;
   virtual ~INode() {}
 };
@@ -66,6 +61,13 @@ enum class BinOp {
 
   kAnd,
   kOr,
+
+  kBtwAnd,
+  kBtwOr,
+  kXor,
+
+  kShl,
+  kShr,
 };
 
 /**
@@ -75,6 +77,11 @@ enum class UnOp {
   kPlus,
   kMinus,
   kNot,
+  kBtwNot,
+  kPreIncr,
+  kPostIncr,
+  kPreDecr,
+  kPostDecr,
 };
 
 /**
@@ -83,7 +90,7 @@ enum class UnOp {
  * @{
  */
 
-pINode  makeValue (IntT val);
+pINode  makeValue (int val);
 pINode  makeUnOp  (const pINode& n, UnOp op);
 pINode  makeBinOp (const pINode& left, BinOp op, const pINode& right);
 pINode  makeWhile (const pINode& op, const pINode& sc);
@@ -100,5 +107,6 @@ pIScope makeScope(const pIScope& par = nullptr);
 /** @} */
 
 extern pIScope current_scope;
+extern std::string current_indent; // for dump
 
 } // namespace ast

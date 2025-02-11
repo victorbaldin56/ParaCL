@@ -1,5 +1,6 @@
 #include "ast/assign_node.hh"
 
+#include "ast/dump_helpers.hh"
 #include "ast/scope.hh"
 #include "ast/var_node.hh"
 
@@ -13,11 +14,20 @@ pINode makeAssign(const std::string& var_name, const pINode& expr) {
   return std::make_shared<AssignNode>(var_ptr, expr);
 }
 
-IntT AssignNode::calc() const {
-  IntT expr_val = expr_->calc();
+int AssignNode::calc() const {
+  int expr_val = expr_->calc();
   std::shared_ptr<VarNode> vp = std::static_pointer_cast<VarNode>(var_);
   vp->assign(expr_val);
   return expr_val;
+}
+
+void AssignNode::dump(std::ostream& os) const {
+  os << current_indent << "AssignOperator\n";
+
+  dump_helpers::increaseIndent();
+  var_->dump(os);
+  expr_->dump(os);
+  dump_helpers::resetIndent();
 }
 
 } // namespace ast

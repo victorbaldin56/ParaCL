@@ -164,6 +164,69 @@ TEST(else, test1) {
            "else/else1.out"));
 }
 
+TEST(bitwise, test1) {
+  ASSERT_TRUE(
+      test("bitwise/bitwise.pcl",
+           "bitwise/bitwise1.in",
+           "bitwise/bitwise1.out"));
+}
+
+TEST(bitwise, test2) {
+  ASSERT_TRUE(
+      test("bitwise/bitwise.pcl",
+           "bitwise/bitwise2.in",
+           "bitwise/bitwise2.out"));
+}
+
+TEST(bitwise, test3) {
+  ASSERT_TRUE(
+      test("bitwise/bitwise.pcl",
+           "bitwise/bitwise3.in",
+           "bitwise/bitwise3.out"));
+}
+
+TEST(bitwise, test4) {
+  ASSERT_TRUE(
+      test("bitwise/bitwise.pcl",
+           "bitwise/bitwise4.in",
+           "bitwise/bitwise4.out"));
+}
+
+TEST(bitwise, test5) {
+  ASSERT_TRUE(
+      test("bitwise/bitwise.pcl",
+           "bitwise/bitwise5.in",
+           "bitwise/bitwise5.out"));
+}
+
+TEST(assignment_with_modify, test1) {
+  ASSERT_TRUE(
+      test("assignment_with_modify/assignment_with_modify.pcl",
+           "assignment_with_modify/assignment_with_modify.in",
+           "assignment_with_modify/assignment_with_modify.out"));
+}
+
+TEST(custom_base, test1) {
+  ASSERT_TRUE(
+      test("custom_base/custom_base.pcl",
+           "custom_base/custom_base.in",
+           "custom_base/custom_base.out"));
+}
+
+TEST(incr_decr, test1) {
+  ASSERT_TRUE(
+      test("incr_decr/incr_decr.pcl",
+           "incr_decr/incr_decr.in",
+           "incr_decr/incr_decr.out"));
+}
+
+TEST(else_if, test1) {
+  ASSERT_TRUE(
+      test("else_if/else_if.pcl",
+           "else_if/else_if.in",
+           "else_if/else_if.out"));
+}
+
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleMock(&argc, argv);
   return RUN_ALL_TESTS();

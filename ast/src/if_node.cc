@@ -1,5 +1,7 @@
 #include "ast/if_node.hh"
 
+#include "ast/dump_helpers.hh"
+
 namespace ast {
 
 pINode makeIf(const pINode& op,
@@ -8,7 +10,7 @@ pINode makeIf(const pINode& op,
   return std::make_shared<IfNode>(op, sc, else_sc);
 }
 
-IntT IfNode::calc() const {
+int IfNode::calc() const {
   if (cond_->calc()) {
     stm_->calc();
   } else {
@@ -17,6 +19,31 @@ IntT IfNode::calc() const {
     }
   }
   return 0;
+}
+
+void IfNode::dump(std::ostream& os) const {
+  os << current_indent << "If\n";
+
+  dump_helpers::increaseIndent();
+
+  os << current_indent << "Condition\n";
+  dump_helpers::increaseIndent();
+  cond_->dump(os);
+  dump_helpers::resetIndent();
+
+  os << current_indent << "Body\n";
+  dump_helpers::increaseIndent();
+  stm_->dump(os);
+  dump_helpers::resetIndent();
+
+  if (else_stm_) {
+    os << current_indent << "Else\n";
+    dump_helpers::increaseIndent();
+    else_stm_->dump(os);
+    dump_helpers::resetIndent();
+  }
+
+  dump_helpers::resetIndent();
 }
 
 } // namespace ast

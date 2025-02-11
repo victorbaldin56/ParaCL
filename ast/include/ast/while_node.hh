@@ -13,8 +13,9 @@ class WhileNode : public INode {
   WhileNode(const pINode& cond, const pINode& stm) noexcept
       : cond_(cond), stm_(stm) {}
 
-  IntT calc() const override;
+  int calc() const override;
+  void dump(std::ostream& os) const override;
+  llvm::Value* codegen() const override;
 };
 
 } // namespace ast
-

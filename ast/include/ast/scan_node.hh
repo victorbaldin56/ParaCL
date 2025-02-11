@@ -12,7 +12,9 @@ class ScanNode : public INode {
  public:
   explicit ScanNode() noexcept {}
 
-  IntT calc() const override;
+  int calc() const override;
+  void dump(std::ostream& os) const override;
+  llvm::Value* codegen() const override;
 };
 
 } // namespace ast

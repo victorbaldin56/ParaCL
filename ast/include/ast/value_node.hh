@@ -10,12 +10,13 @@ namespace ast {
  */
 class ValueNode : public INode {
  private:
-  IntT value_;
+  int value_;
 
  public:
-  explicit ValueNode(IntT val) noexcept : value_(val) {}
+  explicit ValueNode(int val) noexcept : value_(val) {}
 
-  IntT calc() const noexcept override { return value_; }
+  int calc() const noexcept override { return value_; }
+  void dump(std::ostream& os) const override;
 
   llvm::Value* codegen() const override {
     auto* ty = global_gen->getInt32Ty();
