@@ -20,5 +20,6 @@ add_library(parser
   ${FLEX_scanner_OUTPUTS}
 )
 
-target_include_directories(parser PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include;${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(parser PUBLIC ast;ctty)
+target_include_directories(parser PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(parser PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+target_link_libraries(parser PUBLIC ast)

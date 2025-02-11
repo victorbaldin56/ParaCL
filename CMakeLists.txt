@@ -6,14 +6,6 @@ find_package(GTest REQUIRED)
 find_package(FLEX REQUIRED)
 find_package(BISON REQUIRED)
 
-include(FetchContent)
-FetchContent_Declare(
-  YAColorTTY
-  GIT_REPOSITORY https://github.com/victorbaldin56/YAColorTTY.git
-  GIT_TAG        d9493eb591fa496db103dbb7bba0a36a7251b003
-)
-FetchContent_MakeAvailable(YAColorTTY)
-
 add_subdirectory(ast)
 add_subdirectory(parser)
 add_subdirectory(interpreter)
@@ -24,4 +16,3 @@ add_executable(pcl
 )
 
 target_link_libraries(pcl interpreter)
-target_link_libraries(pcl ctty)
