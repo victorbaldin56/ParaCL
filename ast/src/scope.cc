@@ -24,6 +24,10 @@ void Scope::dump(std::ostream& os) const {
   dump_helpers::resetIndent();
 }
 
+llvm::Value* Scope::codegen() const {
+
+}
+
 /**
  * Finds symbol in current & all parent scopes.
  */

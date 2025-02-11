@@ -23,4 +23,8 @@ void VarNode::dump(std::ostream& os) const {
   os << current_indent << "Variable '" << it_->first << "'\n";
 }
 
+llvm::Value* VarNode::codegen() const {
+
+}
+
 } // namespace ast

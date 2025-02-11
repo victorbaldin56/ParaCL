@@ -23,4 +23,8 @@ void PrintNode::dump(std::ostream& os) const {
   dump_helpers::resetIndent();
 }
 
+llvm::Value* PrintNode::codegen() const {
+
+}
+
 } // namespace ast

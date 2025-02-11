@@ -21,4 +21,8 @@ void ScanNode::dump(std::ostream& os) const {
   os << current_indent << "ScanOperator\n";
 }
 
+llvm::Value* ScanNode::codegen() const {
+
+}
+
 } // namespace ast

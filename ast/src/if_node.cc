@@ -46,4 +46,8 @@ void IfNode::dump(std::ostream& os) const {
   dump_helpers::resetIndent();
 }
 
+llvm::Value* IfNode::codegen() const {
+
+}
+
 } // namespace ast

@@ -33,4 +33,8 @@ void WhileNode::dump(std::ostream& os) const {
   dump_helpers::resetIndent();
 }
 
+llvm::Value* WhileNode::codegen() const {
+
+}
+
 } // namespace ast
