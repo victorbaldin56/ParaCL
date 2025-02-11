@@ -12,7 +12,7 @@
 #include <FlexLexer.h>
 #endif // yyFlexLexer
 
-#include "ctty/color_output.hh"
+#include "color_output.hh"
 #include "pgrammar.tab.hh"
 #include "lexer.hh"
 

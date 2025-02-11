@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 
-#include "ctty/color_output.hh"
+#include "parser/color_output.hh"
 #include "interpreter/interpreter.hh"
 
 int main(int argc, char** argv) try {
