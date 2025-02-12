@@ -189,7 +189,6 @@ if:          IF LP expr[e] RP
                br_stm[s2]                     { $$ = ast::makeIf($e, $s1, $s2); }
 
 while:       WHILE LP expr RP br_stm          { $$ = ast::makeWhile($3, $5); }
-           | WHILE LP expr RP stm             { $$ = ast::makeWhile($3, $5); }
 
 print:       PRINT expr SCOLON                { $$ = ast::makePrint($2); }
 
