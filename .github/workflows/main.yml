@@ -26,12 +26,12 @@ jobs:
         os: [ubuntu-22.04]
         build_type: [Release, Debug]
         cxx_compiler: [g++]
-        use_asan: [True, False]
+        asan_preset_flag: ["--preset gcc_debug_san" , ""]
         exclude:
           - build_type: Debug
-            use_asan: False
+            asan_preset_flag: ""
           - build_type: Release
-            use_asan: True
+            asan_preset_flag: "--preset gcc_debug_san"
 
     steps:
     - uses: actions/checkout@v4
@@ -48,7 +48,7 @@ jobs:
       uses: turtlebrowser/get-conan@main
 
     - name: Creating and setting venv
-      run: sudo apt-get -y update && 
+      run: sudo apt-get -y update &&
            sudo apt-get install python3 pip g++-12 flex bison libfl-dev;
            python3 -m venv .venv;
            source .venv/bin/activate;
@@ -60,10 +60,10 @@ jobs:
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: >
         cmake -B build
+        ${{ matrix.asan_preset_flag }}
         -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake
         -DCMAKE_CXX_COMPILER=${{ matrix.cxx_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -DUSE_ASAN=${{ matrix.use_asan }}
         -DBUILD_TESTING=ON
         -S ${{ github.workspace }}
 
