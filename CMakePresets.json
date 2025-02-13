@@ -4,7 +4,6 @@
     {
       "name": "gcc_debug_san",
       "displayName": "gcc config with address and UB sanitizers.",
-      "generator": "Ninja",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "gcc",
         "CMAKE_C_COMPILER_LAUNCHER": "ccache",
