@@ -1,28 +1,17 @@
 {
-    "version": 6,
-    "cmakeMinimumRequired": {
-      "major": 3,
-      "minor": 14
-    },
-    "configurePresets": [
-      {
-        "name": "debug",
-        "displayName": "gcc config with address and UB sanitizers.",
-        "generator": "Ninja",
-        "cacheVariables": {
-          "CMAKE_CXX_COMPILER": "g++",
-          "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
-          "CMAKE_CXX_FLAGS": "-fsanitize=address,leak,undefined"
-        }
-      },
-      {
-        "name": "release",
-        "displayName": "gcc config for release version.",
-        "generator": "Ninja",
-        "cacheVariables": {
-          "CMAKE_CXX_COMPILER": "g++",
-          "CMAKE_CXX_COMPILER_LAUNCHER": "ccache"
-        }
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "gcc_debug_san",
+      "displayName": "gcc config with address and UB sanitizers.",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_C_COMPILER_LAUNCHER": "ccache",
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
+        "CMAKE_CXX_FLAGS": "-fsanitize=address,leak,undefined"
       }
-    ]
+    }
+  ]
 }
