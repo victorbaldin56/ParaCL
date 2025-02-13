@@ -35,8 +35,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-      with:
-        submodules: 'true'
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
@@ -51,10 +49,9 @@ jobs:
 
     - name: Creating and setting venv
       run: sudo apt-get -y update && 
-           sudo apt-get install python3 pip libboost-dev g++-12 flex bison libfl-dev;
+           sudo apt-get install python3 pip g++-12 flex bison libfl-dev;
            python3 -m venv .venv;
            source .venv/bin/activate;
-           pip3 install conan;
            conan profile detect --force;
            conan install . -s build_type=${{ matrix.build_type }} --output-folder=build --build=missing
 
