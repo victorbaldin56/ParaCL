@@ -2,11 +2,13 @@
 Programming language. Project from K. Vladimirov's ([@tilir](https://github.com/tilir)) course at MIPT.
 
 ## Prerequisites
-To build you need the following installed:
+This project uses Conan package manager to handle dependencies. Before installing Conan
+you need following:
 * Git
 * CMake
-* Any C++ compiler supported by CMake
-* Boost
+* C++ compiler and `libstdc++` with at least C++17 support.
+These dependencies are not handled by Conan yet and also need to be installed via your
+system package manager:
 * Flex
 * Bison
 
