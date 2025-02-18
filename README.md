@@ -7,6 +7,7 @@ you need following:
 * Git
 * CMake
 * C++ compiler and `libstdc++` with at least C++17 support.
+
 These dependencies are not handled by Conan yet and also need to be installed via your
 system package manager:
 * Flex
