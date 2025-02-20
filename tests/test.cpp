@@ -227,6 +227,20 @@ TEST(else_if, test1) {
            "else_if/else_if.out"));
 }
 
+TEST(empty, test1) {
+  ASSERT_TRUE(
+      test("empty/empty.pcl",
+           "empty/empty.in",
+           "empty/empty.out"));
+}
+
+TEST(empty_with_semicolons, test1) {
+  ASSERT_TRUE(
+      test("empty_with_semicolons/empty_with_semicolons.pcl",
+           "empty_with_semicolons/empty_with_semicolons.in",
+           "empty_with_semicolons/empty_with_semicolons.out"));
+}
+
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleMock(&argc, argv);
   return RUN_ALL_TESTS();
