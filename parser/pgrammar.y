@@ -128,6 +128,7 @@ stms:        stm                              { if ($1) ast::current_scope->push
            | stms stm                         { if ($2) ast::current_scope->push($2); }
            | scope
            | stms scope
+           |
 
 stm:         if                               { $$ = $1; }
            | while                            { $$ = $1; }
