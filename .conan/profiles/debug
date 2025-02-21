@@ -5,8 +5,6 @@ build_type=Debug
 
 [options]
 testing=True
-
-[options]
 boost:shared=False
 boost:without_stacktrace_addr2line=True  # Disable stacktrace_addr2line
 
