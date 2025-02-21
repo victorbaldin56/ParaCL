@@ -28,17 +28,17 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-    - name: Installing system packages
+    - name: Install system packages
       run: sudo apt-get -y update &&
            sudo apt-get install python3 pip g++-12 flex bison libfl-dev binutils
 
-    - name: Installing conan and setting venv
+    - name: Install conan and set venv
       run: python3 -m venv .venv;
            source .venv/bin/activate;
            echo PATH=$PATH >> $GITHUB_ENV;
            pip install conan==2.12.1;
 
-    - name: Installing conan requirements
+    - name: Install conan requirements
       run: >
         conan profile detect --force;
         conan install .

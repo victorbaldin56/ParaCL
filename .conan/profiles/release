@@ -2,6 +2,3 @@ include(default)
 
 [settings]
 build_type=Release
-
-[options]
-testing=False

@@ -4,6 +4,7 @@ include(default)
 build_type=Debug
 
 [options]
+testing=True
 boost/*:without_stacktrace_addr2line=True
 
 [conf]
