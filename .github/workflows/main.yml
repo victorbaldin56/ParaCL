@@ -51,6 +51,7 @@ jobs:
         --output-folder=build
         --build=missing
         --settings compiler=${{ matrix.config.compiler }}
+        --lockfile=${{ env.CONAN_LOCKFILE }}
 
     - name: Configure CMake
       run: >
