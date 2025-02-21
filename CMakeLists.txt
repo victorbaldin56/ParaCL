@@ -5,18 +5,14 @@ find_package(Boost COMPONENTS program_options REQUIRED)
 find_package(FLEX REQUIRED)
 find_package(BISON REQUIRED)
 
-if (${BUILD_TESTING})
-  find_package(GoogleTest REQUIRED)
-
-  enable_testing()
-  include(GoogleTest)
-endif()
-
 add_subdirectory(ast)
 add_subdirectory(parser)
 add_subdirectory(interpreter)
 
 if (${BUILD_TESTING})
+  enable_testing()
+  find_package(GoogleTest REQUIRED)
+  include(GoogleTest)
   add_subdirectory(tests)
 endif()
 
