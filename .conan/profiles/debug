@@ -4,8 +4,7 @@ include(default)
 build_type=Debug
 
 [options]
-boost:without_stacktrace_addr2line=True
-
+boost/*:without_stacktrace_addr2line=True
 
 [conf]
 tools.build:cxxflags=["-fsanitize=address,leak,undefined"]
