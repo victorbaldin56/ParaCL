@@ -1,4 +1,4 @@
-add_executable(test test.cpp)
+add_executable(unit_test test.cpp)
 
 set(TEST_DATA_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
