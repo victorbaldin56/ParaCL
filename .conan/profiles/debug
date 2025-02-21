@@ -6,10 +6,9 @@ build_type=Debug
 [options]
 testing=True
 
-[conf]
-tools.build:cxxflags=["-fsanitize=address,leak,undefined"]
-tools.build:exelinkflags=["-fsanitize=address"]
-tools.build:sharedlinkflags=["-fsanitize=address"]
+[options]
+boost:shared=False
+boost:without_stacktrace_addr2line=True  # Disable stacktrace_addr2line
 
 [env]
-boost:CXXFLAGS=
+CXXFLAGS=-fsanitize=address -fno-omit-frame-pointer
