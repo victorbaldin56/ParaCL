@@ -26,7 +26,12 @@ jobs:
       id: strings
       shell: bash
       run: |
-        echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
+        echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT" &&
+        if [ ${{ matrix.config.profile == 'debug' }} ] ; then
+          echo CONAN_LOCKFILE=conan_testing.lock >> $GITHUB_ENV
+        else
+          echo CONAN_LOCKFILE=conan.lock >> $GITHUB_ENV
+        fi
 
     - name: Install system packages
       run: sudo apt-get -y update &&

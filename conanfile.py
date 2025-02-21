@@ -14,5 +14,11 @@ class ParaCLRecipe(ConanFile):
     if self.options.testing:
       self.test_requires("gtest/1.15.0")
 
+  def generate(self):
+    # Customize CMakeToolchain in the generate() method
+    tc = CMakeToolchain(self)
+    tc.variables["BUILD_TESTING"] = self.options.testing
+    tc.generate()
+
   def layout(self):
     cmake_layout(self)
