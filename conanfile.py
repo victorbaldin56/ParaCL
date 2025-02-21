@@ -10,9 +10,11 @@ class ParaCLRecipe(ConanFile):
   options = {"testing": [True, False]}
   default_options = {"testing": False}
 
-  def requirements(self):
+  def configure(self):
     if self.settings.build_type == "Debug":
       self.options.testing = True
+
+  def requirements(self):
     if self.options.testing:
       self.test_requires("gtest/1.15.0")
 
