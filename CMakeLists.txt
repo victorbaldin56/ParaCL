@@ -10,7 +10,7 @@ add_subdirectory(parser)
 add_subdirectory(interpreter)
 
 if (${BUILD_TESTING})
-  find_package(GoogleTest)
+  find_package(GoogleTest REQUIRED)
 
   enable_testing()
   include(GoogleTest)
