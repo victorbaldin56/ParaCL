@@ -1,9 +1,4 @@
 add_executable(test test.cpp)
-if (${BUILD_TESTING})
-  enable_testing()
-endif()
-
-include(GoogleTest)
 
 set(TEST_DATA_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
