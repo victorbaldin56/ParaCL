@@ -6,11 +6,11 @@ class ParaCLRecipe(ConanFile):
   version = "1.0"
   settings = "os", "compiler", "build_type", "arch"
   generators = "CMakeDeps"
-  requires = "boost/1.86.0"
   options = {"testing": [True, False]}
   default_options = {"testing": False}
 
   def requirements(self):
+    self.requires("boost/1.86.0", options={"without_stacktrace_addr2line": True}) # to avoid build errors
     if self.options.testing:
       self.test_requires("gtest/1.15.0")
 
