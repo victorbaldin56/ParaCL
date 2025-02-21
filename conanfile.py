@@ -10,7 +10,7 @@ class ParaCLRecipe(ConanFile):
   default_options = {"testing": False}
 
   def requirements(self):
-    self.requires("boost/1.86.0", options={"header_only": True}) # to avoid build errors
+    self.requires("boost/1.86.0")
     if self.options.testing:
       self.test_requires("gtest/1.15.0")
 
