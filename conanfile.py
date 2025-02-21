@@ -5,7 +5,7 @@ class ParaCLRecipe(ConanFile):
   name = "paracl"
   version = "1.0"
   settings = "os", "compiler", "build_type", "arch"
-  generators = "CMakeDeps", "CMakeToolchain"
+  generators = "CMakeDeps"
   options = {"testing": [True, False]}
   default_options = {"testing": False}
 
