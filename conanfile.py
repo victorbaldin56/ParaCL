@@ -1,5 +1,5 @@
 from conan import ConanFile
-from conan.tools.cmake import cmake_layout, CMakeToolchain
+from conan.tools.cmake import CMake, CMakeToolchain
 
 class ParaCLRecipe(ConanFile):
   name = "paracl"
@@ -20,5 +20,9 @@ class ParaCLRecipe(ConanFile):
     tc.variables["BUILD_TESTING"] = self.options.testing
     tc.generate()
 
-  def layout(self):
-    cmake_layout(self)
+  def build(self):
+    cmake = CMake(self)
+    cmake.configure()
+    cmake.build()
+    if self.options.testing:
+      cmake.test()

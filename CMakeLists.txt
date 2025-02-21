@@ -11,7 +11,7 @@ add_subdirectory(interpreter)
 
 if (${BUILD_TESTING})
   enable_testing()
-  find_package(GoogleTest REQUIRED)
+  find_package(GTest REQUIRED)
   include(GoogleTest)
   add_subdirectory(tests)
 endif()
