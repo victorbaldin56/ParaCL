@@ -1,17 +1,19 @@
 # ParaCL
 
-Programming language. Project from K. Vladimirov's ([@tilir](https://github.com/tilir)) course at MIPT.
+Programming language. Project from K. Vladimirov's
+([@tilir](https://github.com/tilir)) course at MIPT.
 
 ## Prerequisites
 
-This project uses Conan package manager to handle dependencies. Before installing Conan
-you need following:
+This project uses Conan package manager to handle dependencies.
+Before installing Conan you need following:
 
 * Git
 * CMake
 * C++ compiler and `libstdc++` with at least C++17 support.
 
-These dependencies are not handled by Conan yet and also need to be installed via your
+These dependencies are not handled by Conan
+yet and also need to be installed via your
 system package manager:
 
 * Flex
