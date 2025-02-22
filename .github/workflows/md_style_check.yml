@@ -1,0 +1,27 @@
+name: Markdown style check
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  check:
+    runs-on: ubuntu-22.04
+
+    strategy:
+      # Set fail-fast to false to ensure that feedback is delivered for all matrix combinations. Consider changing this to true when your workflow is stable.
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Installing mdl
+      run: |
+        sudo apt-get -y update
+        sudo apt-get install -y ruby-dev
+        sudo gem install mdl
+
+    - name: Check
+      run: mdl README.md
