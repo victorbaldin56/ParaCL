@@ -1,5 +1,3 @@
-include(default)
-
 [settings]
 os=Linux
 compiler=clang
