@@ -8,15 +8,14 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.config.os }}
+    runs-on: ${{ matrix.os }}
 
     strategy:
       fail-fast: false
-
       matrix:
-        config:
-          - { os: ubuntu-22.04, compiler: gcc, profile: debug }
-          - { os: ubuntu-22.04, compiler: gcc, profile: release }
+        os: [ubuntu-22.04]
+        compiler: [gcc, clang]
+        build_type: [debug, release]
 
     steps:
     - uses: actions/checkout@v4
@@ -26,16 +25,14 @@ jobs:
       id: strings
       shell: bash
       run: |
-        echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT" &&
-        if [ ${{ matrix.config.profile == 'debug' }} ] ; then
-          echo CONAN_LOCKFILE=conan_testing.lock >> $GITHUB_ENV
-        else
-          echo CONAN_LOCKFILE=conan.lock >> $GITHUB_ENV
-        fi
+        echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
     - name: Install system packages
-      run: sudo apt-get -y update &&
-           sudo apt-get install python3 pip g++-12 flex bison libfl-dev binutils
+      run: |
+        if [ "${{ matrix.os }}" == "ubuntu-22.04" ]; then
+          sudo apt-get -y update &&
+          sudo apt-get install python3 pip g++-12 clang-14 flex bison libfl-dev binutils libc++-14-dev libc++abi-14-dev
+        fi
 
     - name: Install conan and set venv
       run: python3 -m venv .venv;
@@ -47,20 +44,18 @@ jobs:
       run: >
         conan profile detect --force;
         conan install .
-        --profile=.conan/profiles/${{ matrix.config.profile }}
+        -pr=ci/profiles/${{ matrix.os }}/${{ matrix.compiler }}_${{ matrix.build_type }}.profile
         --output-folder=build
         --build=missing
-        --settings compiler=${{ matrix.config.compiler }}
-        --lockfile=${{ env.CONAN_LOCKFILE }}
 
     - name: Configure CMake
       run: >
-        cmake . -B build --preset conan-${{ matrix.config.profile }}
+        cmake . -B build --preset conan-${{ matrix.build_type }}
 
     - name: Build
       run:
         cmake --build build -j
 
     - name: Test
-      if: ${{ matrix.config.profile == 'debug' }}
+      if: ${{ matrix.build_type == 'debug' }}
       run: ctest --output-on-failure --test-dir build --no-tests=error
