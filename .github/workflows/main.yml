@@ -42,9 +42,8 @@ jobs:
 
     - name: Install conan requirements
       run: >
-        conan build_type detect --force;
         conan install .
-        -pr=ci/profiles/${{ matrix.os }}/${{ matrix.compiler }}_${{ matrix.build_type }}
+        -pr=ci/profiles/${{ matrix.os }}/${{ matrix.compiler }}_${{ matrix.build_type }}.profile
         --output-folder=build
         --build=missing
 
