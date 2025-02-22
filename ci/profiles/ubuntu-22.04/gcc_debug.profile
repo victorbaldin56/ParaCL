@@ -1,4 +1,5 @@
 [settings]
+arch=x86_64
 os=Linux
 compiler=gcc
 compiler.version=12
