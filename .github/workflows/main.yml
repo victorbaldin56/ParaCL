@@ -31,7 +31,7 @@ jobs:
       run: |
         if [ "${{ matrix.os }}" == "ubuntu-22.04" ]; then
           sudo apt-get -y update &&
-          sudo apt-get install python3 pip g++-12 clang-14 flex bison libfl-dev binutils
+          sudo apt-get install python3 pip g++-12 clang-14 flex bison libfl-dev binutils libc++-14-dev libc++abi-14-dev
         fi
 
     - name: Install conan and set venv
