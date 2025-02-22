@@ -56,6 +56,7 @@ To build:
 1. Configure CMake:
 
    ```sh
+   cd build
    cmake .. --preset conan-release
    ```
 
