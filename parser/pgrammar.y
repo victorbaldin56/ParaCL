@@ -4,7 +4,6 @@
 %param {yy::PDriver* driver}
 %locations
 
-%define parse.trace
 %define parse.lac full
 
 %define api.value.type variant
@@ -12,8 +11,6 @@
 
 %code requires
 {
-
-#define YYDEBUG 1
 
 #include <iostream>
 #include <string>
@@ -58,6 +55,9 @@ parser::token_type yylex(parser::semantic_type* yylval,
   RP
   UNKNOWN
 
+%precedence LOWER
+%precedence ';'
+
 %nonassoc XIF
 %nonassoc ELSE
 %nonassoc INCR DECR
@@ -101,10 +101,8 @@ parser::token_type yylex(parser::semantic_type* yylval,
 
 program:     stms                             { /* nothing */ }
 scope:       op_sc stms cl_sc                 { /* nothing */ } /* plain scope */
-           | op_sc cl_sc                      { /* nothing */ }
 
 br_stm:      op_br_stm stms cl_sc             { $$ = $1; }
-           | op_br_stm cl_sc                  { $$ = $1; }
            | stm                              { $$ = $1; }
 
 op_br_stm:   LB                               {
@@ -124,11 +122,9 @@ cl_sc:       RB                               {
                                                     = ast::current_scope->parentScope();
                                               }
 
-stms:        stm                              { if ($1) ast::current_scope->push($1); }
-           | stms stm                         { if ($2) ast::current_scope->push($2); }
-           | scope
+stms:        stms stm                         { if ($2) ast::current_scope->push($2); }
            | stms scope
-           |
+           | %empty                           { $$ = nullptr; } %prec LOWER;
 
 stm:         if                               { $$ = $1; }
            | while                            { $$ = $1; }
