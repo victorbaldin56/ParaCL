@@ -4,7 +4,6 @@
 %param {yy::PDriver* driver}
 %locations
 
-%define parse.trace
 %define parse.lac full
 
 %define api.value.type variant
@@ -12,8 +11,6 @@
 
 %code requires
 {
-
-#define YYDEBUG 1
 
 #include <iostream>
 #include <string>
@@ -64,7 +61,6 @@ parser::token_type yylex(parser::semantic_type* yylval,
 %nonassoc XIF
 %nonassoc ELSE
 %nonassoc INCR DECR
-%nonassoc IS_EQ IS_GE IS_GT IS_LE IS_LT IS_NE
 
 /* non-trivial operators that require precedence & associativity */
 %right ASSIGN
@@ -73,6 +69,7 @@ parser::token_type yylex(parser::semantic_type* yylval,
 
 %left OR
 %left AND
+%left IS_EQ IS_GE IS_GT IS_LE IS_LT IS_NE
 %left ADD SUB
 %left MUL DIV MOD
 %left SHL SHR
@@ -91,7 +88,6 @@ parser::token_type yylex(parser::semantic_type* yylval,
   while
   print
   expr
-  assign_expr
   expr_un
   expr_term
   br_stm
@@ -130,12 +126,11 @@ stms:        stms stm                         { if ($2) ast::current_scope->push
            | stms scope
            | %empty                           { $$ = nullptr; } %prec LOWER;
 
-stm:         expr SCOLON                      { $$ = $1; }
-           | assign_expr SCOLON               { $$ = $1; }
-           | SCOLON                           { $$ = nullptr; }
-           | if                               { $$ = $1; }
+stm:         if                               { $$ = $1; }
            | while                            { $$ = $1; }
            | print                            { $$ = $1; }
+           | expr SCOLON                      { $$ = $1; }
+           | SCOLON                           { $$ = nullptr; }
 
 expr:        expr ADD            expr         { $$ = ast::makeBinOp($1, ast::BinOp::kAdd   , $3); }
            | expr SUB            expr         { $$ = ast::makeBinOp($1, ast::BinOp::kSub   , $3); }
@@ -155,9 +150,7 @@ expr:        expr ADD            expr         { $$ = ast::makeBinOp($1, ast::Bin
            | expr XOR            expr         { $$ = ast::makeBinOp($1, ast::BinOp::kXor   , $3); }
            | expr SHL            expr         { $$ = ast::makeBinOp($1, ast::BinOp::kShl   , $3); }
            | expr SHR            expr         { $$ = ast::makeBinOp($1, ast::BinOp::kShr   , $3); }
-           | expr_un                          { $$ = $1; }
-
-assign_expr: ID   ASSIGN         expr         { $$ = ast::makeAssign($1, $3); }
+           | ID   ASSIGN         expr         { $$ = ast::makeAssign($1, $3); }
            | ID   ADD_ASSIGN     expr         { $$ = ast::makeAssign($1, ast::makeBinOp(ast::makeVar($1), ast::BinOp::kAdd   , $3)); }
            | ID   SUB_ASSIGN     expr         { $$ = ast::makeAssign($1, ast::makeBinOp(ast::makeVar($1), ast::BinOp::kSub   , $3)); }
            | ID   MUL_ASSIGN     expr         { $$ = ast::makeAssign($1, ast::makeBinOp(ast::makeVar($1), ast::BinOp::kMul   , $3)); }
@@ -168,6 +161,7 @@ assign_expr: ID   ASSIGN         expr         { $$ = ast::makeAssign($1, $3); }
            | ID   XOR_ASSIGN     expr         { $$ = ast::makeAssign($1, ast::makeBinOp(ast::makeVar($1), ast::BinOp::kXor   , $3)); }
            | ID   SHL_ASSIGN     expr         { $$ = ast::makeAssign($1, ast::makeBinOp(ast::makeVar($1), ast::BinOp::kShl   , $3)); }
            | ID   SHR_ASSIGN     expr         { $$ = ast::makeAssign($1, ast::makeBinOp(ast::makeVar($1), ast::BinOp::kShr   , $3)); }
+           | expr_un                          { $$ = $1; }
 
 expr_un:     ADD expr_term                    { $$ = ast::makeUnOp($2, ast::UnOp::kPlus); }
            | SUB expr_term                    { $$ = ast::makeUnOp($2, ast::UnOp::kMinus); }
