@@ -126,13 +126,12 @@ cl_sc:       RB                               {
                                                     = ast::current_scope->parentScope();
                                               }
 
-stms:        stm                              { if ($1) ast::current_scope->push($1); }
-           | stms stm                         { if ($2) ast::current_scope->push($2); }
-           | scope
+stms:        stms stm                         { if ($2) ast::current_scope->push($2); }
            | stms scope
            | %empty                           { $$ = nullptr; } %prec LOWER;
 
 stm:         expr SCOLON                      { $$ = $1; }
+           | assign_expr SCOLON               { $$ = $1; }
            | SCOLON                           { $$ = nullptr; }
            | if                               { $$ = $1; }
            | while                            { $$ = $1; }
@@ -156,7 +155,6 @@ expr:        expr ADD            expr         { $$ = ast::makeBinOp($1, ast::Bin
            | expr XOR            expr         { $$ = ast::makeBinOp($1, ast::BinOp::kXor   , $3); }
            | expr SHL            expr         { $$ = ast::makeBinOp($1, ast::BinOp::kShl   , $3); }
            | expr SHR            expr         { $$ = ast::makeBinOp($1, ast::BinOp::kShr   , $3); }
-           | assign_expr                      { $$ = $1; }
            | expr_un                          { $$ = $1; }
 
 assign_expr: ID   ASSIGN         expr         { $$ = ast::makeAssign($1, $3); }
