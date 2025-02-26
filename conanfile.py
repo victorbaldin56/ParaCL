@@ -9,6 +9,8 @@ class ParaCLRecipe(ConanFile):
   options = {"testing": [True, False]}
   default_options = {"testing": False}
 
+  export_sources = "*"
+
   def requirements(self):
     self.requires("boost/1.86.0")
     if self.options.testing:
