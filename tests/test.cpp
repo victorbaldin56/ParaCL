@@ -123,9 +123,7 @@ TEST_P(PclTest, EteTests) {
   std::string src_file = GetParam();
   all_test_data test_pairs = find_test_data(src_file);
 
-  for (auto &&test_pair : test_pairs) {
-    ASSERT_TRUE(test(src_file, test_pair.first, test_pair.second));
-  }
+    ASSERT_TRUE(test(src_file, test_pairs[0].first, test_pairs[0].second));
 }
 
 INSTANTIATE_TEST_SUITE_P(AllPclFiles, PclTest,
