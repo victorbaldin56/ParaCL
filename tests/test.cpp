@@ -1,56 +1,13 @@
 #include "parser/driver.hh"
 #include <algorithm>
 #include <exception>
-#include <filesystem>
 #include <fstream>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <iterator>
 #include <string>
 
-namespace fs = std::filesystem;
-using test_data = std::pair<std::string, std::string>;
-using all_test_data = std::vector<test_data>;
-
 const std::string TEST_DIR = std::string(TEST_DATA_DIR) + "/";
-
-std::vector<std::string> find_test_files(const std::string &directory) {
-  std::vector<std::string> src_files;
-
-  for (auto &&entry : fs::recursive_directory_iterator(directory)) {
-    if (entry.path().extension() == ".pcl") {
-      src_files.push_back(entry.path().string());
-    }
-  }
-
-  return src_files;
-}
-
-all_test_data find_test_data(const std::string &src_file) {
-  all_test_data pairs;
-
-  fs::path src_path = src_file;
-  std::string base_name = src_path.stem().string();
-
-  for (auto &&entry : fs::directory_iterator(src_path.parent_path())) {
-    std::string file_name = entry.path().stem().string();
-    std::string ext = entry.path().extension().string();
-
-    if (file_name.find(base_name) == 0) {
-      if (ext == ".in") {
-        std::string in_file = entry.path().string();
-        std::string out_file =
-            in_file.substr(0, in_file.find_last_of('.')) + ".out";
-
-        if (fs::exists(out_file)) {
-          pairs.push_back({in_file, out_file});
-        }
-      }
-    }
-  }
-
-  return pairs;
-}
 
 template <typename Stream1, typename Stream2>
 void close_files(Stream1 &file1, Stream2 &file2) {
@@ -88,7 +45,7 @@ bool compare_files(const std::string &file1, const std::string &file2) {
 
 bool test(const std::string &pcl_file, const std::string &in_file,
           const std::string &out_file) {
-  std::ifstream in(in_file);
+  std::ifstream in(TEST_DIR + in_file);
   std::streambuf *cinbuf = std::cin.rdbuf();
   std::cin.rdbuf(in.rdbuf());
 
@@ -96,7 +53,7 @@ bool test(const std::string &pcl_file, const std::string &in_file,
   std::streambuf *coutbuf = std::cout.rdbuf();
   std::cout.rdbuf(out.rdbuf());
 
-  yy::PDriver driver(pcl_file);
+  yy::PDriver driver(TEST_DIR + pcl_file);
   ast::current_scope = ast::makeScope();
 
   if (!driver.parse()) {
@@ -110,22 +67,179 @@ bool test(const std::string &pcl_file, const std::string &in_file,
 
   close_files(in, out);
 
-  return compare_files("buf.txt", out_file);
+  return compare_files("buf.txt", TEST_DIR + out_file);
 }
 
-class PclTest : public ::testing::TestWithParam<std::string> {};
-
-TEST_P(PclTest, EteTests) {
-  std::string src_file = GetParam();
-  all_test_data test_pairs = find_test_data(src_file);
-  
-  for (auto && test_pair : test_pairs) {
-    ASSERT_TRUE(test(src_file, test_pair.first, test_pair.second));
-  }
+TEST(is_prime, test1) {
+  ASSERT_TRUE(test("is_prime/is_prime.pcl", "is_prime/is_prime1.in",
+                   "is_prime/is_prime1.out"));
 }
 
-INSTANTIATE_TEST_SUITE_P(AllPclFiles, PclTest,
-                         ::testing::ValuesIn(find_test_files(TEST_DIR)));
+TEST(is_prime, test2) {
+  ASSERT_TRUE(test("is_prime/is_prime.pcl", "is_prime/is_prime2.in",
+                   "is_prime/is_prime2.out"));
+}
+
+TEST(other, test1) {
+  ASSERT_TRUE(test("other/other.pcl", "other/other1.in", "other/other1.out"));
+}
+
+TEST(fibs, test1) {
+  ASSERT_TRUE(test("fibs/fibs.pcl", "fibs/fibs1.in", "fibs/fibs1.out"));
+}
+
+TEST(fibs, test2) {
+  ASSERT_TRUE(test("fibs/fibs.pcl", "fibs/fibs2.in", "fibs/fibs2.out"));
+}
+
+TEST(fact, test1) {
+  ASSERT_TRUE(test("fact/fact.pcl", "fact/fact1.in", "fact/fact1.out"));
+}
+
+TEST(braces, test1) {
+  ASSERT_TRUE(
+      test("braces/braces.pcl", "braces/braces1.in", "braces/braces1.out"));
+}
+
+TEST(assignment, test1) {
+  ASSERT_TRUE(
+      test("assignment/assignment.pcl",
+           "assignment/assignment1.in",
+           "assignment/assignment1.out"));
+}
+
+TEST(loop_input, test1) {
+  ASSERT_TRUE(
+      test("loop_input/loop_input.pcl",
+           "loop_input/loop_input1.in",
+           "loop_input/loop_input1.out"));
+}
+
+TEST(logic, test1) {
+  ASSERT_TRUE(
+      test("logic/logic.pcl",
+           "logic/logic1.in",
+           "logic/logic1.out"));
+}
+
+TEST(logic, test2) {
+  ASSERT_TRUE(
+      test("logic/logic.pcl",
+           "logic/logic2.in",
+           "logic/logic2.out"));
+}
+
+TEST(complex_logic, test1) {
+  ASSERT_TRUE(
+      test("complex_logic/complex_logic.pcl",
+           "complex_logic/complex_logic1.in",
+           "complex_logic/complex_logic1.out"));
+}
+
+TEST(complex_logic, test2) {
+  ASSERT_TRUE(
+      test("complex_logic/complex_logic.pcl",
+           "complex_logic/complex_logic2.in",
+           "complex_logic/complex_logic2.out"));
+}
+
+TEST(complex_logic, test3) {
+  ASSERT_TRUE(
+      test("complex_logic/complex_logic.pcl",
+           "complex_logic/complex_logic3.in",
+           "complex_logic/complex_logic3.out"));
+}
+
+TEST(print_logic, test1) {
+  ASSERT_TRUE(
+      test("print_logic/print_logic.pcl",
+           "print_logic/print_logic1.in",
+           "print_logic/print_logic1.out"));
+}
+
+TEST(else, test1) {
+  ASSERT_TRUE(
+      test("else/else.pcl",
+           "else/else1.in",
+           "else/else1.out"));
+}
+
+TEST(bitwise, test1) {
+  ASSERT_TRUE(
+      test("bitwise/bitwise.pcl",
+           "bitwise/bitwise1.in",
+           "bitwise/bitwise1.out"));
+}
+
+TEST(bitwise, test2) {
+  ASSERT_TRUE(
+      test("bitwise/bitwise.pcl",
+           "bitwise/bitwise2.in",
+           "bitwise/bitwise2.out"));
+}
+
+TEST(bitwise, test3) {
+  ASSERT_TRUE(
+      test("bitwise/bitwise.pcl",
+           "bitwise/bitwise3.in",
+           "bitwise/bitwise3.out"));
+}
+
+TEST(bitwise, test4) {
+  ASSERT_TRUE(
+      test("bitwise/bitwise.pcl",
+           "bitwise/bitwise4.in",
+           "bitwise/bitwise4.out"));
+}
+
+TEST(bitwise, test5) {
+  ASSERT_TRUE(
+      test("bitwise/bitwise.pcl",
+           "bitwise/bitwise5.in",
+           "bitwise/bitwise5.out"));
+}
+
+TEST(assignment_with_modify, test1) {
+  ASSERT_TRUE(
+      test("assignment_with_modify/assignment_with_modify.pcl",
+           "assignment_with_modify/assignment_with_modify1.in",
+           "assignment_with_modify/assignment_with_modify1.out"));
+}
+
+TEST(custom_base, test1) {
+  ASSERT_TRUE(
+      test("custom_base/custom_base.pcl",
+           "custom_base/custom_base1.in",
+           "custom_base/custom_base1.out"));
+}
+
+TEST(incr_decr, test1) {
+  ASSERT_TRUE(
+      test("incr_decr/incr_decr.pcl",
+           "incr_decr/incr_decr1.in",
+           "incr_decr/incr_decr1.out"));
+}
+
+TEST(else_if, test1) {
+  ASSERT_TRUE(
+      test("else_if/else_if.pcl",
+           "else_if/else_if1.in",
+           "else_if/else_if1.out"));
+}
+
+TEST(empty, test1) {
+  ASSERT_TRUE(
+      test("empty/empty.pcl",
+           "empty/empty1.in",
+           "empty/empty1.out"));
+}
+
+TEST(empty_with_semicolons, test1) {
+  ASSERT_TRUE(
+      test("empty_with_semicolons/empty_with_semicolons.pcl",
+           "empty_with_semicolons/empty_with_semicolons1.in",
+           "empty_with_semicolons/empty_with_semicolons1.out"));
+}
 
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleMock(&argc, argv);
