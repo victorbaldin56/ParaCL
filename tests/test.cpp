@@ -111,7 +111,10 @@ bool test(const std::string &pcl_file, const std::string &in_file,
 
   close_files(in, out);
 
-  return compare_files("buf.txt", out_file);
+  bool result = compare_files("buf.txt", out_file);
+  fs::remove("buf.txt");
+
+  return result;
 }
 
 class PclTest : public ::testing::TestWithParam<std::string> {};
