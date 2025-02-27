@@ -18,10 +18,8 @@ std::vector<std::string> find_test_files(const std::string &directory) {
   std::vector<std::string> src_files;
 
   for (auto &&entry : fs::recursive_directory_iterator(directory)) {
-    std::cout << entry.path() << std::endl;
     if (entry.path().extension() == ".pcl" &&
         entry.path().stem().string().find("invalid") == std::string::npos) {
-      std::cout << "hui" << std::endl;
       src_files.push_back(entry.path().string());
     }
   }
