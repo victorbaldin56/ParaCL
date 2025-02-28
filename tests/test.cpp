@@ -9,48 +9,40 @@
 #include <string>
 
 namespace fs = std::filesystem;
-using test_data = std::pair<std::string, std::string>;
+using test_data = std::vector<std::string>;
 using all_test_data = std::vector<test_data>;
 
 const std::string TEST_DIR = std::string(TEST_DATA_DIR) + "/";
 
-std::vector<std::string> find_test_files(const std::string &directory) {
-  std::vector<std::string> src_files;
+all_test_data find_test_files(const std::string &directory) {
+  all_test_data tests;
 
-  for (auto &&entry : fs::recursive_directory_iterator(directory)) {
-    if (entry.path().extension() == ".pcl" &&
-        entry.path().stem().string().find("invalid") == std::string::npos) {
-      src_files.push_back(entry.path().string());
-    }
-  }
+  for (auto &&src : fs::recursive_directory_iterator(directory)) {
+    if (src.path().extension() == ".pcl" &&
+        src.path().stem().string().find("invalid") == std::string::npos) {
 
-  return src_files;
-}
+      std::string src_name = src.path().stem().string();
 
-all_test_data find_test_data(const std::string &src_file) {
-  all_test_data pairs;
+      for (auto &&test : fs::directory_iterator(src.path().parent_path())) {
+        std::string file_name = test.path().stem().string();
+        std::string ext = test.path().extension().string();
 
-  fs::path src_path = src_file;
-  std::string base_name = src_path.stem().string();
+        if (file_name.find(src_name) == 0) {
+          if (ext == ".in") {
+            std::string in_file = test.path().string();
+            std::string out_file =
+                in_file.substr(0, in_file.find_last_of('.')) + ".out";
 
-  for (auto &&entry : fs::directory_iterator(src_path.parent_path())) {
-    std::string file_name = entry.path().stem().string();
-    std::string ext = entry.path().extension().string();
-
-    if (file_name.find(base_name) == 0) {
-      if (ext == ".in") {
-        std::string in_file = entry.path().string();
-        std::string out_file =
-            in_file.substr(0, in_file.find_last_of('.')) + ".out";
-
-        if (fs::exists(out_file)) {
-          pairs.push_back({in_file, out_file});
+            if (fs::exists(out_file)) {
+              tests.push_back({src.path().string(), in_file, out_file});
+            }
+          }
         }
       }
     }
   }
 
-  return pairs;
+  return tests;
 }
 
 template <typename Stream1, typename Stream2>
@@ -117,13 +109,12 @@ bool test(const std::string &pcl_file, const std::string &in_file,
   return result;
 }
 
-class PclTest : public ::testing::TestWithParam<std::string> {};
+class PclTest : public ::testing::TestWithParam<test_data> {};
 
 TEST_P(PclTest, EteTests) {
-  std::string src_file = GetParam();
-  all_test_data test_pairs = find_test_data(src_file);
+  test_data test_files = GetParam();
 
-    ASSERT_TRUE(test(src_file, test_pairs[0].first, test_pairs[0].second));
+  ASSERT_TRUE(test(test_files[0], test_files[1], test_files[2]));
 }
 
 INSTANTIATE_TEST_SUITE_P(AllPclFiles, PclTest,
