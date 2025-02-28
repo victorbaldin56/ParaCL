@@ -1,4 +1,3 @@
-#include "parser/driver.hh"
 #include <algorithm>
 #include <boost/process.hpp>
 #include <exception>
@@ -12,11 +11,16 @@
 namespace fs = std::filesystem;
 namespace bp = boost::process;
 
-using test_data = std::vector<std::string>;
-using all_test_data = std::vector<test_data>;
-
 const std::string TEST_DIR = std::string(TEST_DATA_DIR) + "/";
 const std::string PCL_BINARY_PATH = CMAKE_BINARY_DIR + std::string("/pcl");
+
+struct test_data {
+  std::string pcl;
+  std::string in;
+  std::string out;
+};
+
+using all_test_data = std::vector<test_data>;
 
 all_test_data find_test_files(const std::string &directory) {
   all_test_data tests;
@@ -66,17 +70,16 @@ template <typename Stream> std::string file_to_string(Stream &file) {
   return content;
 }
 
-bool test(const std::string &pcl_file, const std::string &in_file,
-          const std::string &out_file) {
-  std::ifstream test_in(in_file);
-  std::ifstream test_out(out_file);
+bool test(const test_data &data) {
+  std::ifstream test_in(data.in);
+  std::ifstream test_out(data.out);
 
   bp::opstream in;
   bp::ipstream out;
   bp::ipstream err;
 
   try {
-    bp::child pcl_run(PCL_BINARY_PATH, pcl_file,
+    bp::child pcl_run(PCL_BINARY_PATH, data.pcl,
                       bp::std_in<in, bp::std_out> out, bp::std_err > err);
 
     std::string buf;
@@ -97,7 +100,7 @@ bool test(const std::string &pcl_file, const std::string &in_file,
   } catch (const std::exception &err) {
     std::cerr << err.what() << std::endl;
     close_files(test_in, test_out);
-    
+
     return false;
   }
 }
@@ -107,7 +110,7 @@ class PclTest : public ::testing::TestWithParam<test_data> {};
 TEST_P(PclTest, EteTests) {
   test_data test_files = GetParam();
 
-  ASSERT_TRUE(test(test_files[0], test_files[1], test_files[2]));
+  ASSERT_TRUE(test(test_files));
 }
 
 INSTANTIATE_TEST_SUITE_P(AllPclFiles, PclTest,
