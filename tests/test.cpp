@@ -89,10 +89,11 @@ bool test(const test_data &data) {
     }
     in.close();
 
+    pcl_run.wait();
+
     std::string out_string = file_to_string(test_out);
     std::string answer_string = file_to_string(out);
 
-    pcl_run.wait();
     close_files(test_in, test_out);
 
     return out_string == answer_string;
