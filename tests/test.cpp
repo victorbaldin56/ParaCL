@@ -1,5 +1,6 @@
 #include "parser/driver.hh"
 #include <algorithm>
+#include <boost/process.hpp>
 #include <exception>
 #include <filesystem>
 #include <fstream>
@@ -9,10 +10,13 @@
 #include <string>
 
 namespace fs = std::filesystem;
+namespace bp = boost::process;
+
 using test_data = std::vector<std::string>;
 using all_test_data = std::vector<test_data>;
 
 const std::string TEST_DIR = std::string(TEST_DATA_DIR) + "/";
+const std::string PCL_BINARY_PATH = CMAKE_BINARY_DIR + std::string("/pcl");
 
 all_test_data find_test_files(const std::string &directory) {
   all_test_data tests;
@@ -51,62 +55,51 @@ void close_files(Stream1 &file1, Stream2 &file2) {
   file2.close();
 }
 
-bool compare_files(const std::string &file1, const std::string &file2) {
-  std::ifstream f1(file1, std::ios::binary), f2(file2, std::ios::binary);
+template <typename Stream> std::string file_to_string(Stream &file) {
+  std::string content;
+  char ch;
 
-  if (!f1.is_open() || !f2.is_open()) {
-    throw std::runtime_error("Error with opening files.");
+  while (file.get(ch)) {
+    content += ch;
   }
 
-  char ch1, ch2;
-  int position = 0;
-
-  while (f1.get(ch1) && f2.get(ch2)) {
-    ++position;
-    if (ch1 != ch2) {
-      close_files(f1, f2);
-      return false;
-    }
-  }
-
-  if (f1.get(ch1) || f2.get(ch2)) {
-    close_files(f1, f2);
-    return false;
-  }
-
-  close_files(f1, f2);
-
-  return true;
+  return content;
 }
 
 bool test(const std::string &pcl_file, const std::string &in_file,
           const std::string &out_file) {
-  std::ifstream in(in_file);
-  std::streambuf *cinbuf = std::cin.rdbuf();
-  std::cin.rdbuf(in.rdbuf());
+  std::ifstream test_in(in_file);
+  std::ifstream test_out(out_file);
 
-  std::ofstream out("buf.txt");
-  std::streambuf *coutbuf = std::cout.rdbuf();
-  std::cout.rdbuf(out.rdbuf());
+  bp::opstream in;
+  bp::ipstream out;
+  bp::ipstream err;
 
-  yy::PDriver driver(pcl_file);
-  ast::current_scope = ast::makeScope();
+  try {
+    bp::child pcl_run(PCL_BINARY_PATH, pcl_file,
+                      bp::std_in<in, bp::std_out> out, bp::std_err > err);
 
-  if (!driver.parse()) {
-    throw std::runtime_error("Something went wrong.");
+    std::string buf;
+
+    while (test_in >> buf) {
+      in << buf;
+    }
+    in.close();
+
+    std::string out_string = file_to_string(test_out);
+    std::string answer_string = file_to_string(out);
+
+    pcl_run.wait();
+    close_files(test_in, test_out);
+
+    return out_string == answer_string;
+
+  } catch (const std::exception &err) {
+    std::cerr << err.what() << std::endl;
+    close_files(test_in, test_out);
+    
+    return false;
   }
-
-  ast::current_scope->calc();
-
-  std::cin.rdbuf(cinbuf);
-  std::cout.rdbuf(coutbuf);
-
-  close_files(in, out);
-
-  bool result = compare_files("buf.txt", out_file);
-  fs::remove("buf.txt");
-
-  return result;
 }
 
 class PclTest : public ::testing::TestWithParam<test_data> {};
