@@ -15,5 +15,5 @@ CXX=/usr/bin/clang++-14
 
 [conf]
 tools.build:cxxflags=["-std=c++17", "-fsanitize=address,leak,undefined"]
-tools.build:exelinkflags=["-fsanitize=address,leak,undefined", "-lc++fs"]
-tools.build:sharedlinkflags=["-fsanitize=address,leak,undefined", "-lc++fs"]
+tools.build:exelinkflags=["-fsanitize=address,leak,undefined"]
+tools.build:sharedlinkflags=["-fsanitize=address,leak,undefined"]
