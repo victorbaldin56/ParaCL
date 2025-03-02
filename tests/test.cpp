@@ -59,12 +59,12 @@ void close_files(Stream1 &file1, Stream2 &file2) {
   file2.close();
 }
 
-template <typename Stream> std::string file_to_string(Stream &file) {
-  std::string content;
-  char ch;
+template <typename Stream> std::stringstream stream_to_stringstream(Stream &stream) {
+  std::stringstream content;
+  std::string buf;
 
-  while (file.get(ch)) {
-    content += ch;
+  while (std::getline(stream, buf)) {
+    content << buf << std::endl;
   }
 
   return content;
@@ -84,24 +84,28 @@ bool test(const test_data &data) {
 
     std::string buf;
 
-    while (test_in >> buf) {
-      in << buf;
+    while (std::getline(test_in, buf)) {
+      in << buf << std::endl;
     }
     in.close();
 
+    std::string error_message = stream_to_stringstream(err).str();
+    if (!error_message.empty()) {
+      std::cerr << "Test error: " << error_message << std::endl;
+    }
+
     pcl_run.wait();
 
-    std::string out_string = file_to_string(test_out);
-    std::string answer_string = file_to_string(out);
+    std::string out_string = stream_to_stringstream(test_out).str();
+    std::string answer_string = stream_to_stringstream(out).str();
 
     close_files(test_in, test_out);
 
     return out_string == answer_string;
 
   } catch (const std::exception &err) {
-    std::cerr << err.what() << std::endl;
+    std::cerr << "Exception: " << err.what() << std::endl;
     close_files(test_in, test_out);
-
     return false;
   }
 }
