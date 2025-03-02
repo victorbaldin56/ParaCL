@@ -1,14 +1,19 @@
 #include <algorithm>
 #include <boost/process.hpp>
 #include <exception>
-#include <filesystem>
 #include <fstream>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <iterator>
 #include <string>
 
+#if __has_include(<filesystem>)
+#include <filesystem>
 namespace fs = std::filesystem;
+#else
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
 namespace bp = boost::process;
 
 const std::string TEST_DIR = std::string(TEST_DATA_DIR) + "/";
@@ -59,7 +64,8 @@ void close_files(Stream1 &file1, Stream2 &file2) {
   file2.close();
 }
 
-template <typename Stream> std::stringstream stream_to_stringstream(Stream &stream) {
+template <typename Stream>
+std::stringstream stream_to_stringstream(Stream &stream) {
   std::stringstream content;
   std::string buf;
 
