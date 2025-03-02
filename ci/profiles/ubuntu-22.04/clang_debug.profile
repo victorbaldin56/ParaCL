@@ -2,7 +2,7 @@
 arch=x86_64
 os=Linux
 compiler=clang
-compiler.version=14
+compiler.version=17
 compiler.libcxx=libc++
 build_type=Debug
 
@@ -10,8 +10,8 @@ build_type=Debug
 testing=True
 
 [buildenv]
-CC=/usr/bin/clang-14
-CXX=/usr/bin/clang++-14
+CC=/usr/bin/clang-17
+CXX=/usr/bin/clang++-17
 
 [conf]
 tools.build:cxxflags=["-fsanitize=address,leak,undefined"]
