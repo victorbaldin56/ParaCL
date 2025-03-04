@@ -1,13 +1,57 @@
-#include "parser/driver.hh"
 #include <algorithm>
+#include <boost/process.hpp>
 #include <exception>
 #include <fstream>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <iterator>
 #include <string>
+#include <filesystem>
+
+namespace fs = std::filesystem;
+namespace bp = boost::process;
 
 const std::string TEST_DIR = std::string(TEST_DATA_DIR) + "/";
+const std::string PCL_BINARY_PATH = CMAKE_BINARY_DIR + std::string("/pcl");
+
+struct test_data {
+  std::string pcl;
+  std::string in;
+  std::string out;
+};
+
+using all_test_data = std::vector<test_data>;
+
+all_test_data find_test_files(const std::string &directory) {
+  all_test_data tests;
+
+  for (auto &&src : fs::recursive_directory_iterator(directory)) {
+    if (src.path().extension() == ".pcl" &&
+        src.path().stem().string().find("invalid") == std::string::npos) {
+
+      std::string src_name = src.path().stem().string();
+
+      for (auto &&test : fs::directory_iterator(src.path().parent_path())) {
+        std::string file_name = test.path().stem().string();
+        std::string ext = test.path().extension().string();
+
+        if (file_name.find(src_name) == 0) {
+          if (ext == ".in") {
+            std::string in_file = test.path().string();
+            std::string out_file =
+                in_file.substr(0, in_file.find_last_of('.')) + ".out";
+
+            if (fs::exists(out_file)) {
+              tests.push_back({src.path().string(), in_file, out_file});
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return tests;
+}
 
 template <typename Stream1, typename Stream2>
 void close_files(Stream1 &file1, Stream2 &file2) {
@@ -15,231 +59,68 @@ void close_files(Stream1 &file1, Stream2 &file2) {
   file2.close();
 }
 
-bool compare_files(const std::string &file1, const std::string &file2) {
-  std::ifstream f1(file1, std::ios::binary), f2(file2, std::ios::binary);
+template <typename Stream>
+std::stringstream stream_to_stringstream(Stream &stream) {
+  std::stringstream content;
+  std::string buf;
 
-  if (!f1.is_open() || !f2.is_open()) {
-    throw std::runtime_error("Error with opening files.");
+  while (std::getline(stream, buf)) {
+    content << buf << std::endl;
   }
 
-  char ch1, ch2;
-  int position = 0;
+  return content;
+}
 
-  while (f1.get(ch1) && f2.get(ch2)) {
-    ++position;
-    if (ch1 != ch2) {
-      close_files(f1, f2);
-      return false;
+bool test(const test_data &data) {
+  std::ifstream test_in(data.in);
+  std::ifstream test_out(data.out);
+
+  bp::opstream in;
+  bp::ipstream out;
+  bp::ipstream err;
+
+  try {
+    bp::child pcl_run(PCL_BINARY_PATH, data.pcl,
+                      bp::std_in<in, bp::std_out> out, bp::std_err > err);
+
+    std::string buf;
+
+    while (std::getline(test_in, buf)) {
+      in << buf << std::endl;
     }
-  }
+    in.close();
 
-  if (f1.get(ch1) || f2.get(ch2)) {
-    close_files(f1, f2);
+    std::string error_message = stream_to_stringstream(err).str();
+    if (!error_message.empty()) {
+      std::cerr << "Test error: " << error_message << std::endl;
+    }
+
+    pcl_run.wait();
+
+    std::string out_string = stream_to_stringstream(test_out).str();
+    std::string answer_string = stream_to_stringstream(out).str();
+
+    close_files(test_in, test_out);
+
+    return out_string == answer_string;
+
+  } catch (const std::exception &err) {
+    std::cerr << "Exception: " << err.what() << std::endl;
+    close_files(test_in, test_out);
     return false;
   }
-
-  close_files(f1, f2);
-
-  return true;
 }
 
-bool test(const std::string &pcl_file, const std::string &in_file,
-          const std::string &out_file) {
-  std::ifstream in(TEST_DIR + in_file);
-  std::streambuf *cinbuf = std::cin.rdbuf();
-  std::cin.rdbuf(in.rdbuf());
+class PclTest : public ::testing::TestWithParam<test_data> {};
 
-  std::ofstream out("buf.txt");
-  std::streambuf *coutbuf = std::cout.rdbuf();
-  std::cout.rdbuf(out.rdbuf());
+TEST_P(PclTest, EteTests) {
+  test_data test_files = GetParam();
 
-  yy::PDriver driver(TEST_DIR + pcl_file);
-  ast::current_scope = ast::makeScope();
-
-  if (!driver.parse()) {
-    throw std::runtime_error("Something went wrong.");
-  }
-
-  ast::current_scope->calc();
-
-  std::cin.rdbuf(cinbuf);
-  std::cout.rdbuf(coutbuf);
-
-  close_files(in, out);
-
-  return compare_files("buf.txt", TEST_DIR + out_file);
+  ASSERT_TRUE(test(test_files));
 }
 
-TEST(is_prime, test1) {
-  ASSERT_TRUE(test("is_prime/is_prime.pcl", "is_prime/is_prime1.in",
-                   "is_prime/is_prime1.out"));
-}
-
-TEST(is_prime, test2) {
-  ASSERT_TRUE(test("is_prime/is_prime.pcl", "is_prime/is_prime2.in",
-                   "is_prime/is_prime2.out"));
-}
-
-TEST(other, test1) {
-  ASSERT_TRUE(test("other/other.pcl", "other/other.in", "other/other.out"));
-}
-
-TEST(fibs, test1) {
-  ASSERT_TRUE(test("fibs/fibs.pcl", "fibs/fibs1.in", "fibs/fibs1.out"));
-}
-
-TEST(fibs, test2) {
-  ASSERT_TRUE(test("fibs/fibs.pcl", "fibs/fibs2.in", "fibs/fibs2.out"));
-}
-
-TEST(fact, test1) {
-  ASSERT_TRUE(test("fact/fact.pcl", "fact/fact1.in", "fact/fact1.out"));
-}
-
-TEST(braces, test1) {
-  ASSERT_TRUE(
-      test("braces/braces.pcl", "braces/braces1.in", "braces/braces1.out"));
-}
-
-TEST(assignment, test1) {
-  ASSERT_TRUE(
-      test("assignment/assignment.pcl",
-           "assignment/assignment1.in",
-           "assignment/assignment1.out"));
-}
-
-TEST(loop_input, test1) {
-  ASSERT_TRUE(
-      test("loop_input/loop_input.pcl",
-           "loop_input/loop_input.in",
-           "loop_input/loop_input.out"));
-}
-
-TEST(logic, test1) {
-  ASSERT_TRUE(
-      test("logic/logic.pcl",
-           "logic/logic1.in",
-           "logic/logic1.out"));
-}
-
-TEST(logic, test2) {
-  ASSERT_TRUE(
-      test("logic/logic.pcl",
-           "logic/logic2.in",
-           "logic/logic2.out"));
-}
-
-TEST(complex_logic, test1) {
-  ASSERT_TRUE(
-      test("complex_logic/complex_logic.pcl",
-           "complex_logic/complex_logic1.in",
-           "complex_logic/complex_logic1.out"));
-}
-
-TEST(complex_logic, test2) {
-  ASSERT_TRUE(
-      test("complex_logic/complex_logic.pcl",
-           "complex_logic/complex_logic2.in",
-           "complex_logic/complex_logic2.out"));
-}
-
-TEST(complex_logic, test3) {
-  ASSERT_TRUE(
-      test("complex_logic/complex_logic.pcl",
-           "complex_logic/complex_logic3.in",
-           "complex_logic/complex_logic3.out"));
-}
-
-TEST(print_logic, test1) {
-  ASSERT_TRUE(
-      test("print_logic/print_logic.pcl",
-           "print_logic/print_logic.in",
-           "print_logic/print_logic.out"));
-}
-
-TEST(else, test1) {
-  ASSERT_TRUE(
-      test("else/else.pcl",
-           "else/else1.in",
-           "else/else1.out"));
-}
-
-TEST(bitwise, test1) {
-  ASSERT_TRUE(
-      test("bitwise/bitwise.pcl",
-           "bitwise/bitwise1.in",
-           "bitwise/bitwise1.out"));
-}
-
-TEST(bitwise, test2) {
-  ASSERT_TRUE(
-      test("bitwise/bitwise.pcl",
-           "bitwise/bitwise2.in",
-           "bitwise/bitwise2.out"));
-}
-
-TEST(bitwise, test3) {
-  ASSERT_TRUE(
-      test("bitwise/bitwise.pcl",
-           "bitwise/bitwise3.in",
-           "bitwise/bitwise3.out"));
-}
-
-TEST(bitwise, test4) {
-  ASSERT_TRUE(
-      test("bitwise/bitwise.pcl",
-           "bitwise/bitwise4.in",
-           "bitwise/bitwise4.out"));
-}
-
-TEST(bitwise, test5) {
-  ASSERT_TRUE(
-      test("bitwise/bitwise.pcl",
-           "bitwise/bitwise5.in",
-           "bitwise/bitwise5.out"));
-}
-
-TEST(assignment_with_modify, test1) {
-  ASSERT_TRUE(
-      test("assignment_with_modify/assignment_with_modify.pcl",
-           "assignment_with_modify/assignment_with_modify.in",
-           "assignment_with_modify/assignment_with_modify.out"));
-}
-
-TEST(custom_base, test1) {
-  ASSERT_TRUE(
-      test("custom_base/custom_base.pcl",
-           "custom_base/custom_base.in",
-           "custom_base/custom_base.out"));
-}
-
-TEST(incr_decr, test1) {
-  ASSERT_TRUE(
-      test("incr_decr/incr_decr.pcl",
-           "incr_decr/incr_decr.in",
-           "incr_decr/incr_decr.out"));
-}
-
-TEST(else_if, test1) {
-  ASSERT_TRUE(
-      test("else_if/else_if.pcl",
-           "else_if/else_if.in",
-           "else_if/else_if.out"));
-}
-
-TEST(empty, test1) {
-  ASSERT_TRUE(
-      test("empty/empty.pcl",
-           "empty/empty.in",
-           "empty/empty.out"));
-}
-
-TEST(empty_with_semicolons, test1) {
-  ASSERT_TRUE(
-      test("empty_with_semicolons/empty_with_semicolons.pcl",
-           "empty_with_semicolons/empty_with_semicolons.in",
-           "empty_with_semicolons/empty_with_semicolons.out"));
-}
+INSTANTIATE_TEST_SUITE_P(AllPclFiles, PclTest,
+                         ::testing::ValuesIn(find_test_files(TEST_DIR)));
 
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleMock(&argc, argv);
