@@ -18,6 +18,7 @@ struct test_data {
   std::string pcl;
   std::string in;
   std::string out;
+  bool invalid;
 };
 
 using all_test_data = std::vector<test_data>;
@@ -26,9 +27,7 @@ all_test_data find_test_files(const std::string &directory) {
   all_test_data tests;
 
   for (auto &&src : fs::recursive_directory_iterator(directory)) {
-    if (src.path().extension() == ".pcl" &&
-        src.path().stem().string().find("invalid") == std::string::npos) {
-
+    if (src.path().extension() == ".pcl") {
       std::string src_name = src.path().stem().string();
 
       for (auto &&test : fs::directory_iterator(src.path().parent_path())) {
@@ -36,14 +35,18 @@ all_test_data find_test_files(const std::string &directory) {
         std::string ext = test.path().extension().string();
 
         if (file_name.find(src_name) == 0) {
-          if (ext == ".in") {
-            std::string in_file = test.path().string();
-            std::string out_file =
-                in_file.substr(0, in_file.find_last_of('.')) + ".out";
+          if (ext == ".out") {
+            std::string out_file = test.path().string();
+            std::string in_file =
+                out_file.substr(0, out_file.find_last_of('.')) + ".out";
 
-            if (fs::exists(out_file)) {
-              tests.push_back({src.path().string(), in_file, out_file});
+            auto data = test_data{src.path().string(), in_file, out_file};
+            if (src.path().stem().string().find("invalid") != std::string::npos) {
+              data.invalid = true;
+              data.in.clear();  // no input needed for invalid tests
             }
+
+            tests.push_back(data);
           }
         }
       }
@@ -81,14 +84,16 @@ bool test(const test_data &data) {
 
   try {
     bp::child pcl_run(PCL_BINARY_PATH, data.pcl,
-                      bp::std_in<in, bp::std_out> out, bp::std_err > err);
+                      bp::std_in < in, bp::std_out > out, bp::std_err > err);
 
     std::string buf;
 
-    while (std::getline(test_in, buf)) {
-      in << buf << std::endl;
+    if (test_in.is_open()) {
+      while (std::getline(test_in, buf)) {
+        in << buf << std::endl;
+      }
+      in.close();
     }
-    in.close();
 
     std::string error_message = stream_to_stringstream(err).str();
     if (!error_message.empty()) {
