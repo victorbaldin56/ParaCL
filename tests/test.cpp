@@ -75,7 +75,11 @@ std::stringstream stream_to_stringstream(Stream &stream) {
 }
 
 bool test(const test_data &data) {
-  std::ifstream test_in(data.in);
+  std::ifstream test_in;
+  if (!data.invalid) {
+    test_in.open(data.in);
+  }
+
   std::ifstream test_out(data.out);
 
   bp::opstream in;
