@@ -20,6 +20,10 @@ struct test_data {
   std::string out;
 };
 
+void PrintTo(const test_data& data, std::ostream* os) {
+  *os << "pcl: " << data.pcl << ", in: " << data.in << ", out: " << data.out;
+}
+
 using all_test_data = std::vector<test_data>;
 
 all_test_data find_test_files(const std::string &directory) {
