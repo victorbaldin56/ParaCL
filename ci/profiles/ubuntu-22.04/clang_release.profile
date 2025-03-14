@@ -9,3 +9,6 @@ build_type=Release
 [buildenv]
 CC=/usr/bin/clang-14
 CXX=/usr/bin/clang++-14
+
+[conf]
+tools.build:cxxflags=["-std=c++17"]

@@ -6,9 +6,6 @@ compiler.version=14
 compiler.libcxx=libc++
 build_type=Debug
 
-[options]
-testing=True
-
 [buildenv]
 CC=/usr/bin/clang-14
 CXX=/usr/bin/clang++-14
