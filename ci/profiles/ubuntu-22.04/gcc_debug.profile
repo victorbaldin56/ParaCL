@@ -10,9 +10,6 @@ build_type=Debug
 CC=/usr/bin/gcc-11
 CXX=/usr/bin/g++-11
 
-[options]
-testing=True
-
 [conf]
 tools.build:cxxflags=["-fsanitize=address,leak,undefined"]
 tools.build:exelinkflags=["-fsanitize=address,leak,undefined"]
