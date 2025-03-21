@@ -1,9 +1,9 @@
-#include "ast/scan_node.hh"
+#include "ast/detail/scan_node.hh"
 
 #include <iostream>
 
-#include "ast/dump_helpers.hh"
-#include "ast/scope.hh"
+#include "ast/detail/dump_helpers.hh"
+#include "ast/detail/scope.hh"
 
 namespace ast {
 

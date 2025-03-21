@@ -1,8 +1,8 @@
-#include "ast/var_node.hh"
+#include "ast/detail/var_node.hh"
 
 #include <stdexcept>
 
-#include "ast/scope.hh"
+#include "ast/detail/scope.hh"
 
 namespace ast {
 

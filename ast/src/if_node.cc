@@ -1,6 +1,6 @@
-#include "ast/if_node.hh"
+#include "ast/detail/if_node.hh"
 
-#include "ast/dump_helpers.hh"
+#include "ast/detail/dump_helpers.hh"
 
 namespace ast {
 

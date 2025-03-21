@@ -1,4 +1,4 @@
-#include "ast/value_node.hh"
+#include "ast/detail/value_node.hh"
 
 namespace ast {
 

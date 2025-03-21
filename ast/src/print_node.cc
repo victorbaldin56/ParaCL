@@ -1,8 +1,8 @@
-#include "ast/print_node.hh"
+#include "ast/detail/print_node.hh"
 
 #include <iostream>
 
-#include "ast/dump_helpers.hh"
+#include "ast/detail/dump_helpers.hh"
 
 namespace ast {
 

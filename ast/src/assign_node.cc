@@ -1,8 +1,8 @@
-#include "ast/assign_node.hh"
+#include "ast/detail/assign_node.hh"
 
-#include "ast/dump_helpers.hh"
-#include "ast/scope.hh"
-#include "ast/var_node.hh"
+#include "ast/detail/dump_helpers.hh"
+#include "ast/detail/scope.hh"
+#include "ast/detail/var_node.hh"
 
 namespace ast {
 

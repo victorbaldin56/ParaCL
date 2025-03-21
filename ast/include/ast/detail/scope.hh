@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "inode.hh"
+#include "ast/inode.hh"
 #include "symtab.hh"
 
 namespace ast {
