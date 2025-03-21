@@ -1,6 +1,6 @@
-#include "ast/scope.hh"
+#include "ast/detail/scope.hh"
 
-#include "ast/dump_helpers.hh"
+#include "ast/detail/dump_helpers.hh"
 
 namespace ast {
 

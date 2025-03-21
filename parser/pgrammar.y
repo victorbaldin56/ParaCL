@@ -207,18 +207,9 @@ void parser::error(const parser::location_type& location,
 void parser::report_syntax_error(const parser::context& ctx) const {
   const location& loc = ctx.location();
   driver->reportErrorAtLocation(loc);
+  std::cerr << "unexpected token" << std::endl;
 
-  symbol_kind_type expected[symbol_kind_type::YYNTOKENS]{};
-  int n = ctx.expected_tokens(expected, symbol_kind::YYNTOKENS);
-  for (int i = 0; i < n; ++i) {
-    std::cerr << ((i == 0) ? "expected " : " or ") << symbol_name(expected[i]);
-  }
-
-  symbol_kind_type lookahead = ctx.token();
-  if (lookahead != symbol_kind::S_YYEMPTY) {
-    std::cerr << " before " << symbol_name(lookahead);
-  }
-  std::cerr << '\n';
+  std::cerr << std::endl;
   driver->printErroneousLine(loc);
 }
 

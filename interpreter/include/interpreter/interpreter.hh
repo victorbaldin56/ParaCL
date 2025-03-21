@@ -9,7 +9,7 @@ class Interpreter final {
 
  public:
   Interpreter(Config cfg) : cfg_(cfg) {}
-  void run();
+  bool run();
 };
 
 } // namespace interpreter

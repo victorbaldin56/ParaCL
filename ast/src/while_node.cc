@@ -1,6 +1,6 @@
-#include "ast/while_node.hh"
+#include "ast/detail/while_node.hh"
 
-#include "ast/dump_helpers.hh"
+#include "ast/detail/dump_helpers.hh"
 
 namespace ast {
 

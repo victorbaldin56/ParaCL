@@ -1,8 +1,8 @@
-#include "ast/binop_node.hh"
+#include "ast/detail/binop_node.hh"
 
 #include <cassert>
 
-#include "ast/dump_helpers.hh"
+#include "ast/detail/dump_helpers.hh"
 
 namespace ast {
 namespace {

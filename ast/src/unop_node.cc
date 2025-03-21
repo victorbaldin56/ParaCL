@@ -1,9 +1,9 @@
-#include "ast/unop_node.hh"
+#include "ast/detail/unop_node.hh"
 
 #include <cassert>
 
-#include "ast/dump_helpers.hh"
-#include "ast/var_node.hh"
+#include "ast/detail/dump_helpers.hh"
+#include "ast/detail/var_node.hh"
 
 namespace ast {
 namespace {
