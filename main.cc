@@ -7,10 +7,11 @@
 int main(int argc, char** argv) try {
   interpreter::CmdParser parser(argc, argv);
   interpreter::Interpreter interp(parser.run());
-  interp.run();
+  if (!interp.run()) {
+    return EXIT_FAILURE;
+  }
   return 0;
-} catch (std::runtime_error& ex) {
-  std::cerr << ctty::setAttr(ctty::Attribute::kBold, ctty::Color::kRed)
-            << "fatal error: " << ctty::resetAttr() << ex.what() << "\n";
+} catch (std::exception& ex) {
+  std::cerr << ex.what() << std::endl;
   return EXIT_FAILURE;
 }
