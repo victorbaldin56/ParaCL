@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 project(pcl)
 
+find_package(Boost REQUIRED)
 find_package(Boost COMPONENTS program_options REQUIRED)
 find_package(FLEX REQUIRED)
 find_package(BISON REQUIRED)
