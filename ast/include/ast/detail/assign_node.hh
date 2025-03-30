@@ -7,10 +7,10 @@ namespace ast {
 class AssignNode : public INode {
  private:
   pINode var_;
-  pINode expr_;
+  INode* expr_;
 
  public:
-  AssignNode(const pINode& var, const pINode& expr) : var_(var), expr_(expr) {}
+  AssignNode(pINode&& var, INode* expr) : var_(std::move(var)), expr_(expr) {}
 
   int calc() const override;
   void dump(std::ostream& os) const override;

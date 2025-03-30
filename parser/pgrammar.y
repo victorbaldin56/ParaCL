@@ -102,34 +102,35 @@ parser::token_type yylex(parser::semantic_type* yylval,
 program:     stms                             { /* nothing */ }
 scope:       op_sc stms cl_sc                 { /* nothing */ } /* plain scope */
 
-br_stm:      op_br_stm stms cl_sc             { $$ = $1; }
-           | stm                              { $$ = $1; }
+br_stm:      op_br_stm stms cl_sc             { $$ = std::move($1); }
+           | stm                              { $$ = std::move($1); }
 
 op_br_stm:   LB                               {
-                                                $$ = ast::current_scope
+                                                ast::current_scope
                                                    = ast::makeScope(ast::current_scope);
+                                                $$ = std::move(ast::current_scope);
                                               }
 
 op_sc:       LB                               {
-                                                ast::pIScope tmp = ast::current_scope;
+                                                ast::pIScope tmp = std::move(ast::current_scope);
                                                 ast::current_scope
                                                     = ast::makeScope(ast::current_scope);
-                                                tmp->push(ast::current_scope);
+                                                tmp->push(ast::current_scope.get());
                                               }
 
 cl_sc:       RB                               {
                                                 ast::current_scope
-                                                    = ast::current_scope->parentScope();
+                                                    = ast::makeScope(ast::current_scope->parentScope());
                                               }
 
-stms:        stms stm                         { if ($2) ast::current_scope->push($2); }
-           | stms scope
+stms:        stms stm                         { if ($2) ast::current_scope->push($2.get()); }
+           | stms scope                       { $$ = std::move($1); }
            | %empty                           { $$ = nullptr; } %prec LOWER;
 
-stm:         if                               { $$ = $1; }
-           | while                            { $$ = $1; }
-           | print                            { $$ = $1; }
-           | expr SCOLON                      { $$ = $1; }
+stm:         if                               { $$ = std::move($1); }
+           | while                            { $$ = std::move($1); }
+           | print                            { $$ = std::move($1); }
+           | expr SCOLON                      { $$ = std::move($1); }
            | SCOLON                           { $$ = nullptr; }
 
 expr:        expr ADD            expr         { $$ = ast::makeBinOp($1, ast::BinOp::kAdd   , $3); }
@@ -161,7 +162,7 @@ expr:        expr ADD            expr         { $$ = ast::makeBinOp($1, ast::Bin
            | ID   XOR_ASSIGN     expr         { $$ = ast::makeAssign($1, ast::makeBinOp(ast::makeVar($1), ast::BinOp::kXor   , $3)); }
            | ID   SHL_ASSIGN     expr         { $$ = ast::makeAssign($1, ast::makeBinOp(ast::makeVar($1), ast::BinOp::kShl   , $3)); }
            | ID   SHR_ASSIGN     expr         { $$ = ast::makeAssign($1, ast::makeBinOp(ast::makeVar($1), ast::BinOp::kShr   , $3)); }
-           | expr_un                          { $$ = $1; }
+           | expr_un                          { $$ = std::move($1); }
 
 expr_un:     ADD expr_term                    { $$ = ast::makeUnOp($2, ast::UnOp::kPlus); }
            | SUB expr_term                    { $$ = ast::makeUnOp($2, ast::UnOp::kMinus); }
@@ -171,9 +172,9 @@ expr_un:     ADD expr_term                    { $$ = ast::makeUnOp($2, ast::UnOp
            | ID[e] INCR                       { $$ = ast::makeUnOp(ast::makeVar($e), ast::UnOp::kPostIncr); }
            | DECR ID[e]                       { $$ = ast::makeUnOp(ast::makeVar($e), ast::UnOp::kPreDecr); }
            | ID[e] DECR                       { $$ = ast::makeUnOp(ast::makeVar($e), ast::UnOp::kPostDecr); }
-           | expr_term                        { $$ = $1; }
+           | expr_term                        { $$ = std::move($1); }
 
-expr_term:   LP expr RP                       { $$ = $2; }
+expr_term:   LP expr RP                       { $$ = std::move($2); }
            | NUMBER                           { $$ = ast::makeValue($1); }
            | ID                               { $$ = ast::makeVar($1); }
            | SCAN                             { $$ = ast::makeScan(); }

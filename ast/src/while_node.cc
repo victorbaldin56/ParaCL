@@ -5,7 +5,7 @@
 namespace ast {
 
 pINode makeWhile(const pINode& op, const pINode& sc) {
-  return std::make_shared<WhileNode>(op, sc);
+  return std::make_unique<WhileNode>(op.get(), sc.get());
 }
 
 int WhileNode::calc() const {

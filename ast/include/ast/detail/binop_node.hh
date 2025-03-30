@@ -6,12 +6,12 @@ namespace ast {
 
 class BinOpNode : public INode {
  private:
-  pINode left_;
-  pINode right_;
+  INode* left_;
+  INode* right_;
   BinOp op_;
 
  public:
-  BinOpNode(const pINode& left, BinOp op, const pINode& right) noexcept
+  BinOpNode(INode* left, BinOp op, INode* right) noexcept
       : left_(left), op_(op), right_(right) {}
 
   int calc() const override;

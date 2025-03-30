@@ -34,7 +34,7 @@ inline const char* UnOpToString(UnOp op) {
 } // namespace
 
 pINode makeUnOp(const pINode& n, UnOp op) {
-  return std::make_shared<UnOpNode>(n, op);
+  return std::make_unique<UnOpNode>(n.get(), op);
 }
 
 int UnOpNode::calc() const {
@@ -48,13 +48,13 @@ int UnOpNode::calc() const {
   case UnOp::kBtwNot:
     return ~ch_->calc();
   case UnOp::kPreIncr:
-    return std::static_pointer_cast<VarNode>(ch_)->preIncrement();
+    return dynamic_cast<VarNode*>(ch_)->preIncrement();
   case UnOp::kPreDecr:
-    return std::static_pointer_cast<VarNode>(ch_)->preDecrement();
+    return dynamic_cast<VarNode*>(ch_)->preDecrement();
   case UnOp::kPostIncr:
-    return std::static_pointer_cast<VarNode>(ch_)->postIncrement();
+    return dynamic_cast<VarNode*>(ch_)->postIncrement();
   case UnOp::kPostDecr:
-    return std::static_pointer_cast<VarNode>(ch_)->postDecrement();
+    return dynamic_cast<VarNode*>(ch_)->postDecrement();
   default:
     assert(0 && "Unhandled UnOp enum value");
   }

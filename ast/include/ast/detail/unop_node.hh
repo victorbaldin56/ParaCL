@@ -9,11 +9,11 @@ namespace ast {
  */
 class UnOpNode : public INode {
  private:
-  pINode ch_;
+  INode* ch_;
   UnOp op_;
 
  public:
-  UnOpNode(const pINode& ch, UnOp op) noexcept : ch_(ch), op_(op) {}
+  UnOpNode(INode* ch, UnOp op) noexcept : ch_(ch), op_(op) {}
 
   int calc() const override;
   void dump(std::ostream& os) const override;

@@ -49,7 +49,7 @@ inline const char* BinOpToString(BinOp op) {
 } // namespace
 
 pINode makeBinOp(const pINode& left, BinOp op, const pINode& right) {
-  return std::make_shared<BinOpNode>(left, op, right);
+  return std::make_unique<BinOpNode>(left.get(), op, right.get());
 }
 
 int BinOpNode::calc() const {

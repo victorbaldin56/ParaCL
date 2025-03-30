@@ -3,7 +3,7 @@
 namespace ast {
 
 pINode makeValue(int val) {
-  return std::make_shared<ValueNode>(val);
+  return std::make_unique<ValueNode>(val);
 }
 
 void ValueNode::dump(std::ostream& os) const {

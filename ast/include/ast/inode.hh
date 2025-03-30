@@ -17,8 +17,8 @@ constexpr char kDumpIndent[] = "  ";
 class INode;
 class IScope;
 
-using pINode = std::shared_ptr<INode>;
-using pIScope = std::shared_ptr<IScope>;
+using pINode = std::unique_ptr<INode>;
+using pIScope = std::unique_ptr<IScope>;
 
 /**
  * Generalized Node of AST.
@@ -35,8 +35,8 @@ class INode {
  */
 class IScope : public INode {
  public:
-  virtual void push(const pINode& node) = 0;
-  virtual pIScope parentScope() const = 0;
+  virtual void push(pINode& node) = 0;
+  virtual IScope* parentScope() const = 0;
 };
 
 /**
@@ -100,6 +100,7 @@ pINode  makeScan  ();
 pINode  makeAssign(const std::string& var_name, const pINode& rhs);
 
 pIScope makeScope(const pIScope& par = nullptr);
+pIScope makeScope(IScope* par);
 
 /** @} */
 

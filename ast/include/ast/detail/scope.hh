@@ -10,18 +10,18 @@ namespace ast {
 class Scope : public IScope {
  private:
   std::vector<pINode> stms_;
-  pIScope parent_;
+  IScope* parent_;
 
   Symtab symtab_;
 
  public:
-  explicit Scope(const pIScope& parent) noexcept : parent_(parent) {}
+  explicit Scope(IScope* parent) noexcept : parent_(parent) {}
 
   int calc() const override;
   void dump(std::ostream& os) const override;
 
-  pIScope parentScope() const override { return parent_; }
-  void push(const pINode& node) override { stms_.push_back(node); }
+  IScope* parentScope() const override { return parent_; }
+  void push(pINode& node) override { stms_.push_back(std::move(node)); }
 
   using ItNBool = std::pair<Symtab::iterator, bool>;
 

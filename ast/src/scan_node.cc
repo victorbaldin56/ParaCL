@@ -8,7 +8,7 @@
 namespace ast {
 
 pINode makeScan() {
-  return std::make_shared<ScanNode>();
+  return std::make_unique<ScanNode>();
 }
 
 int ScanNode::calc() const {

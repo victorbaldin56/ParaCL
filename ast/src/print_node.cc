@@ -7,7 +7,7 @@
 namespace ast {
 
 pINode makePrint(const pINode& n) {
-  return std::make_shared<PrintNode>(n);
+  return std::make_unique<PrintNode>(n.get());
 }
 
 int PrintNode::calc() const {

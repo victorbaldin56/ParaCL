@@ -6,22 +6,21 @@
 
 namespace ast {
 
-pINode makeAssign(const std::string& var_name, const pINode& expr) {
-  std::shared_ptr<Scope> scope
-      = std::static_pointer_cast<Scope>(current_scope);
+pINode makeAssign(const std::string &var_name, const pINode &expr) {
+  Scope *scope = dynamic_cast<Scope *>(current_scope.get());
   Symtab::iterator it = scope->maybeInsertSymbol(var_name);
-  pINode var_ptr = std::make_shared<VarNode>(it);
-  return std::make_shared<AssignNode>(var_ptr, expr);
+  pINode var_ptr = std::make_unique<VarNode>(it);
+  return std::make_unique<AssignNode>(std::move(var_ptr), expr.get());
 }
 
 int AssignNode::calc() const {
   int expr_val = expr_->calc();
-  std::shared_ptr<VarNode> vp = std::static_pointer_cast<VarNode>(var_);
+  VarNode *vp = dynamic_cast<VarNode *>(var_.get());
   vp->assign(expr_val);
   return expr_val;
 }
 
-void AssignNode::dump(std::ostream& os) const {
+void AssignNode::dump(std::ostream &os) const {
   os << current_indent << "AssignOperator\n";
 
   dump_helpers::increaseIndent();

@@ -7,7 +7,7 @@ namespace ast {
 pINode makeIf(const pINode& op,
               const pINode& sc,
               const pINode& else_sc) {
-  return std::make_shared<IfNode>(op, sc, else_sc);
+  return std::make_unique<IfNode>(op.get(), sc.get(), else_sc.get());
 }
 
 int IfNode::calc() const {

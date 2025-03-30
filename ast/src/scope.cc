@@ -5,7 +5,7 @@
 namespace ast {
 
 pIScope makeScope(const pIScope& par) {
-  return std::make_shared<Scope>(par);
+  return std::make_unique<Scope>(par.get());
 }
 
 int Scope::calc() const {
@@ -29,7 +29,7 @@ void Scope::dump(std::ostream& os) const {
  */
 Scope::ItNBool Scope::getSymbol(const std::string& name) {
   for (Scope* pscope = this; pscope != nullptr;
-       pscope = static_cast<Scope*>(pscope->parentScope().get())) {
+       pscope = dynamic_cast<Scope*>(pscope->parentScope())) {
     ItNBool it_n_bool = pscope->getLocalSymbol(name);
 
     if (it_n_bool.second) {
